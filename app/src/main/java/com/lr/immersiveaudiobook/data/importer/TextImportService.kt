@@ -12,6 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
+import java.io.InputStream
 import java.util.UUID
 import java.util.zip.ZipInputStream
 
@@ -30,7 +31,14 @@ class TextImportService(
         database.characterDao()
     )
 
-    suspend fun importUri(uri: Uri): ImportSummary = withContext(Dispatchers.IO) {
+    fun hasPendingBundledNovels(): Boolean =
+        !File(context.filesDir, "private_novels_v2.imported").exists() &&
+            "private_novels.zip" in context.assets.list("").orEmpty()
+
+    suspend fun importUri(
+        uri: Uri,
+        preferredEncoding: String = EncodingDetector.AUTO
+    ): ImportSummary = withContext(Dispatchers.IO) {
         runCatching {
             context.contentResolver.takePersistableUriPermission(
                 uri,
@@ -39,12 +47,32 @@ class TextImportService(
         }
         val displayName = queryName(uri) ?: "未命名小说.txt"
         if (displayName.endsWith(".zip", ignoreCase = true)) {
-            importZip(uri)
+            importZip(uri, preferredEncoding)
         } else {
             val file = copyUriToPrivateFile(uri, displayName)
-            val result = importPrivateTxt(file, displayName.removeSuffixIgnoreCase(".txt"))
+            val result = importPrivateTxt(
+                file,
+                displayName.removeSuffixIgnoreCase(".txt"),
+                preferredEncoding
+            )
             ImportSummary(listOfNotNull(result.first), listOfNotNull(result.second))
         }
+    }
+
+    /**
+     * A private build may contain assets/private_novels.zip. Public builds intentionally omit it.
+     * This keeps copyrighted user content out of the public source while allowing a personal APK.
+     */
+    suspend fun importBundledNovelsIfPresent(): ImportSummary? = withContext(Dispatchers.IO) {
+        val marker = File(context.filesDir, "private_novels_v2.imported")
+        if (marker.exists()) return@withContext null
+        val bundled = context.assets.list("").orEmpty()
+        if ("private_novels.zip" !in bundled) return@withContext null
+        val result = context.assets.open("private_novels.zip").buffered().use { input ->
+            importZipStream(input, EncodingDetector.AUTO)
+        }
+        if (result.importedNovelIds.isNotEmpty()) marker.writeText("ok")
+        result
     }
 
     suspend fun importManual(title: String, text: String): Long = withContext(Dispatchers.IO) {
@@ -52,42 +80,54 @@ class TextImportService(
         val safeTitle = title.trim().ifBlank { "手动创建-${System.currentTimeMillis()}" }
         val file = privateFile("${safeName(safeTitle)}.txt")
         file.writeText(text, Charsets.UTF_8)
-        val (id, error) = importPrivateTxt(file, safeTitle)
+        val (id, error) = importPrivateTxt(file, safeTitle, "UTF-8")
         if (id == null) throw IllegalStateException(error ?: "导入失败")
         id
     }
 
-    private suspend fun importZip(uri: Uri): ImportSummary {
+    private suspend fun importZip(uri: Uri, preferredEncoding: String): ImportSummary {
+        return context.contentResolver.openInputStream(uri)?.buffered()?.use { raw ->
+            importZipStream(raw, preferredEncoding)
+        } ?: ImportSummary(emptyList(), listOf("无法读取 ZIP 文件"))
+    }
+
+    private suspend fun importZipStream(
+        raw: InputStream,
+        preferredEncoding: String
+    ): ImportSummary {
         val ids = mutableListOf<Long>()
         val errors = mutableListOf<String>()
-        context.contentResolver.openInputStream(uri)?.buffered()?.use { raw ->
-            ZipInputStream(raw).use { zip ->
-                var entry = zip.nextEntry
-                while (entry != null) {
-                    if (!entry.isDirectory && entry.name.endsWith(".txt", ignoreCase = true)) {
-                        val originalName = entry.name.substringAfterLast('/').ifBlank { "小说.txt" }
-                        val destination = privateFile(originalName)
-                        FileOutputStream(destination).buffered().use { output ->
-                            zip.copyTo(output, DEFAULT_BUFFER_SIZE)
-                        }
-                        val (id, error) = importPrivateTxt(
-                            destination,
-                            originalName.removeSuffixIgnoreCase(".txt")
-                        )
-                        if (id != null) ids += id
-                        if (error != null) errors += "$originalName：$error"
+        ZipInputStream(raw).use { zip ->
+            var entry = zip.nextEntry
+            while (entry != null) {
+                if (!entry.isDirectory && entry.name.endsWith(".txt", ignoreCase = true)) {
+                    val originalName = entry.name.substringAfterLast('/').ifBlank { "小说.txt" }
+                    val destination = privateFile(originalName)
+                    FileOutputStream(destination).buffered().use { output ->
+                        zip.copyTo(output, DEFAULT_BUFFER_SIZE)
                     }
-                    zip.closeEntry()
-                    entry = zip.nextEntry
+                    val (id, error) = importPrivateTxt(
+                        destination,
+                        originalName.removeSuffixIgnoreCase(".txt"),
+                        preferredEncoding
+                    )
+                    if (id != null) ids += id
+                    if (error != null) errors += "$originalName：$error"
                 }
+                zip.closeEntry()
+                entry = zip.nextEntry
             }
-        } ?: errors.add("无法读取 ZIP 文件")
+        }
         if (ids.isEmpty() && errors.isEmpty()) errors += "ZIP 中没有找到 TXT 文件"
         return ImportSummary(ids, errors)
     }
 
-    private suspend fun importPrivateTxt(file: File, title: String): Pair<Long?, String?> {
-        val charset = EncodingDetector.detect(file)
+    private suspend fun importPrivateTxt(
+        file: File,
+        title: String,
+        preferredEncoding: String
+    ): Pair<Long?, String?> {
+        val charset = EncodingDetector.detect(file, preferredEncoding)
         val novelId = database.novelDao().insert(
             NovelEntity(
                 title = title.ifBlank { file.nameWithoutExtension },
