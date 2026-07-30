@@ -127,6 +127,8 @@ import com.lr.immersiveaudiobook.data.local.NovelEntity
 import com.lr.immersiveaudiobook.data.local.SentenceEntity
 import com.lr.immersiveaudiobook.data.settings.AppSettings
 import com.lr.immersiveaudiobook.playback.PlaybackUiState
+import com.lr.immersiveaudiobook.tts.AUTO_MALE_VOICE
+import com.lr.immersiveaudiobook.tts.SystemVoiceOption
 import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
 
@@ -935,7 +937,7 @@ private fun VoiceAndPlaybackPane(
                 Column(Modifier.padding(14.dp)) {
                     Text("原创低沉悬疑", fontWeight = FontWeight.SemiBold)
                     Text(
-                        "当前使用设备合法安装的系统中文语音，通过低音调、情绪变速和角色差异塑造氛围。沙哑、气声、混响和环境声已保留在 TTS 接口层，需接入合法授权的高质量引擎后启用。",
+                        "旁白会优先使用设置中选定的中文男声候选；人物按角色切换可用音色，并使用不同音调、语速和情绪节奏。可到“设置”逐个试听设备音色。",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -1158,7 +1160,17 @@ private fun CharacterRow(role: CharacterCount) {
         trailingContent = {
             AssistChip(
                 onClick = { },
-                label = { Text(if (role.characterName == "旁白") "低沉男声" else "自动音色") }
+                label = {
+                    Text(
+                        when {
+                            role.characterName == "旁白" -> "男声优先"
+                            role.characterName.contains("女") -> "女声角色"
+                            role.characterName.contains("儿童") -> "童声角色"
+                            role.characterName.contains("怪物") -> "怪物音色"
+                            else -> "角色音色"
+                        }
+                    )
+                }
             )
         }
     )
@@ -1167,6 +1179,8 @@ private fun CharacterRow(role: CharacterCount) {
 @Composable
 private fun SettingsScreen(viewModel: MainViewModel) {
     val settings by viewModel.settings.collectAsState()
+    val systemVoices by viewModel.systemVoices.collectAsState()
+    val voiceCatalogMessage by viewModel.voiceCatalogMessage.collectAsState()
     var cacheSize by remember { mutableLongStateOf(viewModel.cacheSizeBytes()) }
     var cacheRefresh by remember { mutableIntStateOf(0) }
     LaunchedEffect(cacheRefresh) {
@@ -1182,6 +1196,45 @@ private fun SettingsScreen(viewModel: MainViewModel) {
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
+            item { SectionTitle("语音与导入") }
+            item {
+                SystemVoicePicker(
+                    selectedVoice = settings.preferredVoiceName,
+                    voices = systemVoices,
+                    message = voiceCatalogMessage,
+                    onSelect = viewModel::setPreferredVoice,
+                    onPreview = viewModel::previewVoice,
+                    onRefresh = viewModel::refreshSystemVoices,
+                    onInstall = viewModel::installChineseVoiceData
+                )
+            }
+            item {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text("TXT 编码")
+                    Text(
+                        "混合编码 ZIP 请保持自动；若某个旧文件仍乱码，再单独强制指定后重新导入。",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        items(
+                            listOf(
+                                "AUTO" to "自动（推荐）",
+                                "UTF-8" to "UTF-8",
+                                "GB18030" to "GBK / GB2312",
+                                "Big5" to "Big5"
+                            )
+                        ) { (key, label) ->
+                            FilterChip(
+                                selected = settings.importEncoding == key,
+                                onClick = { viewModel.setImportEncoding(key) },
+                                label = { Text(label) }
+                            )
+                        }
+                    }
+                }
+            }
+            item { HorizontalDivider() }
             item { SectionTitle("外观与正文") }
             item {
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -1292,10 +1345,89 @@ private fun SettingsScreen(viewModel: MainViewModel) {
             }
             item {
                 Text(
-                    "LR-沉浸式有声小说 1.0.0\nAndroid 8.0+ · Kotlin · Compose · Room",
+                    "LR-沉浸式有声小说 1.1.0\nAndroid 8.0+ · Kotlin · Compose · Room",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
+            }
+        }
+    }
+}
+
+@Composable
+private fun SystemVoicePicker(
+    selectedVoice: String,
+    voices: List<SystemVoiceOption>,
+    message: String,
+    onSelect: (String) -> Unit,
+    onPreview: (String) -> Unit,
+    onRefresh: () -> Unit,
+    onInstall: () -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+    val selected = voices.firstOrNull { it.name == selectedVoice }
+    Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)) {
+        Column(
+            Modifier.fillMaxWidth().padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            Text("旁白音色", fontWeight = FontWeight.SemiBold)
+            Text(
+                selected?.let { "${it.name}\n${it.description}" }
+                    ?: "自动优先中文男声候选（设备没有标注性别时使用低音调兜底）",
+                style = MaterialTheme.typography.bodySmall
+            )
+            Text(
+                message,
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.primary
+            )
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Box {
+                    OutlinedButton(onClick = { expanded = true }) {
+                        Text("选择音色")
+                    }
+                    DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+                        DropdownMenuItem(
+                            text = {
+                                Column {
+                                    Text("自动男声优先")
+                                    Text(
+                                        "根据音色名称、本地可用性和质量排序",
+                                        style = MaterialTheme.typography.labelSmall
+                                    )
+                                }
+                            },
+                            onClick = {
+                                expanded = false
+                                onSelect(AUTO_MALE_VOICE)
+                            }
+                        )
+                        voices.forEach { voice ->
+                            DropdownMenuItem(
+                                text = {
+                                    Column {
+                                        Text(voice.name, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                                        Text(voice.description, style = MaterialTheme.typography.labelSmall)
+                                    }
+                                },
+                                onClick = {
+                                    expanded = false
+                                    onSelect(voice.name)
+                                }
+                            )
+                        }
+                    }
+                }
+                Button(onClick = { onPreview(selectedVoice) }) {
+                    Icon(Icons.Default.PlayArrow, null)
+                    Spacer(Modifier.width(6.dp))
+                    Text("试听")
+                }
+            }
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                TextButton(onClick = onRefresh) { Text("刷新列表") }
+                TextButton(onClick = onInstall) { Text("安装中文语音包") }
             }
         }
     }
