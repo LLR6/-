@@ -58,7 +58,7 @@ object EncodingDetector {
         "BIG5", "BIG-5" -> Charset.forName("Big5")
         "UTF-16LE" -> StandardCharsets.UTF_16LE
         "UTF-16BE" -> StandardCharsets.UTF_16BE
-        else -> runCatching { Charset.forName(value) }.getOrNull()
+        else -> value?.let { runCatching { Charset.forName(it) }.getOrNull() }
     }
 
     private fun decodeStrict(bytes: ByteArray, charset: Charset): String? = try {
