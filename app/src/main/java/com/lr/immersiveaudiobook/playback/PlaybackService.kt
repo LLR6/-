@@ -53,6 +53,8 @@ class PlaybackService : Service(), TtsEventListener {
     private var currentSentence: SentenceEntity? = null
     private var currentNovel: NovelEntity? = null
     private var pendingSentence: SentenceEntity? = null
+    private var pendingPreviewVoice: String? = null
+    private var previewUtteranceId: String? = null
     private var currentUtteranceId: String? = null
     private var isPlaying = false
     private var pausedByAudioFocus = false
@@ -131,6 +133,7 @@ class PlaybackService : Service(), TtsEventListener {
         scope.launch {
             (application as LrAudiobookApplication).container.settings.settings.collectLatest {
                 settings = it
+                tts.selectVoice(it.preferredVoiceName)
             }
         }
         updatePlaybackState(PlaybackStateCompat.STATE_NONE)
@@ -159,6 +162,11 @@ class PlaybackService : Service(), TtsEventListener {
                 updateNotification()
             }
             ACTION_CANCEL_TIMER -> cancelTimer()
+            ACTION_PREVIEW_VOICE -> {
+                startForeground(NOTIFICATION_ID, buildNotification())
+                val voiceName = intent.getStringExtra(EXTRA_VOICE_NAME).orEmpty()
+                if (tts.isReady.value) speakPreview(voiceName) else pendingPreviewVoice = voiceName
+            }
         }
         return START_STICKY
     }
@@ -200,9 +208,10 @@ class PlaybackService : Service(), TtsEventListener {
         val request = TtsRequest(
             utteranceId = utteranceId,
             text = sentence.displayText,
-            rate = baseRate * emotionRate(sentence.emotion),
+            rate = baseRate * emotionRate(sentence.emotion) * roleRate(sentence.characterName),
             pitch = basePitch * rolePitch(sentence.characterName),
-            volume = baseVolume * sleepVolumeFactor
+            volume = baseVolume * sleepVolumeFactor,
+            characterName = sentence.characterName
         )
         if (!tts.speak(request)) {
             reportError("系统语音暂时不可用，请检查是否安装中文语音包")
@@ -234,6 +243,30 @@ class PlaybackService : Service(), TtsEventListener {
         updatePlaybackState(PlaybackStateCompat.STATE_PAUSED)
         PlaybackBus.update { it.copy(isPlaying = false) }
         updateNotification()
+    }
+
+    private fun speakPreview(voiceName: String) {
+        tts.stop()
+        isPlaying = false
+        PlaybackBus.update { it.copy(isPlaying = false, error = null) }
+        tts.selectVoice(voiceName)
+        val utteranceId = "voice-preview:${System.nanoTime()}"
+        previewUtteranceId = utteranceId
+        currentUtteranceId = utteranceId
+        val request = TtsRequest(
+            utteranceId = utteranceId,
+            text = "夜色沉了下来，远处传来一阵缓慢的脚步声。别回头，它就在你身后。",
+            rate = 0.86f,
+            pitch = 0.72f,
+            volume = 1f,
+            characterName = "旁白"
+        )
+        if (!tts.speak(request)) {
+            reportError("该系统音色暂时无法试听")
+        } else {
+            updatePlaybackState(PlaybackStateCompat.STATE_PLAYING)
+            updateNotification()
+        }
     }
 
     private fun stopPlayback(removeNotification: Boolean) {
@@ -497,16 +530,31 @@ class PlaybackService : Service(), TtsEventListener {
     }
 
     private fun rolePitch(name: String): Float = when {
-        name == "旁白" -> 1f
-        name.contains("女") || name.endsWith("娘") -> 1.17f
-        name.contains("老") -> 0.86f
-        name.contains("小") || name.contains("童") -> 1.22f
-        else -> 1.05f
+        name == "旁白" -> 0.78f
+        name.contains("怪物") -> 0.66f
+        name.contains("神秘") -> 0.74f
+        name.contains("老") -> 0.80f
+        name.contains("女") || name.endsWith("娘") -> 1.30f
+        name.contains("小") || name.contains("童") -> 1.46f
+        name.contains("男") -> 0.88f
+        else -> listOf(0.84f, 0.92f, 1.02f, 1.14f)[Math.floorMod(name.hashCode(), 4)]
+    }
+
+    private fun roleRate(name: String): Float = when {
+        name == "旁白" -> 0.96f
+        name.contains("老") || name.contains("神秘") -> 0.90f
+        name.contains("儿童") -> 1.08f
+        else -> listOf(0.94f, 1f, 1.06f)[Math.floorMod(name.hashCode(), 3)]
     }
 
     override fun onReady() {
         scope.launch {
             PlaybackBus.update { it.copy(error = null) }
+            pendingPreviewVoice?.also {
+                pendingPreviewVoice = null
+                speakPreview(it)
+                return@launch
+            }
             pendingSentence?.also {
                 pendingSentence = null
                 speak(it)
@@ -517,6 +565,18 @@ class PlaybackService : Service(), TtsEventListener {
     override fun onStart(utteranceId: String) = Unit
 
     override fun onDone(utteranceId: String) {
+        if (utteranceId == previewUtteranceId) {
+            previewUtteranceId = null
+            currentUtteranceId = null
+            updatePlaybackState(PlaybackStateCompat.STATE_PAUSED)
+            if (currentSentence == null) {
+                stopForeground(STOP_FOREGROUND_REMOVE)
+                stopSelf()
+            } else {
+                updateNotification()
+            }
+            return
+        }
         if (utteranceId != currentUtteranceId || !isPlaying) return
         val pause = currentSentence?.pauseAfterMs?.toLong() ?: 200L
         scope.launch {
@@ -558,10 +618,13 @@ class PlaybackService : Service(), TtsEventListener {
             "com.lr.immersiveaudiobook.action.STOP_AFTER_CHAPTER"
         const val ACTION_STOP_AFTER_CHAPTERS =
             "com.lr.immersiveaudiobook.action.STOP_AFTER_CHAPTERS"
+        const val ACTION_PREVIEW_VOICE =
+            "com.lr.immersiveaudiobook.action.PREVIEW_VOICE"
         const val EXTRA_SENTENCE_ID = "sentence_id"
         const val EXTRA_MINUTES = "minutes"
         const val EXTRA_DEADLINE_EPOCH_MS = "deadline_epoch_ms"
         const val EXTRA_CHAPTER_COUNT = "chapter_count"
+        const val EXTRA_VOICE_NAME = "voice_name"
 
         private const val CHANNEL_ID = "audiobook_playback"
         private const val NOTIFICATION_ID = 2408
@@ -581,6 +644,15 @@ class PlaybackService : Service(), TtsEventListener {
                 Intent(context, PlaybackService::class.java)
                     .setAction(ACTION_SET_TIMER)
                     .putExtra(EXTRA_MINUTES, minutes)
+            )
+        }
+
+        fun previewVoice(context: Context, voiceName: String) {
+            ContextCompat.startForegroundService(
+                context,
+                Intent(context, PlaybackService::class.java)
+                    .setAction(ACTION_PREVIEW_VOICE)
+                    .putExtra(EXTRA_VOICE_NAME, voiceName)
             )
         }
 
