@@ -25,7 +25,9 @@ data class AppSettings(
     val wifiOnlyCache: Boolean = true,
     val cacheLimitMb: Int = 2048,
     val skipSeconds: Int = 15,
-    val defaultPreset: String = "低沉悬疑"
+    val defaultPreset: String = "低沉悬疑",
+    val importEncoding: String = "AUTO",
+    val preferredVoiceName: String = "AUTO_MALE"
 )
 
 class SettingsRepository(private val context: Context) {
@@ -42,6 +44,8 @@ class SettingsRepository(private val context: Context) {
         val cacheLimitMb = intPreferencesKey("cache_limit_mb")
         val skipSeconds = intPreferencesKey("skip_seconds")
         val defaultPreset = stringPreferencesKey("default_preset")
+        val importEncoding = stringPreferencesKey("import_encoding")
+        val preferredVoiceName = stringPreferencesKey("preferred_voice_name")
     }
 
     val settings: Flow<AppSettings> = context.dataStore.data.map { values ->
@@ -57,7 +61,9 @@ class SettingsRepository(private val context: Context) {
             wifiOnlyCache = values[Keys.wifiOnlyCache] ?: true,
             cacheLimitMb = values[Keys.cacheLimitMb] ?: 2048,
             skipSeconds = values[Keys.skipSeconds] ?: 15,
-            defaultPreset = values[Keys.defaultPreset] ?: "低沉悬疑"
+            defaultPreset = values[Keys.defaultPreset] ?: "低沉悬疑",
+            importEncoding = values[Keys.importEncoding] ?: "AUTO",
+            preferredVoiceName = values[Keys.preferredVoiceName] ?: "AUTO_MALE"
         )
     }
 
@@ -84,5 +90,7 @@ class SettingsRepository(private val context: Context) {
         fun setCacheLimitMb(value: Int) = set(Keys.cacheLimitMb, value)
         fun setSkipSeconds(value: Int) = set(Keys.skipSeconds, value)
         fun setDefaultPreset(value: String) = set(Keys.defaultPreset, value)
+        fun setImportEncoding(value: String) = set(Keys.importEncoding, value)
+        fun setPreferredVoiceName(value: String) = set(Keys.preferredVoiceName, value)
     }
 }
