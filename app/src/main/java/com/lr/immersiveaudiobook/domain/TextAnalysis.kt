@@ -73,7 +73,7 @@ class CharacterResolver {
             lastNamedSpeaker = cleaned
             return cleaned
         }
-        if (cleaned in setOf("他", "她", "我") && lastNamedSpeaker != null) {
+        if (cleaned != null && cleaned in setOf("他", "她", "我") && lastNamedSpeaker != null) {
             return lastNamedSpeaker!!
         }
         val contextualRole = when {
