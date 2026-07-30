@@ -50,6 +50,20 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
+      - name: Prepare Android signing tools
+        run: |
+          mkdir -p signing-tools
+          cp "$ANDROID_HOME/build-tools/35.0.0/lib/apksigner.jar" signing-tools/
+          cp "$ANDROID_HOME/build-tools/35.0.0/zipalign" signing-tools/
+
+      - name: Upload Android signing tools
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-signing-tools
+          path: signing-tools/
+          if-no-files-found: error
+          retention-days: 1
+
       - name: Upload test reports on failure
         if: failure()
         uses: actions/upload-artifact@v4
