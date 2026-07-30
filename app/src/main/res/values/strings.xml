@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">LR-沉浸式有声小说</string>
+    <string name="notification_channel_playback">有声小说播放</string>
+    <string name="notification_channel_description">后台朗读、锁屏和耳机播放控制</string>
+</resources>

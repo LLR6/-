@@ -1,0 +1,3 @@
+-keep class com.lr.immersiveaudiobook.data.local.** { *; }
+-keepattributes *Annotation*
+-dontwarn org.conscrypt.**
