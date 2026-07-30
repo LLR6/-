@@ -100,7 +100,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             val novel = repository.getNovel(novelId)
             val chapterList = repository.getChapters(novelId)
-            val current = novel?.currentSentenceId?.let(repository::getSentence)
+            val currentId = novel?.currentSentenceId
+            val current = if (currentId != null) repository.getSentence(currentId) else null
             selectedChapterId.value = current?.chapterId ?: chapterList.firstOrNull()?.id ?: 0L
             selectedSentenceId.value = current?.id ?: repository.firstSentence(novelId)?.id
         }
