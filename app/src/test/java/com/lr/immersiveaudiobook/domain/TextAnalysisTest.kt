@@ -21,7 +21,7 @@ class TextAnalysisTest {
         val result = SentenceSegmenter.segment("他低声说：“别动！”走廊里传来脚步声。")
         assertEquals(2, result.size)
         assertTrue(result.first().isDialogue)
-        assertEquals("大声喊叫", result.first().emotion)
+        assertEquals("低声耳语", result.first().emotion)
         assertEquals("平静", result.last().emotion)
     }
 

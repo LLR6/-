@@ -39,7 +39,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AutoStories
 import androidx.compose.material.icons.filled.BookmarkAdd
-import androidx.compose.material.icons.filled.Cache
 import androidx.compose.material.icons.filled.ChevronLeft
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Close
@@ -143,6 +142,7 @@ fun LrAudiobookApp(viewModel: MainViewModel) {
     val tab by viewModel.selectedTab.collectAsState()
     BoxWithConstraints(Modifier.fillMaxSize()) {
         val tablet = maxWidth >= 760.dp
+        val expandedPlayer = maxWidth >= 1040.dp
         if (tablet) {
             Row(Modifier.fillMaxSize().statusBarsPadding().navigationBarsPadding()) {
                 NavigationRail(
@@ -165,7 +165,7 @@ fun LrAudiobookApp(viewModel: MainViewModel) {
                     }
                 }
                 VerticalDivider()
-                AppTabContent(viewModel, tab, expandedPlayer = maxWidth >= 1040.dp)
+                AppTabContent(viewModel, tab, expandedPlayer = expandedPlayer)
             }
         } else {
             Scaffold(
@@ -1253,7 +1253,7 @@ private fun SettingsScreen(viewModel: MainViewModel) {
             }
             item {
                 ListItem(
-                    leadingContent = { Icon(Icons.Default.Cache, null) },
+                    leadingContent = { Icon(Icons.Default.FolderOpen, null) },
                     headlineContent = { Text("音频缓存") },
                     supportingContent = { Text(formatBytes(cacheSize)) },
                     trailingContent = {

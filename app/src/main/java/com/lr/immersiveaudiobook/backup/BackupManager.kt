@@ -77,6 +77,7 @@ class LocalBackupManager(
             restoredNovels.copyRecursively(targetNovels, overwrite = true)
         }
         staging.deleteRecursively()
+        Unit
     }
 
     private fun addFile(zip: ZipOutputStream, file: File, path: String) {
