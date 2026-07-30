@@ -27,13 +27,14 @@ class NovelParser(
             var title = "正文"
             val paragraphs = mutableListOf<String>()
             val characters = linkedSetOf("旁白", "默认角色")
+            val characterResolver = CharacterResolver()
 
             suspend fun flushChapter() {
                 if (paragraphs.isEmpty() && chapterIndex == 0 && title == "正文") return
                 if (paragraphs.isEmpty() && chapterIndex > 0) return
                 val analyzed = paragraphs
                     .asSequence()
-                    .flatMap { SentenceSegmenter.segment(it).asSequence() }
+                    .flatMap { SentenceSegmenter.segment(it, characterResolver).asSequence() }
                     .toList()
                     .ifEmpty {
                         listOf(
@@ -79,6 +80,7 @@ class NovelParser(
                 lines.forEach { rawLine ->
                     coroutineContext.ensureActive()
                     val line = rawLine
+                        .removePrefix("\uFEFF")
                         .replace("\u0000", "")
                         .replace('\u3000', ' ')
                         .trim()
@@ -100,10 +102,23 @@ class NovelParser(
                         gender = when {
                             name == "旁白" -> "男"
                             name.contains("女") -> "女"
+                            name.contains("男") || name.contains("老") -> "男"
                             else -> "未知"
                         },
-                        ageGroup = if (name == "旁白") "中年" else "成年",
-                        pitch = if (name == "旁白") 0.82f else 1f,
+                        ageGroup = when {
+                            name == "旁白" || name.contains("中年") -> "中年"
+                            name.contains("老年") -> "老年"
+                            name.contains("儿童") -> "儿童"
+                            name.contains("青年") -> "青年"
+                            else -> "成年"
+                        },
+                        pitch = when {
+                            name == "旁白" -> 0.72f
+                            name.contains("女") -> 1.15f
+                            name.contains("儿童") -> 1.28f
+                            name.contains("老") || name.contains("怪物") -> 0.75f
+                            else -> 0.94f
+                        },
                         speechRate = if (name == "旁白") 0.88f else 1f,
                         isLocked = name == "旁白"
                     )
