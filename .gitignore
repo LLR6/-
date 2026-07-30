@@ -10,4 +10,6 @@ app/build/
 *.jks
 *.keystore
 keystore.properties
-local/
+/local/
+# Personal copyright-controlled content for private APK builds only.
+app/src/main/assets/private_novels.zip

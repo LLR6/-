@@ -29,4 +29,23 @@ class TextAnalysisTest {
     fun identifiesQuestionEmotion() {
         assertEquals("疑惑", EmotionAnalyzer.analyze("你确定吗？"))
     }
+
+    @Test
+    fun keepsTrailingSpeakerAttributionWithDialogue() {
+        val resolver = CharacterResolver()
+        val result = SentenceSegmenter.segment("“别动！”吴邪低声说道。走廊里有东西。", resolver)
+        assertEquals(2, result.size)
+        assertEquals("吴邪", result.first().characterName)
+        assertTrue(result.first().isDialogue)
+    }
+
+    @Test
+    fun assignsSeveralFallbackRolesInsteadOfOneDefaultRole() {
+        val resolver = CharacterResolver()
+        val roles = listOf("“一。”", "“二。”", "“三。”", "“四。”")
+            .flatMap { SentenceSegmenter.segment(it, resolver) }
+            .map { it.characterName }
+            .toSet()
+        assertTrue(roles.size >= 3)
+    }
 }

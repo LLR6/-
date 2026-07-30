@@ -26,10 +26,13 @@ object ChapterDetector {
 object DialogueDetector {
     private val quotePairs = listOf('“' to '”', '"' to '"', '「' to '」', '『' to '』', '‘' to '’')
     private val speakerBefore = Regex(
-        """([\p{IsHan}A-Za-z0-9·]{1,12})(?:低声|沉声|厉声|轻声|大声|缓缓|突然)?(?:说道|说|问道|问|答道|答|喊道|喊|叫道|道|吼道|嘀咕|笑道|哭道)[:：,，]?\s*$"""
+        """(?:^|[，。！？；\s])([\p{IsHan}A-Za-z0-9·]{1,8}?)(?:低声|沉声|厉声|轻声|大声|缓缓|突然)?(?:说道|说|问道|问|答道|答|喊道|喊|叫道|道|吼道|嘀咕|笑道|哭道)[:：,，]?\s*$"""
     )
     private val speakerAfter = Regex(
-        """^\s*[,，]?\s*([\p{IsHan}A-Za-z0-9·]{1,12})(?:低声|沉声|厉声|轻声|大声|缓缓)?(?:说道|说|问道|问|答道|答|喊道|喊|叫道|道|吼道)"""
+        """^\s*[,，]?\s*([\p{IsHan}A-Za-z0-9·]{1,8}?)(?:低声|沉声|厉声|轻声|大声|缓缓)?(?:说道|说|问道|问|答道|答|喊道|喊|叫道|道|吼道|嘀咕|笑道|哭道)"""
+    )
+    private val attributionOnly = Regex(
+        """^\s*[,，]?\s*[\p{IsHan}A-Za-z0-9·]{1,8}?(?:低声|沉声|厉声|轻声|大声|缓缓)?(?:说道|说|问道|问|答道|答|喊道|喊|叫道|道|吼道|嘀咕|笑道|哭道)[。！？.!?]?\s*$"""
     )
 
     fun containsDialogue(text: String): Boolean =
@@ -38,12 +41,54 @@ object DialogueDetector {
             first >= 0 && text.indexOf(close, first + 1) > first
         }
 
-    fun guessSpeaker(fullText: String, dialogueStart: Int, dialogueEnd: Int): String {
+    fun guessSpeaker(fullText: String, dialogueStart: Int, dialogueEnd: Int): String? {
         val before = fullText.substring(0, dialogueStart).takeLast(80)
         val after = fullText.substring((dialogueEnd + 1).coerceAtMost(fullText.length)).take(60)
         return speakerBefore.find(before)?.groupValues?.getOrNull(1)
             ?: speakerAfter.find(after)?.groupValues?.getOrNull(1)
-            ?: "默认角色"
+    }
+
+    fun isAttributionOnly(text: String): Boolean = attributionOnly.matches(text)
+}
+
+class CharacterResolver {
+    private val genericSpeakers = setOf(
+        "我", "你", "您", "他", "她", "它", "我们", "你们", "他们", "她们",
+        "有人", "众人", "大家", "对方", "那人", "这人", "男人", "女人", "声音"
+    )
+    private val fallbackRoles = listOf(
+        "青年男性", "青年女性", "中年男性", "中年女性", "老年男性", "神秘人物"
+    )
+    private var lastNamedSpeaker: String? = null
+    private var fallbackIndex = 0
+
+    fun resolve(candidate: String?, text: String): String {
+        val cleaned = candidate
+            ?.trim()
+            ?.removePrefix("突然")
+            ?.removePrefix("只见")
+            ?.takeIf { it.isNotBlank() }
+
+        if (cleaned != null && cleaned !in genericSpeakers && cleaned.length <= 8) {
+            lastNamedSpeaker = cleaned
+            return cleaned
+        }
+        if (cleaned != null && cleaned in setOf("他", "她", "我") && lastNamedSpeaker != null) {
+            return lastNamedSpeaker!!
+        }
+        val contextualRole = when {
+            cleaned == "她" || listOf("少女", "姑娘", "女人", "女声").any(text::contains) ->
+                "青年女性"
+            cleaned == "他" || listOf("小伙", "青年", "男声").any(text::contains) ->
+                "青年男性"
+            listOf("老人", "老头", "老者", "老太").any(text::contains) -> "老年男性"
+            listOf("孩子", "小孩", "童声").any(text::contains) -> "儿童"
+            listOf("怪物", "怪声", "嘶吼", "非人").any(text::contains) -> "怪物"
+            listOf("黑影", "神秘人", "蒙面").any(text::contains) -> "神秘人物"
+            else -> null
+        }
+        if (contextualRole != null) return contextualRole
+        return fallbackRoles[fallbackIndex++ % fallbackRoles.size]
     }
 }
 
@@ -80,11 +125,14 @@ object SentenceSegmenter {
     private val terminators = setOf('。', '！', '？', '!', '?', '；', ';')
     private val closers = setOf('”', '"', '’', '」', '』', '）', ')', '】', ']')
 
-    fun segment(paragraph: String): List<AnalyzedSentence> {
+    fun segment(
+        paragraph: String,
+        characterResolver: CharacterResolver = CharacterResolver()
+    ): List<AnalyzedSentence> {
         val normalized = paragraph.trim().replace(Regex("""[ \t]+"""), " ")
         if (normalized.isBlank()) return emptyList()
 
-        val pieces = mutableListOf<String>()
+        val rawPieces = mutableListOf<String>()
         val current = StringBuilder()
         var index = 0
         while (index < normalized.length) {
@@ -100,13 +148,27 @@ object SentenceSegmenter {
                     current.append(normalized[next])
                     next++
                 }
-                pieces += current.toString().trim()
+                rawPieces += current.toString().trim()
                 current.clear()
                 index = next - 1
             }
             index++
         }
-        if (current.isNotBlank()) pieces += current.toString().trim()
+        if (current.isNotBlank()) rawPieces += current.toString().trim()
+
+        val pieces = mutableListOf<String>()
+        rawPieces.filter(String::isNotBlank).forEach { piece ->
+            val previous = pieces.lastOrNull()
+            if (
+                previous != null &&
+                DialogueDetector.containsDialogue(previous) &&
+                DialogueDetector.isAttributionOnly(piece)
+            ) {
+                pieces[pieces.lastIndex] = previous + piece
+            } else {
+                pieces += piece
+            }
+        }
 
         return pieces.filter { it.isNotBlank() }.map { sentence ->
             val isDialogue = DialogueDetector.containsDialogue(sentence) ||
@@ -114,10 +176,13 @@ object SentenceSegmenter {
             val firstQuote = sentence.indexOfFirst { it in setOf('“', '"', '「', '『', '‘') }
             val lastQuote = sentence.indexOfLast { it in setOf('”', '"', '」', '』', '’') }
             val speaker = if (isDialogue) {
-                DialogueDetector.guessSpeaker(
+                characterResolver.resolve(
+                    DialogueDetector.guessSpeaker(
+                        sentence,
+                        firstQuote.coerceAtLeast(0),
+                        lastQuote.coerceAtLeast(firstQuote.coerceAtLeast(0))
+                    ),
                     sentence,
-                    firstQuote.coerceAtLeast(0),
-                    lastQuote.coerceAtLeast(firstQuote.coerceAtLeast(0))
                 )
             } else {
                 "旁白"

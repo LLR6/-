@@ -1,7 +1,9 @@
 package com.lr.immersiveaudiobook
 
 import android.app.Application
+import android.content.Intent
 import android.net.Uri
+import android.speech.tts.TextToSpeech
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.lr.immersiveaudiobook.data.importer.ImportSummary
@@ -11,6 +13,8 @@ import com.lr.immersiveaudiobook.data.local.SentenceEntity
 import com.lr.immersiveaudiobook.data.settings.AppSettings
 import com.lr.immersiveaudiobook.playback.PlaybackBus
 import com.lr.immersiveaudiobook.playback.PlaybackService
+import com.lr.immersiveaudiobook.tts.SystemVoiceCatalog
+import com.lr.immersiveaudiobook.tts.SystemVoiceOption
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -46,6 +50,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val importState = MutableStateFlow<ImportUiState>(ImportUiState.Idle)
     val searchQuery = MutableStateFlow("")
     val searchResults = MutableStateFlow<List<SentenceEntity>>(emptyList())
+    val systemVoices = MutableStateFlow<List<SystemVoiceOption>>(emptyList())
+    val voiceCatalogMessage = MutableStateFlow("正在读取设备中文语音…")
+    private var voiceCatalog: SystemVoiceCatalog? = null
 
     val novels = repository.novels.stateIn(
         viewModelScope,
@@ -92,6 +99,17 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 state.sentenceId?.let { selectedSentenceId.value = it }
             }
         }
+        if (container.importer.hasPendingBundledNovels()) {
+            importState.value = ImportUiState.Running("正在导入内置小说并逐本检测编码…")
+            viewModelScope.launch {
+                runCatching { container.importer.importBundledNovelsIfPresent() }
+                    .onSuccess { it?.let(::handleImportSummary) }
+                    .onFailure {
+                        importState.value = ImportUiState.Error(it.message ?: "内置小说导入失败")
+                    }
+            }
+        }
+        refreshSystemVoices()
     }
 
     fun selectNovel(novelId: Long, openPlayer: Boolean = true) {
@@ -121,7 +139,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun importUri(uri: Uri) {
         viewModelScope.launch {
             importState.value = ImportUiState.Running("正在复制、检测编码并解析章节…")
-            val outcome = runCatching { container.importer.importUri(uri) }
+            val outcome = runCatching {
+                container.importer.importUri(uri, settings.value.importEncoding)
+            }
             outcome.onSuccess(::handleImportSummary).onFailure {
                 importState.value = ImportUiState.Error(it.message ?: "导入失败")
             }
@@ -260,6 +280,37 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         updateSettings { setResumeAfterInterruption(value) }
 
     fun setWifiOnlyCache(value: Boolean) = updateSettings { setWifiOnlyCache(value) }
+    fun setImportEncoding(value: String) = updateSettings { setImportEncoding(value) }
+
+    fun setPreferredVoice(value: String) {
+        updateSettings { setPreferredVoiceName(value) }
+        PlaybackService.previewVoice(getApplication(), value)
+    }
+
+    fun previewVoice(value: String = settings.value.preferredVoiceName) {
+        PlaybackService.previewVoice(getApplication(), value)
+    }
+
+    fun refreshSystemVoices() {
+        voiceCatalogMessage.value = "正在读取设备中文语音…"
+        voiceCatalog = SystemVoiceCatalog(getApplication()) { voices, error ->
+            systemVoices.value = voices
+            voiceCatalogMessage.value = error ?: "找到 ${voices.size} 个中文音色"
+            voiceCatalog = null
+        }
+    }
+
+    fun installChineseVoiceData() {
+        val context = getApplication<Application>()
+        runCatching {
+            context.startActivity(
+                Intent(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            )
+        }.onFailure {
+            voiceCatalogMessage.value = "系统没有提供语音包安装页面，请在系统设置中打开“文字转语音”"
+        }
+    }
 
     private fun updateSettings(
         block: com.lr.immersiveaudiobook.data.settings.SettingsRepository.MutablePreferencesEditor.() -> Unit
