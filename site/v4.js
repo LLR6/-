@@ -45,3 +45,43 @@ $("#momentAdd")?.addEventListener("click",()=>{
 $("#momentInput")?.addEventListener("keydown",e=>{if(e.key==="Enter")$("#momentAdd")?.click()});
 
 $("#year").textContent=new Date().getFullYear();
+
+
+// MIT-licensed APlayer integration.
+// Audio stays local to the browser: selected files are played through Blob URLs and are never uploaded.
+const musicToggle=$("#musicToggle"),musicPanel=$("#musicPanel"),musicClose=$("#musicClose"),musicFiles=$("#musicFiles");
+let localPlayer=null,localAudioUrls=[];
+function closeMusic(){musicPanel?.classList.remove("open")}
+musicToggle?.addEventListener("click",()=>musicPanel?.classList.toggle("open"));
+musicClose?.addEventListener("click",closeMusic);
+
+musicFiles?.addEventListener("change",()=>{
+  const files=[...(musicFiles.files||[])];
+  if(!files.length)return;
+  localAudioUrls.forEach(URL.revokeObjectURL);
+  localAudioUrls=[];
+  const audio=files.map(file=>{
+    const url=URL.createObjectURL(file);localAudioUrls.push(url);
+    return {
+      name:file.name.replace(/.[^.]+$/,""),
+      artist:"LOCAL FILE",
+      url,
+      cover:"./assets/anime-boy.webp",
+      theme:"#9bd8ff"
+    };
+  });
+  try{localPlayer?.destroy()}catch(e){}
+  $("#aplayer").innerHTML="";
+  localPlayer=new APlayer({
+    container:$("#aplayer"),
+    autoplay:false,
+    theme:"#9bd8ff",
+    loop:"all",
+    order:"list",
+    preload:"metadata",
+    volume:.65,
+    listFolded:false,
+    audio
+  });
+});
+addEventListener("beforeunload",()=>localAudioUrls.forEach(URL.revokeObjectURL));
