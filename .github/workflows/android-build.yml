@@ -3,7 +3,13 @@ name: Build Android APK
 on:
   push:
     branches: ["main", "codex/**", "feature/**"]
+    paths-ignore:
+      - "site/**"
+      - ".github/workflows/pages.yml"
   pull_request:
+    paths-ignore:
+      - "site/**"
+      - ".github/workflows/pages.yml"
   workflow_dispatch:
 
 permissions:
