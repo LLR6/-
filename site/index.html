@@ -935,7 +935,7 @@
 
     // LR Assistant Core (local, no network calls)
     const aiMessages=document.getElementById("aiMessages"),aiInput=document.getElementById("aiInput"),aiSend=document.getElementById("aiSend");
-    function aiAdd(text,who="bot"){const d=document.createElement("div");d.className="msg "+who;d.innerHTML=text;aiMessages.appendChild(d);aiMessages.scrollTop=aiMessages.scrollHeight}
+    function aiAdd(text,who="bot"){const d=document.createElement("div");d.className="msg "+who;if(who==="user")d.textContent=text;else d.innerHTML=text;aiMessages.appendChild(d);aiMessages.scrollTop=aiMessages.scrollHeight}
     function aiReply(q){
       const t=q.trim().toLowerCase();if(!t)return;
       aiAdd(q,"user");
@@ -1012,7 +1012,7 @@
       status:"CORE=ONLINE | NODE=LR-01 | CREATIVE=ACTIVE | SECURITY=NORMAL",
       matrix:"01001100 01010010 // signal acquired."
     };
-    function termPrint(txt,cls=""){terminalOut.innerHTML+="\n"+(cls?'<span class="'+cls+'">'+txt+"</span>":txt);terminalOut.parentElement.scrollTop=terminalOut.parentElement.scrollHeight}
+    function termPrint(txt,cls=""){terminalOut.appendChild(document.createTextNode("\n"));if(cls){const sp=document.createElement("span");sp.className=cls;sp.textContent=txt;terminalOut.appendChild(sp)}else terminalOut.appendChild(document.createTextNode(txt));terminalOut.parentElement.scrollTop=terminalOut.parentElement.scrollHeight}
     termInput.addEventListener("keydown",e=>{
       if(e.key!=="Enter")return;
       const raw=termInput.value.trim(),c=raw.toLowerCase();termPrint("lr@space:~$ "+raw,"tGreen");termInput.value="";
