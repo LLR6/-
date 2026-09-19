@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 900" role="img" aria-labelledby="t d">
+<title id="t">LUMI-01 original cyber anime mascot</title>
+<desc id="d">Original anime-inspired cyber assistant character for LR OS.</desc>
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#eefcff"/><stop offset=".5" stop-color="#f4eeff"/><stop offset="1" stop-color="#fff0fa"/></linearGradient>
+  <linearGradient id="hair" x1=".2" y1=".1" x2=".8" y2=".9"><stop stop-color="#283875"/><stop offset=".45" stop-color="#665eff"/><stop offset="1" stop-color="#22d7ec"/></linearGradient>
+  <linearGradient id="jacket" x1=".1" y1="0" x2=".9" y2="1"><stop stop-color="#ffffff"/><stop offset=".45" stop-color="#dff7ff"/><stop offset="1" stop-color="#e8ddff"/></linearGradient>
+  <linearGradient id="visor" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#ff67ce"/><stop offset=".5" stop-color="#776dff"/><stop offset="1" stop-color="#39dcf2"/></linearGradient>
+  <filter id="glow"><feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <filter id="soft"><feDropShadow dx="0" dy="18" stdDeviation="24" flood-color="#5365bb" flood-opacity=".24"/></filter>
+</defs>
+<rect width="720" height="900" rx="52" fill="url(#bg)"/>
+<g opacity=".28" stroke="#6375d8" stroke-width="1">
+  <path d="M0 110h720M0 210h720M0 310h720M0 410h720M0 510h720M0 610h720M0 710h720"/>
+  <path d="M80 0v900M180 0v900M280 0v900M380 0v900M480 0v900M580 0v900"/>
+</g>
+<circle cx="564" cy="150" r="118" fill="#fff" opacity=".75"/>
+<circle cx="564" cy="150" r="86" fill="none" stroke="#4bdcef" stroke-width="2" opacity=".4"/>
+<path d="M493 150h142M564 79v142" stroke="#776dff" opacity=".25"/>
+<g filter="url(#soft)">
+  <path d="M225 702c24-107 89-151 139-151 61 0 122 48 147 151l30 136H192z" fill="url(#jacket)" stroke="#fff" stroke-width="7"/>
+  <path d="M301 561l63 67 65-67 24 170-86 46-92-46z" fill="#101b45" opacity=".92"/>
+  <path d="M327 567l37 61 37-61" fill="none" stroke="#41dbea" stroke-width="8" filter="url(#glow)"/>
+  <path d="M272 344c0-116 42-192 101-192 73 0 117 82 117 192v102c0 112-53 177-119 177-63 0-112-65-112-177z" fill="#ffe9df" stroke="#fff" stroke-width="7"/>
+  <path d="M238 355c4-137 66-232 146-232 89 0 148 99 143 238-19-27-40-54-78-75-52 35-102 54-211 69z" fill="url(#hair)"/>
+  <path d="M251 337c-31 60-29 193 20 259-58-22-80-84-80-166 0-92 28-154 83-202z" fill="#283875"/>
+  <path d="M498 302c48 38 68 115 54 197-8 46-27 81-58 101 28-82 17-183-8-244z" fill="#38cbe2"/>
+  <path d="M281 369c29-11 58-12 87 0M401 369c26-9 51-8 75 1" fill="none" stroke="#333c67" stroke-width="8" stroke-linecap="round"/>
+  <ellipse cx="326" cy="405" rx="28" ry="18" fill="#fff"/>
+  <ellipse cx="438" cy="405" rx="28" ry="18" fill="#fff"/>
+  <ellipse cx="327" cy="405" rx="10" ry="16" fill="#4fdff0" filter="url(#glow)"/>
+  <ellipse cx="438" cy="405" rx="10" ry="16" fill="#776dff" filter="url(#glow)"/>
+  <path d="M366 425c-4 18-2 28 10 31" fill="none" stroke="#d89491" stroke-width="4" stroke-linecap="round"/>
+  <path d="M345 492c25 16 51 16 78-1" fill="none" stroke="#da759d" stroke-width="6" stroke-linecap="round"/>
+  <path d="M273 278c-31 8-51 38-51 79v95c0 33 18 52 45 52h12v-226z" fill="#111a43"/>
+  <path d="M493 274c35 11 52 40 52 83v91c0 38-19 57-48 57h-10V274z" fill="#111a43"/>
+  <rect x="213" y="328" width="42" height="117" rx="18" fill="url(#visor)" filter="url(#glow)"/>
+  <rect x="513" y="328" width="42" height="117" rx="18" fill="url(#visor)" filter="url(#glow)"/>
+  <path d="M238 334c36-51 94-83 151-83 64 0 118 31 151 82" fill="none" stroke="#283875" stroke-width="22" stroke-linecap="round"/>
+  <path d="M287 532l-10 73M468 528l12 74" stroke="#ffe9df" stroke-width="44" stroke-linecap="round"/>
+  <path d="M208 783l93-80 63 75 68-75 93 80" fill="none" stroke="#8a79ff" stroke-width="8" opacity=".45"/>
+</g>
+<g filter="url(#glow)">
+  <path d="M148 190h116" stroke="#ff66cc" stroke-width="4"/>
+  <path d="M456 744h126" stroke="#3bdcf2" stroke-width="4"/>
+  <circle cx="142" cy="190" r="7" fill="#ff66cc"/>
+  <circle cx="588" cy="744" r="7" fill="#3bdcf2"/>
+</g>
+<g font-family="ui-monospace,Consolas,monospace" fill="#34459b">
+  <text x="58" y="78" font-size="22" font-weight="800" letter-spacing="4">LUMI-01 / ルミ</text>
+  <text x="58" y="109" font-size="12" letter-spacing="3" opacity=".7">PERSONAL NAVIGATOR // LR OS</text>
+  <text x="510" y="820" font-size="13" font-weight="700">SYNC 99.7%</text>
+  <text x="58" y="842" font-size="12" opacity=".7">ORIGINAL CHARACTER // NEO PERSONAL WORLD</text>
+</g>
+</svg>
