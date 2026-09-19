@@ -1,0 +1,37 @@
+name: Validate LR CyberSpace
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "site/**"
+      - ".github/workflows/validate-site.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Extract inline JavaScript
+        shell: python
+        run: |
+          import re
+          from pathlib import Path
+          html = Path("site/index.html").read_text(encoding="utf-8")
+          scripts = re.findall(r"<script(?:\s[^>]*)?>([\s\S]*?)</script>", html, re.I)
+          if not scripts:
+              raise SystemExit("No inline script found")
+          Path("/tmp/lr-inline.js").write_text("\n".join(scripts), encoding="utf-8")
+          print(f"Extracted {len(scripts)} inline script block(s)")
+      - name: Check JavaScript syntax
+        run: node --check /tmp/lr-inline.js
+      - name: Check required PWA files
+        run: |
+          test -f site/manifest.webmanifest
+          test -f site/sw.js
+          test -f site/lr-icon.svg
