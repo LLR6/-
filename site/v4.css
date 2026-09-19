@@ -181,3 +181,85 @@ img{display:block;max-width:100%}
   .heroJp{font-size:14px}.heroText{font-size:12px}
   .heroActions a{width:100%;justify-content:space-between}
 }
+
+
+/* Open-source inspired additions
+   - Animated wave concept adapted from MIT-licensed Hexo Theme Shoka
+   - APlayer UI restyled for LR//NEO
+*/
+.shokaWaves{
+  position:absolute;left:0;right:0;bottom:-1px;z-index:3;height:86px;pointer-events:none;overflow:hidden
+}
+.shokaWaves svg{width:100%;height:100%;display:block}
+.neoParallax>use{animation:neoWave 22s cubic-bezier(.55,.5,.45,.5) infinite}
+.neoParallax>use:nth-child(1){animation-delay:-2s;animation-duration:7s;fill:rgba(9,22,40,.48)}
+.neoParallax>use:nth-child(2){animation-delay:-3s;animation-duration:10s;fill:rgba(8,20,37,.62)}
+.neoParallax>use:nth-child(3){animation-delay:-4s;animation-duration:13s;fill:rgba(7,18,33,.78)}
+.neoParallax>use:nth-child(4){animation-delay:-5s;animation-duration:20s;fill:#07101d}
+@keyframes neoWave{0%{transform:translate3d(-90px,0,0)}100%{transform:translate3d(85px,0,0)}}
+
+.journalList{display:grid;gap:18px}
+.journal{
+  min-height:260px;display:flex;overflow:hidden;border:1px solid var(--line);
+  background:linear-gradient(145deg,#0b182b,#081422);transition:.28s
+}
+.journal:nth-child(even){flex-direction:row-reverse}
+.journal:hover{transform:translateY(-5px);border-color:rgba(205,227,255,.26);box-shadow:0 18px 42px rgba(0,0,0,.22)}
+.journalCover{width:43%;min-height:260px;background-size:cover;background-position:center;transition:.45s}
+.journal:hover .journalCover{transform:scale(1.03)}
+.journal:nth-child(odd) .journalCover{clip-path:polygon(0 0,92% 0,100% 100%,0 100%)}
+.journal:nth-child(even) .journalCover{clip-path:polygon(8% 0,100% 0,100% 100%,0 100%)}
+.jc1{background-image:linear-gradient(rgba(5,14,28,.18),rgba(5,14,28,.26)),url("./assets/anime-boy.webp")}
+.jc2{background-image:linear-gradient(rgba(5,14,28,.22),rgba(5,14,28,.38)),url("./assets/anime-night.webp");background-position:72% center}
+.jc3{background-image:linear-gradient(rgba(5,14,28,.32),rgba(5,14,28,.42)),url("./assets/anime-boy.webp");background-position:70% center;filter:saturate(.58)}
+.journalInfo{width:57%;padding:30px 34px;display:flex;flex-direction:column;justify-content:center}
+.journalInfo time{font:700 8px ui-monospace,monospace;letter-spacing:.19em;color:#7692b8}
+.journalInfo h3{font:30px/1.2 Georgia,"Noto Serif SC","Songti SC",serif;margin:14px 0 10px}
+.journalInfo p{color:#8295af;font-size:12px;line-height:1.8;margin:0;max-width:560px}
+.journalInfo span{margin-top:22px;font:800 8px ui-monospace,monospace;letter-spacing:.18em;color:#9ccceb}
+
+.musicOrb{
+  position:fixed;right:18px;bottom:18px;z-index:80;width:46px;height:46px;border-radius:50%;
+  border:1px solid rgba(198,220,252,.18);background:rgba(8,20,38,.84);backdrop-filter:blur(14px);
+  color:#dcecff;font:22px Georgia,serif;cursor:pointer;box-shadow:0 12px 32px rgba(0,0,0,.28);transition:.2s
+}
+.musicOrb:hover{transform:translateY(-3px) rotate(-6deg);border-color:rgba(198,220,252,.34)}
+.musicPanel{
+  position:fixed;right:18px;bottom:76px;z-index:79;width:min(390px,calc(100vw - 28px));
+  padding:14px;background:rgba(6,17,33,.96);border:1px solid rgba(194,217,250,.16);
+  backdrop-filter:blur(20px);box-shadow:0 20px 60px rgba(0,0,0,.40);
+  opacity:0;visibility:hidden;transform:translateY(10px) scale(.985);transition:.2s
+}
+.musicPanel.open{opacity:1;visibility:visible;transform:none}
+.musicHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.musicHead b{display:block;font:800 9px ui-monospace,monospace;letter-spacing:.18em;color:#d8e8fb}
+.musicHead span{display:block;margin-top:3px;font:8px ui-monospace,monospace;color:#7085a6}
+.musicHead button{border:0;background:transparent;color:#90a5c6;font-size:20px;cursor:pointer}
+.musicPicker{
+  display:flex;flex-direction:column;gap:4px;padding:12px;border:1px dashed rgba(176,205,245,.18);
+  color:#9bb3d5;cursor:pointer;margin-bottom:10px
+}
+.musicPicker input{display:none}.musicPicker span{font-size:12px;font-weight:800}.musicPicker small{font-size:10px;color:#657a9b}
+
+.musicPanel .aplayer{margin:0;background:#09172b;color:#dce9f8;box-shadow:none;border:1px solid rgba(179,207,245,.12);border-radius:0}
+.musicPanel .aplayer .aplayer-info{border-color:rgba(180,207,244,.10)}
+.musicPanel .aplayer .aplayer-info .aplayer-music .aplayer-title{color:#e4eefb}
+.musicPanel .aplayer .aplayer-info .aplayer-music .aplayer-author{color:#8397b5}
+.musicPanel .aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap .aplayer-bar{background:#243653}
+.musicPanel .aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap .aplayer-bar .aplayer-loaded{background:#405674}
+.musicPanel .aplayer .aplayer-info .aplayer-controller .aplayer-time{color:#8093af}
+.musicPanel .aplayer .aplayer-info .aplayer-controller .aplayer-time .aplayer-icon path{fill:#9eb1cd}
+.musicPanel .aplayer .aplayer-list{border-color:rgba(180,207,244,.10)}
+.musicPanel .aplayer .aplayer-list ol li{border-color:rgba(180,207,244,.08);color:#b8c8df;background:#09172b}
+.musicPanel .aplayer .aplayer-list ol li:hover,.musicPanel .aplayer .aplayer-list ol li.aplayer-list-light{background:#10203a}
+.musicPanel .aplayer .aplayer-list ol li .aplayer-list-index,.musicPanel .aplayer .aplayer-list ol li .aplayer-list-author{color:#7588a7}
+.footer a{color:#8fbfe0}.footer a:hover{color:#dcecff}
+
+@media(max-width:760px){
+  .shokaWaves{height:58px}
+  .journal,.journal:nth-child(even){flex-direction:column;min-height:0}
+  .journalCover{width:100%;height:210px;min-height:210px;clip-path:polygon(0 0,100% 0,100% 92%,0 100%)!important}
+  .journalInfo{width:100%;padding:22px}
+  .journalInfo h3{font-size:25px}
+  .musicOrb{right:12px;bottom:12px}.musicPanel{right:12px;bottom:68px}
+}
