@@ -86,3 +86,19 @@ The gallery may display selected Creative Commons Zero / public-domain assets:
   https://opengameart.org/content/japanese-room
 
 These assets are marked as CC0 by their source pages.
+
+
+## bangumi-data
+- Project: https://github.com/bangumi-data/bangumi-data
+- Data license: CC BY 4.0
+- Usage in LR//NEO: the "ON AIR / Summer 2026" section uses the project's 2026-07 anime dataset to calculate upcoming weekly broadcast times.
+
+Attribution: Data source is bangumi-data, licensed under Creative Commons Attribution 4.0 International.
+
+## Japanese style simple backgrounds
+- Source: https://opengameart.org/content/japanese-style-simple-backgrounds
+- Author: Oyasumi
+- License: CC0
+- Assets referenced by LR//NEO Gallery: bamboo.png, sakura_tree.png, temple.png
+
+The source page marks these assets as Creative Commons Zero (CC0).
