@@ -7,7 +7,7 @@
   function setAnime(on){body.classList.toggle("animeMode",on);btn?.classList.toggle("on",on);if(btn)btn.textContent=on?"ア":"A";localStorage.setItem("lr-anime-mode",on?"1":"0")}
   setAnime(enabled);btn?.addEventListener("click",()=>setAnime(!body.classList.contains("animeMode")));
 
-  const mascot=document.getElementById("animeMascot"),vn=document.getElementById("vnBox"),vnText=document.getElementById("vnText");
+  const vn=document.getElementById("vnBox"),vnText=document.getElementById("vnText");
   const lines=[
     "欢迎来到 <b>LR//NEO</b>。这里不是主页，是你的个人世界观入口。",
     "今天的状态：<b>Creative Core = ACTIVE</b>。要不要去项目宇宙看看？",
@@ -16,7 +16,6 @@
   ];
   let li=0;
   function speak(text){if(vnText)vnText.innerHTML=text||lines[li++%lines.length];vn?.classList.add("open")}
-  mascot?.addEventListener("click",()=>speak());
   document.getElementById("vnClose")?.addEventListener("click",()=>vn.classList.remove("open"));
   document.querySelectorAll("[data-vn]").forEach(x=>x.addEventListener("click",()=>speak(x.dataset.vn)));
 
@@ -39,10 +38,6 @@
     p.animate([{transform:"scale(1)"},{transform:"scale(.985) rotate(-.4deg)"},{transform:"scale(1)"}],{duration:260})
   }));
 
-  let secret=0;mascot?.addEventListener("dblclick",()=>{
-    secret++; speak(secret%2?"你发现了隐藏动作。<b>ルミ // OVERDRIVE</b> 已启动。":"别一直戳我啦……不过，系统同步率 +1%。");
-    document.documentElement.animate([{filter:"hue-rotate(0deg)"},{filter:"hue-rotate(22deg)"},{filter:"hue-rotate(0deg)"}],{duration:650});
-  });
 
   // LR//NEO persistent world save
   const SAVE_KEY="lr-neo-save-v2";
@@ -69,12 +64,10 @@
     if(lv)lv.textContent=s[0];if(txt)txt.textContent="SYNC "+v+" / 100 · "+s[1];if(cc)cc.textContent="CARDS // "+(neoSave.cards?.length||0)
   }
   renderBond();
-  mascot?.addEventListener("click",()=>addBond(1,"你主动呼叫了 LUMI。"));
-  mascot?.addEventListener("dblclick",()=>addBond(3,"发现了角色隐藏动作。"));
 
   const cardPool=[
     {id:"root",r:"SSR",name:"ROOT ACCESS",desc:"把不会的东西拆开、看懂、再重新组起来。",symbol:"⌘",g1:"#e8f9ff",g2:"rgba(53,217,239,.55)"},
-    {id:"lumi",r:"SSR",name:"LUMI // LINK",desc:"这个世界的导航者，也是最先记住访问者的角色。",symbol:"◈",g1:"#fff0fb",g2:"rgba(255,98,201,.50)"},
+    {id:"archive",r:"SSR",name:"NIGHT ARCHIVE",desc:"雨夜、霓虹和被保存下来的片段，组成这个站的主视觉记忆。",symbol:"◈",g1:"#eaf4ff",g2:"rgba(102,157,222,.50)"},
     {id:"idea",r:"SR",name:"IDEA OVERDRIVE",desc:"那些看起来没什么用，但就是很想做出来的东西。",symbol:"✦",g1:"#f4efff",g2:"rgba(120,106,255,.46)"},
     {id:"ctf",r:"SR",name:"BUG HUNTER",desc:"失败路径不是废料，它们会在下一次变成捷径。",symbol:"⚡",g1:"#eefcff",g2:"rgba(53,217,239,.42)"},
     {id:"study",r:"R",name:"STUDY COMBO",desc:"真正的升级通常很慢，但它确实会累计。",symbol:"△",g1:"#fffbea",g2:"rgba(255,216,87,.52)"},
@@ -147,5 +140,20 @@
     const e=entries.find(x=>x.isIntersecting);if(e&&epCard){const hit=epSections.find(x=>x[0]===e.target.id);if(hit)epCard.textContent=hit[1]}
   },{threshold:.28});
   epSections.forEach(([id])=>{const el=document.getElementById(id);if(el)epObs.observe(el)});
+
+  // cinematic hero: subtle visual-novel camera movement
+  const hero=document.querySelector(".cinematicHero"),media=document.querySelector(".cinematicMedia");
+  if(hero&&media){
+    hero.addEventListener("pointermove",e=>{
+      if(innerWidth<780)return;
+      const r=hero.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+      media.style.transform="scale(1.045) translate("+(-x*8)+"px,"+(-y*5)+"px)";
+    });
+    hero.addEventListener("pointerleave",()=>media.style.transform="scale(1.02)");
+    hero.addEventListener("dblclick",()=>{
+      addBond(2,"发现了首页隐藏镜头。");
+      speak("<b>HIDDEN FRAME // 01</b><br>有些喜欢不需要解释，留下来就够了。");
+    });
+  }
 
 })();
