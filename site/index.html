@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="theme-color" content="#eef4ff" />
-  <meta name="description" content="LR 的个人空间：技术、学习、项目、生活记录与灵感收藏。" />
-  <title>LR // Personal Space</title>
+  <meta name="theme-color" content="#071120" />
+  <meta name="description" content="LR//NEO：二次元、技术、CTF、学习、项目与生活碎片组成的个人档案。" />
+  <title>LR//NEO — Personal Anime Archive</title>
   <style>
     :root{
       --bg:#f8fbff;--bg2:#eef4ff;--card:rgba(255,255,255,.64);--line:rgba(110,126,255,.18);
@@ -324,13 +324,9 @@
   <div id="petalRoot"></div>
   <div class="neoRibbon">LR//NEO <i>未来・記録・創造</i></div>
   <div class="episodeCard">NOW PLAYING<b>EP.01 // LR//NEO</b>PERSONAL WORLD</div>
-  <div class="animeMascot" id="animeMascot" title="LUMI-01">
-    <span class="mascotBadge">LUMI-01 / ルミ</span><i class="mascotPing"></i>
-    <img src="./assets/lumi-01.svg" alt="原创二次元 AI 看板娘 LUMI-01" />
-  </div>
   <div class="vnBox" id="vnBox">
-    <div class="vnName">LUMI-01 // ルミ</div><button class="vnClose" id="vnClose">×</button>
-    <div class="vnText" id="vnText">欢迎进入 LR//NEO。这里正在从“个人主页”变成一个会持续更新的二次元数字世界。</div>
+    <div class="vnName">LR//NEO // STORY NOTE</div><button class="vnClose" id="vnClose">×</button>
+    <div class="vnText" id="vnText">这里不是系统控制台，而是一册会继续更新的个人动画档案。</div>
     <div class="vnActions">
       <button id="vnProjects">进入项目宇宙</button><button id="vnIdea">生成灵感</button><button id="vnAnime">Anime Mode</button>
     </div>
@@ -353,41 +349,60 @@
   <div class="hudCorner hc1"><span>01</span></div><div class="hudCorner hc2"><span>02</span></div><div class="hudCorner hc3"><span>03</span></div><div class="hudCorner hc4"><span>04</span></div>
   <div class="systemRail"><div class="railItem">LR PERSONAL TERMINAL</div><div class="railPulse"></div><div class="railItem">SYSTEM ONLINE</div></div>
   <canvas id="stars"></canvas><div class="aurora one"></div><div class="aurora two"></div><div class="aurora three"></div><div id="cursorGlow"></div><div class="orb a"></div><div class="orb b"></div>
-  <nav class="nav">
-    <a class="brand" href="#top"><i>LR</i> // SPACE</a>
-    <div class="navlinks"><a href="#chapters">章节</a><a href="#otaku">抽卡</a><a href="#moments">Moments</a><a href="#acg">ACG</a><a href="#projects">项目</a><a href="#articles">文章</a></div>
+  <nav class="nav neoNav">
+    <a class="brand" href="#top"><i>LR</i>//NEO</a>
+    <div class="navlinks">
+      <a href="#top">Home</a><a href="#chapters">Episodes</a><a href="#moments">Moments</a><a href="#acg">ACG Archive</a><a href="#projects">Projects</a><a href="#articles">Articles</a>
+    </div>
     <span class="pill" id="clock">--:--:--</span>
   </nav>
 
   <main id="top" class="shell">
-    <section class="hero">
-      <div class="heroCopy">
-        <div class="kicker"><span class="dot"></span> ONLINE · PERSONAL DATABASE</div>
-        <div class="animeStamp"><span class="jp">未来記録</span><span class="slash"></span><span>NEO PERSONAL WORLD // 2026</span></div>
-        <h1>你好，我是<br><span class="grad glitch" data-text="LR.">LR.</span></h1>
-        <p class="lead">这里是我的个人数字基地。记录 <span class="type" id="typing">技术折腾</span>、学习过程、项目碎片、生活灵感，以及那些我不想忘掉的瞬间。</p>
-        <div class="actions"><a class="btn primary" href="#articles">进入我的世界 →</a><a class="btn" href="https://github.com/LLR6" target="_blank" rel="noreferrer">GitHub ↗</a><button class="btn" id="openPalette">⌘ 快速导航</button></div>
-        <div class="heroBadge"><span class="sig"></span><b>LR_OS / STATUS: ONLINE</b><small>一个会随着我一起生长的个人数字空间</small></div>
-        <div class="mangaHeroTag">CHAPTER 01 // 少年感、技术、好奇心与仍在加载的未来</div>
-      </div>
-      <div class="avatarCard techFrame"><div class="shine"></div><div class="frameMarks"></div><div class="scanBeam"></div>
-        <div class="techMetrics">
-          <div class="metric">UPLINK <strong>ONLINE <span class="signal"><i></i><i></i><i></i><i></i></span></strong></div>
-          <div class="metric">NODE ID <strong>LR-01</strong></div>
-          <div class="metric">LATENCY <strong id="latencyMetric">08ms</strong></div>
+    <section class="hero cinematicHero" id="home">
+      <div class="cinematicMedia" aria-hidden="true"></div>
+      <div class="cinematicShade" aria-hidden="true"></div>
+      <div class="mangaTone" aria-hidden="true"></div>
+
+      <div class="heroEditorial">
+        <div class="heroSerial">PERSONAL ANIME ARCHIVE / 2026</div>
+        <div class="heroJapanese">好きなものを、ここに残していく。</div>
+        <h1 class="neoHeroTitle"><span>LR</span>//NEO</h1>
+        <p class="heroJpSub">これは、僕の好きなものたちの記録。</p>
+        <p class="heroDesc">动画、代码、CTF、学习、项目，还有那些不想忘掉的瞬间。这里不追求像谁——只记录我正在经历的世界。</p>
+        <div class="heroActions">
+          <a class="neoPrimary" href="#gateway">EXPLORE MY WORLD <b>→</b></a>
+          <a class="neoGhost" href="https://github.com/LLR6" target="_blank" rel="noreferrer">GITHUB ↗</a>
         </div>
-        <div class="orbit">
-          <div class="orbitRing r1"></div><div class="orbitRing r2"></div>
-          <div class="sat s1">CTF // ACTIVE</div>
-          <div class="sat s2">DEV // BUILD</div>
-          <div class="sat s3">STUDY // SYNC</div>
-        </div>
-        <div class="heroSpeech">欢迎回来，管理员。<br><span style="color:#ff5fc4">LUMI / LINK READY</span></div>
-        <img class="heroLumi" src="./assets/lumi-01.svg" alt="原创二次元角色 LUMI-01" />
-        <img class="avatar" src="https://github.com/LLR6.png" alt="LR avatar" onerror="this.style.display='none'" />
-        <div class="ownerTag">OWNER // LR</div>
       </div>
-      <div class="jpDeco don">ドン</div><div class="jpDeco kira">キラッ</div><div class="neoCity"></div>
+
+      <aside class="heroAside">
+        <div class="verticalVerse">あの夜、<br>きっとどこかで<br>つながってる。</div>
+        <div class="portraitScrap">
+          <img src="./assets/anime-boy.webp" alt="二次元插画头像" />
+          <div><b>SAME SKY.</b><span>DIFFERENT STORIES.<br>STILL CONNECTED.</span></div>
+        </div>
+        <div class="handNote">また、どこかで。</div>
+      </aside>
+
+      <div class="heroFoot">
+        <span>STILL HERE. IN MY OWN STORY.</span>
+        <i></i>
+        <span>GOOD ANIME · BETTER DAYS</span>
+      </div>
+    </section>
+
+    <section class="gatewaySection reveal" id="gateway">
+      <div class="gatewayIntro">
+        <span>SELECT A CHAPTER</span>
+        <p>像翻一册个人番剧设定集一样，进入不同章节。</p>
+      </div>
+      <div class="gatewayGrid">
+        <a class="gatewayCard g1" href="#chapters"><em>01</em><strong>Episodes</strong><small>エピソード</small><p>把一路走来的阶段重新翻一遍。</p><b>→</b></a>
+        <a class="gatewayCard g2" href="#moments"><em>02</em><strong>Moments</strong><small>モーメント</small><p>短暂的景色、念头和日常碎片。</p><b>→</b></a>
+        <a class="gatewayCard g3" href="#acg"><em>03</em><strong>ACG Archive</strong><small>二次元アーカイブ</small><p>动画、漫画、游戏与音乐的收藏架。</p><b>→</b></a>
+        <a class="gatewayCard g4" href="#projects"><em>04</em><strong>Projects</strong><small>プロジェクト</small><p>把喜欢和想法做成真正能运行的东西。</p><b>→</b></a>
+        <a class="gatewayCard g5" href="#articles"><em>05</em><strong>Articles</strong><small>記事</small><p>技术、复盘、感受与随机笔记。</p><b>→</b></a>
+      </div>
     </section>
 
 
@@ -463,20 +478,20 @@
 
         <div class="neoModule">
           <div class="moduleTop">
-            <div><span class="jp">同期率</span><h3>LUMI Bond</h3></div><span class="sub">INTERACTION / SYNC</span>
+            <div><span class="jp">同期率</span><h3>NEO Sync</h3></div><span class="sub">INTERACTION / SYNC</span>
           </div>
           <div class="lumiBond">
-            <img src="./assets/lumi-01.svg" alt="LUMI-01" />
+            <img src="./assets/anime-boy.webp" alt="二次元插画" class="syncPortrait" />
             <div class="bondMeta">
-              <b id="bondLevel">Lv.1 初次连接</b><small>与 LUMI 的互动会提高同步率，并解锁不同台词。</small>
+              <b id="bondLevel">Lv.1 初次连接</b><small>浏览章节、抽卡和记录 Moments 会提高这个世界的同步率。</small>
               <div class="bondBar"><i id="bondFill" style="--bond:8%"></i></div>
               <div class="bondText" id="bondText">SYNC 8 / 100</div>
             </div>
           </div>
           <div class="worldStatus">
-            <span class="worldChip">CHARACTER // LUMI-01</span><span class="worldChip">SAVE // LOCAL</span><span class="worldChip" id="collectionCount">CARDS // 0</span>
+            <span class="worldChip">ARCHIVE // LR//NEO</span><span class="worldChip">SAVE // LOCAL</span><span class="worldChip" id="collectionCount">CARDS // 0</span>
           </div>
-          <p class="muted" style="font-size:12px;margin:18px 0 0">提示：点击 LUMI、抽卡、发现彩蛋、浏览章节，都会增加同步率。达到新的阶段后，她的台词会发生变化。</p>
+          <p class="muted" style="font-size:12px;margin:18px 0 0">提示：浏览章节、抽卡、发现彩蛋和写下 Moments 都会增加同步率；达到新的阶段后会解锁不同的站内提示。</p>
         </div>
       </div>
     </section>
