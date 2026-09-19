@@ -1620,6 +1620,318 @@
       });
     }
 
+
+    // LR//OS Suite runtime
+    document.querySelectorAll("[data-open-suite]").forEach(function(el){
+      el.addEventListener("click",function(){openWin(el.dataset.openSuite)});
+    });
+
+    // PWA install + offline shell
+    var deferredInstallPrompt=null;
+    var installPwaBtn=document.getElementById("installPwaBtn");
+    window.addEventListener("beforeinstallprompt",function(e){
+      e.preventDefault();deferredInstallPrompt=e;
+      if(installPwaBtn)installPwaBtn.textContent="INSTALL LR//OS";
+    });
+    if(installPwaBtn)installPwaBtn.onclick=async function(){
+      if(deferredInstallPrompt){
+        deferredInstallPrompt.prompt();
+        try{await deferredInstallPrompt.userChoice}catch(e){}
+        deferredInstallPrompt=null;
+      }else{
+        pushNotice("PWA","如果浏览器支持安装，请使用地址栏/菜单中的“安装应用”或“添加到主屏幕”。");
+      }
+    };
+    if("serviceWorker" in navigator){
+      window.addEventListener("load",function(){navigator.serviceWorker.register("./sw.js").catch(function(){})});
+    }
+
+    // OS shell modes
+    function setShellMode(mode){
+      if(!["desktop","focus","handheld"].includes(mode))mode="desktop";
+      document.body.dataset.shell=mode;
+      localStorage.setItem("lr-shell-mode",mode);
+      document.querySelectorAll("[data-shell-mode]").forEach(function(b){b.classList.toggle("active",b.dataset.shellMode===mode)});
+      pushNotice("LR//OS MODE",mode.toUpperCase()+" 模式已启用。");
+    }
+    document.querySelectorAll("[data-shell-mode]").forEach(function(b){b.onclick=function(){setShellMode(b.dataset.shellMode)}});
+    setShellMode(localStorage.getItem("lr-shell-mode")||"desktop");
+
+    // Integration matrix / self-hosted endpoints
+    var LR_INTEGRATIONS=[
+      {id:"yukios",name:"YukiOS",repo:"https://github.com/Reeyuki/YukiOS"},
+      {id:"arozos",name:"ArozOS",repo:"https://github.com/tobychui/arozos"},
+      {id:"freeremotedesk",name:"FreeRemoteDesk",repo:"https://github.com/Teylersf/freeremotedesk"},
+      {id:"writ",name:"Writ",repo:"https://github.com/usewrit/writ"},
+      {id:"screenpipe",name:"screenpipe",repo:"https://github.com/screenpipe/screenpipe"},
+      {id:"picasso",name:"Picasso Studio",repo:"https://github.com/AfterRealm/picasso-studio"},
+      {id:"mouzi",name:"Mouzi",repo:"https://github.com/hsr88/mouzi"},
+      {id:"zeraix",name:"Zeraix",repo:"https://github.com/zeraix/zeraix"},
+      {id:"pandaclip",name:"PandaClip",repo:"https://github.com/xfloukiex-lab/pandaclip"},
+      {id:"cap",name:"Cap",repo:"https://github.com/CapSoftware/Cap"},
+      {id:"stirling",name:"Stirling PDF",repo:"https://github.com/Stirling-Tools/Stirling-PDF"},
+      {id:"novaos",name:"NovaOS",repo:"https://github.com/runnova/NovaOS"}
+    ];
+    function endpointKey(id){return "lr-endpoint-"+id}
+    function validEndpoint(url){return /^https?:\/\//i.test((url||"").trim())}
+    function launchEndpoint(id){
+      var url=localStorage.getItem(endpointKey(id))||"";
+      if(validEndpoint(url))window.open(url,"_blank","noopener,noreferrer");
+      else{pushNotice("SERVICE NODE","还没有配置 "+id+" 的服务地址。");openWin("appStoreWin")}
+    }
+    function renderIntegrationList(){
+      var box=document.getElementById("integrationList");if(!box)return;box.innerHTML="";
+      LR_INTEGRATIONS.forEach(function(app){
+        var row=document.createElement("div");row.className="integrationModalRow";
+        var left=document.createElement("div"),strong=document.createElement("strong"),span=document.createElement("span");
+        strong.textContent=app.name;span.textContent=localStorage.getItem(endpointKey(app.id))?"SERVICE CONNECTED":"REPO / ENDPOINT OPTIONAL";
+        left.appendChild(strong);left.appendChild(span);
+        var controls=document.createElement("div");controls.className="integrationControls";
+        var cfg=document.createElement("button");cfg.textContent="SET URL";cfg.onclick=function(){
+          var old=localStorage.getItem(endpointKey(app.id))||"";
+          var val=prompt(app.name+" 服务地址（http/https）",old);
+          if(val===null)return;
+          val=val.trim();
+          if(val&&!validEndpoint(val)){pushNotice("ENDPOINT","地址必须以 http:// 或 https:// 开头。");return}
+          if(val)localStorage.setItem(endpointKey(app.id),val);else localStorage.removeItem(endpointKey(app.id));
+          renderIntegrationList();syncRemoteInputs();
+        };
+        var open=document.createElement("button");open.textContent="OPEN";open.onclick=function(){launchEndpoint(app.id)};
+        var repo=document.createElement("a");repo.textContent="REPO";repo.href=app.repo;repo.target="_blank";repo.rel="noreferrer";
+        controls.appendChild(cfg);controls.appendChild(open);controls.appendChild(repo);row.appendChild(left);row.appendChild(controls);box.appendChild(row);
+      });
+    }
+    renderIntegrationList();
+    function syncRemoteInputs(){
+      document.querySelectorAll("[data-endpoint]").forEach(function(i){i.value=localStorage.getItem(endpointKey(i.dataset.endpoint))||""});
+    }
+    syncRemoteInputs();
+    var saveEndpoints=document.getElementById("saveEndpoints");
+    if(saveEndpoints)saveEndpoints.onclick=function(){
+      var bad=false;
+      document.querySelectorAll("[data-endpoint]").forEach(function(i){
+        var v=i.value.trim();
+        if(v&&!validEndpoint(v)){bad=true;i.style.outline="2px solid rgba(255,90,120,.35)";return}
+        i.style.outline="";
+        if(v)localStorage.setItem(endpointKey(i.dataset.endpoint),v);else localStorage.removeItem(endpointKey(i.dataset.endpoint));
+      });
+      if(bad){pushNotice("REMOTE HUB","有地址格式不正确。");return}
+      renderIntegrationList();pushNotice("REMOTE HUB","服务节点地址已保存。");
+    };
+    document.querySelectorAll("[data-launch-endpoint]").forEach(function(b){b.onclick=function(){launchEndpoint(b.dataset.launchEndpoint)}});
+
+    // Local File Vault using IndexedDB
+    var vaultSelected=null,vaultObjectUrl=null;
+    function openVaultDb(){
+      return new Promise(function(resolve,reject){
+        var req=indexedDB.open("lr-os-vault",1);
+        req.onupgradeneeded=function(){var db=req.result;if(!db.objectStoreNames.contains("files"))db.createObjectStore("files",{keyPath:"id"})};
+        req.onsuccess=function(){resolve(req.result)};req.onerror=function(){reject(req.error)};
+      });
+    }
+    async function vaultAll(){
+      var db=await openVaultDb();
+      return new Promise(function(resolve,reject){var tx=db.transaction("files","readonly"),r=tx.objectStore("files").getAll();r.onsuccess=function(){resolve(r.result||[])};r.onerror=function(){reject(r.error)}});
+    }
+    async function vaultPut(obj){
+      var db=await openVaultDb();
+      return new Promise(function(resolve,reject){var tx=db.transaction("files","readwrite");tx.objectStore("files").put(obj);tx.oncomplete=resolve;tx.onerror=function(){reject(tx.error)}});
+    }
+    async function vaultRemove(id){
+      var db=await openVaultDb();
+      return new Promise(function(resolve,reject){var tx=db.transaction("files","readwrite");tx.objectStore("files").delete(id);tx.oncomplete=resolve;tx.onerror=function(){reject(tx.error)}});
+    }
+    async function renderVault(){
+      var box=document.getElementById("vaultList");if(!box)return;
+      var q=(document.getElementById("vaultSearch").value||"").toLowerCase(),items=await vaultAll();
+      items.sort(function(a,b){return (b.updated||0)-(a.updated||0)});box.innerHTML="";
+      items.filter(function(x){return x.name.toLowerCase().includes(q)}).forEach(function(x){
+        var row=document.createElement("div");row.className="listRow";row.style.cursor="pointer";
+        var d=document.createElement("div"),b=document.createElement("b"),sm=document.createElement("small");
+        b.textContent=x.name;sm.textContent=(x.type||"file")+" · "+Math.max(1,Math.round((x.size||0)/1024))+" KB";
+        d.appendChild(b);d.appendChild(sm);row.appendChild(d);
+        row.onclick=function(){vaultSelected=x;previewVault(x)};
+        box.appendChild(row);
+      });
+      if(!box.children.length)box.innerHTML='<div class="muted">文件仓为空。导入一些文件试试。</div>';
+    }
+    async function previewVault(x){
+      var p=document.getElementById("vaultPreview");if(vaultObjectUrl){URL.revokeObjectURL(vaultObjectUrl);vaultObjectUrl=null}
+      if(!x||!x.blob){p.textContent="无法读取该文件。";return}
+      if((x.type||"").startsWith("image/")){
+        vaultObjectUrl=URL.createObjectURL(x.blob);p.innerHTML="";var img=document.createElement("img");img.src=vaultObjectUrl;img.style.maxWidth="100%";img.style.maxHeight="360px";p.appendChild(img);
+      }else if((x.type||"").startsWith("text/")||/\.(txt|md|json|js|css|html|py|java|c|cpp|csv)$/i.test(x.name)){
+        try{p.textContent=await x.blob.text()}catch(e){p.textContent="文本预览失败。"}
+      }else p.textContent=x.name+"\nTYPE: "+(x.type||"unknown")+"\nSIZE: "+x.size+" bytes\n\n此类型不直接预览，可以下载到本机。";
+    }
+    var vaultImportBtn=document.getElementById("vaultImportBtn"),vaultFileInput=document.getElementById("vaultFileInput");
+    if(vaultImportBtn)vaultImportBtn.onclick=function(){vaultFileInput.click()};
+    if(vaultFileInput)vaultFileInput.onchange=async function(){
+      for(var i=0;i<vaultFileInput.files.length;i++){
+        var file=vaultFileInput.files[i];
+        await vaultPut({id:(crypto.randomUUID?crypto.randomUUID():String(Date.now())+"-"+i),name:file.name,type:file.type,size:file.size,updated:Date.now(),blob:file});
+      }
+      vaultFileInput.value="";await renderVault();pushNotice("FILE VAULT","文件已存入浏览器本地 IndexedDB。");
+    };
+    var vaultNewTextBtn=document.getElementById("vaultNewTextBtn");
+    if(vaultNewTextBtn)vaultNewTextBtn.onclick=async function(){
+      var name=prompt("文件名","note.txt");if(!name)return;var body=prompt("文本内容","");if(body===null)return;
+      var blob=new Blob([body],{type:"text/plain;charset=utf-8"});await vaultPut({id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),name:name,type:blob.type,size:blob.size,updated:Date.now(),blob:blob});renderVault();
+    };
+    var vaultSearch=document.getElementById("vaultSearch");if(vaultSearch)vaultSearch.oninput=renderVault;
+    var vaultDownloadBtn=document.getElementById("vaultDownloadBtn");if(vaultDownloadBtn)vaultDownloadBtn.onclick=function(){
+      if(!vaultSelected){pushNotice("FILE VAULT","先选择一个文件。");return}
+      var url=URL.createObjectURL(vaultSelected.blob),a=document.createElement("a");a.href=url;a.download=vaultSelected.name;a.click();setTimeout(function(){URL.revokeObjectURL(url)},1200);
+    };
+    var vaultDeleteBtn=document.getElementById("vaultDeleteBtn");if(vaultDeleteBtn)vaultDeleteBtn.onclick=async function(){
+      if(!vaultSelected)return;await vaultRemove(vaultSelected.id);vaultSelected=null;document.getElementById("vaultPreview").textContent="选择一个文件预览。";renderVault();
+    };
+    renderVault();
+
+    // Memory Vault
+    var memorySelected=null;
+    function loadMemories(){try{return JSON.parse(localStorage.getItem("lr-memories")||"[]")}catch(e){return[]}}
+    function saveMemories(arr){localStorage.setItem("lr-memories",JSON.stringify(arr))}
+    function renderMemories(){
+      var box=document.getElementById("memoryList");if(!box)return;var q=(document.getElementById("memorySearch").value||"").toLowerCase(),arr=loadMemories();box.innerHTML="";
+      arr.filter(function(x){return (x.title+" "+x.text).toLowerCase().includes(q)}).sort(function(a,b){return b.updated-a.updated}).forEach(function(x){
+        var row=document.createElement("div");row.className="listRow";row.style.cursor="pointer";
+        var d=document.createElement("div"),b=document.createElement("b"),sm=document.createElement("small");b.textContent=x.title||"未命名记忆";sm.textContent=new Date(x.updated).toLocaleString();
+        d.appendChild(b);d.appendChild(sm);row.appendChild(d);row.onclick=function(){memorySelected=x.id;document.getElementById("memoryTitle").value=x.title;document.getElementById("memoryText").value=x.text};box.appendChild(row);
+      });
+      if(!box.children.length)box.innerHTML='<div class="muted">还没有记忆。随手记一点。</div>';
+    }
+    document.getElementById("memoryNew").onclick=function(){memorySelected=null;document.getElementById("memoryTitle").value="";document.getElementById("memoryText").value="";document.getElementById("memoryTitle").focus()};
+    document.getElementById("memorySave").onclick=function(){
+      var title=document.getElementById("memoryTitle").value.trim()||"未命名记忆",text=document.getElementById("memoryText").value,arr=loadMemories(),now=Date.now();
+      if(memorySelected){var x=arr.find(function(m){return m.id===memorySelected});if(x){x.title=title;x.text=text;x.updated=now}}
+      else{memorySelected=crypto.randomUUID?crypto.randomUUID():String(now);arr.push({id:memorySelected,title:title,text:text,updated:now})}
+      saveMemories(arr);renderMemories();pushNotice("MEMORY VAULT","记忆已保存在当前浏览器。");
+    };
+    document.getElementById("memoryDelete").onclick=function(){if(!memorySelected)return;saveMemories(loadMemories().filter(function(x){return x.id!==memorySelected}));memorySelected=null;document.getElementById("memoryTitle").value="";document.getElementById("memoryText").value="";renderMemories()};
+    document.getElementById("memorySearch").oninput=renderMemories;renderMemories();
+
+    // Local Automation Hub (site-safe macro runner)
+    var macroSelected=null;
+    function loadMacros(){try{return JSON.parse(localStorage.getItem("lr-macros")||"[]")}catch(e){return[]}}
+    function saveMacros(a){localStorage.setItem("lr-macros",JSON.stringify(a))}
+    var macroWindows={tools:"toolDeckWin",github:"githubWin",memory:"memoryWin",files:"vaultWin",image:"imageWin",pdf:"pdfWin",clipboard:"clipboardWin",remote:"remoteWin",apps:"appStoreWin"};
+    async function runMacro(script){
+      var lines=script.split(/\r?\n/).map(function(x){return x.trim()}).filter(Boolean);
+      for(var i=0;i<lines.length;i++){
+        var line=lines[i],parts=line.split(/\s+/),cmd=parts.shift().toLowerCase(),arg=parts.join(" ");
+        if(cmd==="theme"&&["aurora","sakura","ice"].includes(arg)){var tb=document.querySelector('.themeBtn[data-theme="'+arg+'"]');if(tb)tb.click()}
+        else if(cmd==="open"&&macroWindows[arg])openWin(macroWindows[arg]);
+        else if(cmd==="goto"){var el=document.getElementById(arg)||document.querySelector("#"+CSS.escape(arg));if(el)el.scrollIntoView({behavior:"smooth"})}
+        else if(cmd==="url"&&validEndpoint(arg))window.open(arg,"_blank","noopener,noreferrer");
+        else if(cmd==="wait"){var ms=Math.max(0,Math.min(5000,parseInt(arg,10)||0));await new Promise(function(r){setTimeout(r,ms)})}
+        else pushNotice("MACRO","跳过未知/不安全命令："+line);
+      }
+    }
+    function renderMacros(){
+      var box=document.getElementById("macroList"),arr=loadMacros();box.innerHTML="";
+      arr.forEach(function(x){var row=document.createElement("div");row.className="listRow";row.style.cursor="pointer";var d=document.createElement("div"),b=document.createElement("b"),sm=document.createElement("small");b.textContent=x.name;sm.textContent=x.script.split(/\r?\n/).filter(Boolean).length+" steps";d.appendChild(b);d.appendChild(sm);row.appendChild(d);row.onclick=function(){macroSelected=x.id;document.getElementById("macroName").value=x.name;document.getElementById("macroScript").value=x.script};box.appendChild(row)});
+      if(!box.children.length)box.innerHTML='<div class="muted">还没有 Macro。</div>';
+    }
+    document.getElementById("macroNew").onclick=function(){macroSelected=null;document.getElementById("macroName").value="";document.getElementById("macroScript").value="theme ice\nopen tools\nwait 300\ngoto projects"};
+    document.getElementById("macroRun").onclick=function(){runMacro(document.getElementById("macroScript").value)};
+    document.getElementById("macroSave").onclick=function(){
+      var name=document.getElementById("macroName").value.trim()||"Untitled Macro",script=document.getElementById("macroScript").value,arr=loadMacros();
+      if(macroSelected){var m=arr.find(function(x){return x.id===macroSelected});if(m){m.name=name;m.script=script}}
+      else{macroSelected=crypto.randomUUID?crypto.randomUUID():String(Date.now());arr.push({id:macroSelected,name:name,script:script})}
+      saveMacros(arr);renderMacros();pushNotice("AUTOMATION","Macro 已保存。");
+    };
+    document.getElementById("macroDelete").onclick=function(){if(!macroSelected)return;saveMacros(loadMacros().filter(function(x){return x.id!==macroSelected}));macroSelected=null;document.getElementById("macroName").value="";document.getElementById("macroScript").value="";renderMacros()};renderMacros();
+
+    // Image Lab
+    var imgCanvas=document.getElementById("imageCanvas"),imgCtx=imgCanvas.getContext("2d"),imageOriginal=null,imageRotation=0,imageFlip=false;
+    function imagePlaceholder(){
+      imgCanvas.width=640;imgCanvas.height=360;imgCtx.fillStyle="#0b1430";imgCtx.fillRect(0,0,640,360);imgCtx.fillStyle="#83a1df";imgCtx.font="700 18px ui-monospace, monospace";imgCtx.textAlign="center";imgCtx.fillText("LR // IMAGE LAB",320,174);imgCtx.font="12px ui-monospace, monospace";imgCtx.fillText("OPEN IMAGE TO START",320,198);
+    }
+    imagePlaceholder();
+    function redrawImage(){
+      if(!imageOriginal)return;var swap=imageRotation%180!==0,w=swap?imageOriginal.height:imageOriginal.width,h=swap?imageOriginal.width:imageOriginal.height;
+      var max=1400,scale=Math.min(1,max/Math.max(w,h));w=Math.max(1,Math.round(w*scale));h=Math.max(1,Math.round(h*scale));imgCanvas.width=w;imgCanvas.height=h;
+      imgCtx.save();imgCtx.translate(w/2,h/2);imgCtx.rotate(imageRotation*Math.PI/180);imgCtx.scale(imageFlip?-1:1,1);
+      var dw=imageOriginal.width*scale,dh=imageOriginal.height*scale;imgCtx.drawImage(imageOriginal,-dw/2,-dh/2,dw,dh);imgCtx.restore();
+    }
+    document.getElementById("imageOpen").onclick=function(){document.getElementById("imageFileInput").click()};
+    document.getElementById("imageFileInput").onchange=function(e){var file=e.target.files[0];if(!file)return;var url=URL.createObjectURL(file),img=new Image();img.onload=function(){imageOriginal=img;imageRotation=0;imageFlip=false;redrawImage();URL.revokeObjectURL(url)};img.src=url};
+    document.querySelectorAll("[data-img-action]").forEach(function(b){b.onclick=function(){
+      var a=b.dataset.imgAction;if(!imageOriginal&&a!=="reset"){pushNotice("IMAGE LAB","先打开一张图片。");return}
+      if(a==="rotate"){imageRotation=(imageRotation+90)%360;redrawImage()}
+      else if(a==="flip"){imageFlip=!imageFlip;redrawImage()}
+      else if(a==="reset"){imageRotation=0;imageFlip=false;if(imageOriginal)redrawImage();else imagePlaceholder()}
+      else{
+        var data=imgCtx.getImageData(0,0,imgCanvas.width,imgCanvas.height),p=data.data;
+        for(var i=0;i<p.length;i+=4){
+          if(a==="gray"){var y=Math.round(.299*p[i]+.587*p[i+1]+.114*p[i+2]);p[i]=p[i+1]=p[i+2]=y}
+          if(a==="invert"){p[i]=255-p[i];p[i+1]=255-p[i+1];p[i+2]=255-p[i+2]}
+        }
+        imgCtx.putImageData(data,0,0);
+      }
+    }});
+    document.getElementById("imageDownload").onclick=function(){if(!imageOriginal)return;var a=document.createElement("a");a.download="lr-image.png";a.href=imgCanvas.toDataURL("image/png");a.click()};
+
+    // PDF Center
+    var pdfObjectUrl=null;
+    document.getElementById("pdfOpen").onclick=function(){document.getElementById("pdfFileInput").click()};
+    document.getElementById("pdfFileInput").onchange=function(e){var f=e.target.files[0];if(!f)return;if(pdfObjectUrl)URL.revokeObjectURL(pdfObjectUrl);pdfObjectUrl=URL.createObjectURL(f);document.getElementById("pdfFrame").src=pdfObjectUrl};
+    document.getElementById("openStirling").onclick=function(){launchEndpoint("stirling")};
+
+    // Clipboard Vault
+    function loadClips(){try{return JSON.parse(localStorage.getItem("lr-clips")||"[]")}catch(e){return[]}}
+    function saveClips(a){localStorage.setItem("lr-clips",JSON.stringify(a))}
+    function renderClips(){
+      var box=document.getElementById("clipList"),q=(document.getElementById("clipSearch").value||"").toLowerCase(),arr=loadClips();box.innerHTML="";
+      arr.filter(function(x){return x.text.toLowerCase().includes(q)}).sort(function(a,b){return b.time-a.time}).forEach(function(x){
+        var row=document.createElement("div");row.className="listRow";var d=document.createElement("div"),b=document.createElement("b"),sm=document.createElement("small");b.textContent=x.text.slice(0,70)||( "(empty)" );sm.textContent=new Date(x.time).toLocaleString();d.appendChild(b);d.appendChild(sm);
+        var actions=document.createElement("div");actions.className="rowActions";var cp=document.createElement("button");cp.textContent="COPY";cp.onclick=async function(){try{await navigator.clipboard.writeText(x.text);pushNotice("CLIPBOARD","已复制。")}catch(e){}};
+        var del=document.createElement("button");del.textContent="DEL";del.onclick=function(){saveClips(loadClips().filter(function(c){return c.id!==x.id}));renderClips()};actions.appendChild(cp);actions.appendChild(del);row.appendChild(d);row.appendChild(actions);box.appendChild(row);
+      });
+      if(!box.children.length)box.innerHTML='<div class="muted">没有保存的片段。</div>';
+    }
+    document.getElementById("clipSave").onclick=function(){var t=document.getElementById("clipText").value;if(!t.trim())return;var a=loadClips();a.push({id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),text:t,time:Date.now()});saveClips(a);document.getElementById("clipText").value="";renderClips()};
+    document.getElementById("clipRead").onclick=async function(){try{document.getElementById("clipText").value=await navigator.clipboard.readText()}catch(e){pushNotice("CLIPBOARD","浏览器未授予读取剪贴板权限。")}};
+    document.getElementById("clipSearch").oninput=renderClips;renderClips();
+
+    // Extend terminal with LR//OS Suite commands
+    if(typeof cmds==="object"){
+      cmds.apps="opening LR_APP_MATRIX.pkg...";
+      cmds.files="opening LOCAL_FILE_VAULT.idb...";
+      cmds.memory="opening MEMORY_VAULT.local...";
+      cmds.macro="opening AUTOMATION_HUB.local...";
+      cmds.image="opening IMAGE_LAB.canvas...";
+      cmds.pdf="opening PDF_CENTER.local...";
+      cmds.clip="opening CLIPBOARD_VAULT.local...";
+      cmds.remote="opening REMOTE_HUB.connect...";
+      cmds.mode="opening LR_OS_MODE.switch...";
+      cmds.help="commands: help, about, projects, tools, github, apps, files, memory, macro, image, pdf, clip, remote, mode, skills, globe, ai, universe, achievements, device, theme, clear, matrix, status";
+    }
+    var suiteTermHandler=function(e){
+      if(e.key!=="Enter")return;
+      var c=(termInput.value||"").trim().toLowerCase();
+      var map={apps:"appStoreWin",files:"vaultWin",memory:"memoryWin",macro:"automationWin",image:"imageWin",pdf:"pdfWin",clip:"clipboardWin",remote:"remoteWin",mode:"shellWin"};
+      if(map[c]){
+        e.stopImmediatePropagation();termPrint("lr@space:~$ "+c,"tGreen");termInput.value="";termPrint(cmds[c],"tCyan");openWin(map[c]);
+      }
+    };
+    termInput.addEventListener("keydown",suiteTermHandler,true);
+
+    // Add command palette suite shortcuts
+    var suitePalette=document.getElementById("cmdList");
+    if(suitePalette&&!suitePalette.querySelector("[data-suite-win]")){
+      suitePalette.insertAdjacentHTML("afterbegin",
+        '<div class="cmdItem" data-suite-win="appStoreWin"><span>打开 App Matrix</span><small>APPS</small></div>'+
+        '<div class="cmdItem" data-suite-win="vaultWin"><span>打开本地文件仓</span><small>FILES</small></div>'+
+        '<div class="cmdItem" data-suite-win="memoryWin"><span>打开记忆中心</span><small>MEMORY</small></div>'+
+        '<div class="cmdItem" data-suite-win="automationWin"><span>打开自动化中心</span><small>MACRO</small></div>'+
+        '<div class="cmdItem" data-suite-win="imageWin"><span>打开图片实验室</span><small>IMAGE</small></div>'+
+        '<div class="cmdItem" data-suite-win="pdfWin"><span>打开 PDF 中心</span><small>PDF</small></div>');
+      suitePalette.querySelectorAll("[data-suite-win]").forEach(function(i){i.onclick=function(){closePalette();openWin(i.dataset.suiteWin)}});
+    }
+
+
     // Creative interactions
     const ideas=[
       ["做一个只有自己看得懂的彩蛋","比如连续点击头像 5 次，弹出隐藏页面。"],
