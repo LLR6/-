@@ -4,8 +4,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="theme-color" content="#eef4ff" />
-  <meta name="description" content="LR 的个人空间：技术、学习、项目、生活记录与灵感收藏。" />
-  <title>LR // Personal Space</title>
+  <meta name="description" content="LR CyberSpace：个人数字基地、工具中心、GitHub 动态、学习与项目记录。" />
+  <title>LR // CyberSpace</title>
   <style>
     :root{
       --bg:#f8fbff;--bg2:#eef4ff;--card:rgba(255,255,255,.64);--line:rgba(110,126,255,.18);
@@ -539,6 +539,49 @@
       .heroChannels>span{min-width:96px}
     }
 
+  
+    /* === LR CYBERSPACE TOOL DECK === */
+    .cyberDeck{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+    .cyberQuickCard{grid-column:span 3;padding:20px;min-height:170px;display:flex;flex-direction:column;gap:10px;cursor:pointer}
+    .cyberQuickCard:hover{transform:translateY(-5px)}
+    .cyberQuickCard .cyberIcon{font-size:24px}
+    .cyberQuickCard .cyberCode{font:800 9px ui-monospace,monospace;letter-spacing:.15em;color:#7785ad}
+    .cyberQuickCard h3{margin:2px 0 0;font-size:20px;color:#273a82}
+    .cyberQuickCard p{margin:0;color:var(--muted);font-size:13px;line-height:1.65}
+    .cyberQuickCard .cyberGo{margin-top:auto;font:900 10px ui-monospace,monospace;letter-spacing:.1em;color:#4961bd}
+    .cyberLinkStrip{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+    .cyberLink{padding:9px 11px;border-radius:9px;border:1px solid rgba(75,104,205,.13);background:rgba(255,255,255,.7);font:800 10px ui-monospace,monospace;color:#5365ac}
+    .cyberLink:hover{background:rgba(73,106,213,.08)}
+    .toolDeck{display:grid;gap:12px}
+    .toolModeRow{display:grid;grid-template-columns:1fr auto;gap:10px}
+    .toolSelect,.toolTextarea,.toolResult{width:100%;border:1px solid rgba(78,104,199,.15);background:rgba(255,255,255,.82);border-radius:10px;color:#28366f;outline:none}
+    .toolSelect{padding:11px 12px;font-weight:800}
+    .toolTextarea{min-height:150px;resize:vertical;padding:13px;font:12px/1.65 ui-monospace,Consolas,monospace}
+    .toolResult{min-height:110px;padding:13px;white-space:pre-wrap;word-break:break-word;font:12px/1.65 ui-monospace,Consolas,monospace;background:#0b1430;color:#dce9ff}
+    .toolActions{display:flex;gap:8px;flex-wrap:wrap}
+    .toolAction{border:1px solid rgba(76,104,204,.14);background:rgba(255,255,255,.82);color:#4056ad;border-radius:9px;padding:9px 12px;font-weight:900;cursor:pointer}
+    .toolAction.primary{border:0;background:linear-gradient(118deg,#5368df,#7169f4,#35bfdc);color:white}
+    .toolHint{font:10px/1.6 ui-monospace,monospace;color:#8490b2}
+    .ghRadar{display:grid;grid-template-columns:.72fr 1.28fr;gap:14px}
+    .ghProfileCard{padding:22px;display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+    .ghProfileCard img{width:76px;height:76px;border-radius:18px;border:3px solid rgba(255,255,255,.95);box-shadow:0 10px 28px rgba(68,86,170,.16)}
+    .ghProfileName{font-size:24px;font-weight:1000;color:#25377d}
+    .ghMeta{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;width:100%}
+    .ghMeta div{padding:10px;border-radius:10px;background:rgba(255,255,255,.58);border:1px solid rgba(80,108,205,.09)}
+    .ghMeta span{display:block;font:800 8px ui-monospace,monospace;letter-spacing:.12em;color:#8b95b6}
+    .ghMeta b{display:block;margin-top:4px;color:#4056ad}
+    .ghEvents{padding:16px;max-height:360px;overflow:auto}
+    .ghEvent{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:start;padding:11px 8px;border-bottom:1px solid rgba(77,104,198,.08)}
+    .ghEvent:last-child{border-bottom:0}
+    .ghType{min-width:54px;padding:5px 7px;border-radius:6px;background:rgba(71,109,219,.08);font:900 8px ui-monospace,monospace;text-align:center;color:#5268bb}
+    .ghEvent b{font-size:12px;color:#354794;word-break:break-word}
+    .ghEvent small{display:block;margin-top:3px;color:#7d88ac;line-height:1.45}
+    .ghEvent time{font:700 8px ui-monospace,monospace;color:#9aa4c1;white-space:nowrap}
+    .ghHead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
+    .ghRefresh{border:1px solid rgba(78,105,205,.14);background:rgba(255,255,255,.72);border-radius:8px;padding:7px 9px;color:#5367af;font-weight:900;cursor:pointer}
+    @media(max-width:900px){.cyberQuickCard{grid-column:span 6}.ghRadar{grid-template-columns:1fr}}
+    @media(max-width:560px){.cyberQuickCard{grid-column:span 12}.toolModeRow{grid-template-columns:1fr}.ghEvent{grid-template-columns:auto 1fr}.ghEvent time{display:none}}
+
   </style>
 </head>
 <body data-theme="aurora">
@@ -561,8 +604,8 @@
   <div class="systemRail"><div class="railItem">LR PERSONAL TERMINAL</div><div class="railPulse"></div><div class="railItem">SYSTEM ONLINE</div></div>
   <canvas id="stars"></canvas><div class="aurora one"></div><div class="aurora two"></div><div class="aurora three"></div><div id="cursorGlow"></div><div class="orb a"></div><div class="orb b"></div>
   <nav class="nav">
-    <a class="brand" href="#top"><i>LR</i> // SPACE</a>
-    <div class="navlinks"><a href="#articles">文章</a><a href="#timeline">记录</a><a href="#projects">项目</a><a href="#about">关于</a></div>
+    <a class="brand" href="#top"><i>LR</i> // CYBERSPACE</a>
+    <div class="navlinks"><a href="#tools">工具</a><a href="#github-radar">GitHub</a><a href="#articles">文章</a><a href="#timeline">记录</a><a href="#projects">项目</a><a href="#about">关于</a></div>
     <span class="pill" id="clock">--:--:--</span>
   </nav>
 
@@ -682,6 +725,54 @@
       </div>
     </section>
 
+
+    <section id="tools" class="reveal">
+      <div class="head"><div><div class="eyebrow">01 / CYBER TOOL DECK</div><h2>LR 工具中心</h2></div><p>不是摆设：这些工具直接在浏览器本地运行，处理内容默认不会上传到服务器。</p></div>
+      <div class="cyberDeck">
+        <div class="glass cyberQuickCard" data-open-cyber="toolDeckWin">
+          <div class="cyberIcon">⌘</div><div class="cyberCode">FORMAT / ENCODE</div><h3>开发瑞士军刀</h3><p>JSON 美化与压缩、Base64、URL 编解码、时间戳转换。</p><div class="cyberGo">OPEN TOOL DECK →</div>
+        </div>
+        <div class="glass cyberQuickCard" data-open-cyber="toolDeckWin">
+          <div class="cyberIcon">#</div><div class="cyberCode">HASH / GENERATOR</div><h3>哈希与生成器</h3><p>SHA-256、UUID、随机高强度密码，随手就能用。</p><div class="cyberGo">RUN LOCAL →</div>
+        </div>
+        <div class="glass cyberQuickCard" data-open-cyber="githubWin">
+          <div class="cyberIcon">◈</div><div class="cyberCode">GITHUB / RADAR</div><h3>GitHub 雷达</h3><p>读取 LLR6 的公开活动，把主页和你的真实开发轨迹连起来。</p><div class="cyberGo">SCAN ACTIVITY →</div>
+        </div>
+        <div class="glass cyberQuickCard" onclick="document.querySelector('#projects')?.scrollIntoView({behavior:'smooth'})">
+          <div class="cyberIcon">◎</div><div class="cyberCode">PROJECT / HUB</div><h3>项目入口</h3><p>LR 系列工具、CTF、学习系统和那些不断冒出来的新想法。</p><div class="cyberGo">ENTER PROJECTS →</div>
+        </div>
+      </div>
+      <div class="cyberLinkStrip">
+        <a class="cyberLink" href="https://github.com/LLR6" target="_blank" rel="noreferrer">GitHub / LLR6 ↗</a>
+        <a class="cyberLink" href="https://github.com/schlagmichdoch/PairDrop" target="_blank" rel="noreferrer">PairDrop ↗</a>
+        <a class="cyberLink" href="https://github.com/localsend/localsend" target="_blank" rel="noreferrer">LocalSend ↗</a>
+        <a class="cyberLink" href="https://github.com/CorentinTh/it-tools" target="_blank" rel="noreferrer">IT-Tools ↗</a>
+        <a class="cyberLink" href="https://github.com/open-webui/open-webui" target="_blank" rel="noreferrer">Open WebUI ↗</a>
+      </div>
+    </section>
+
+    <section id="github-radar" class="reveal">
+      <div class="head"><div><div class="eyebrow">02 / GITHUB RADAR</div><h2>代码活动雷达</h2></div><p>自动读取公开 GitHub 数据；如果 API 暂时限流，页面会保留静态入口，不影响其它功能。</p></div>
+      <div class="ghRadar">
+        <div class="glass ghProfileCard">
+          <img src="https://github.com/LLR6.png" alt="LLR6 GitHub avatar" />
+          <div class="ghProfileName">LLR6</div>
+          <div class="muted" id="ghBio">正在连接 GitHub 公共节点…</div>
+          <div class="ghMeta">
+            <div><span>PUBLIC REPOS</span><b id="ghRepos">--</b></div>
+            <div><span>FOLLOWERS</span><b id="ghFollowers">--</b></div>
+            <div><span>EVENTS</span><b id="ghEventCount">--</b></div>
+            <div><span>LAST SIGNAL</span><b id="ghLastActivity">--</b></div>
+          </div>
+          <button class="toolAction primary" data-open-cyber="githubWin">打开完整雷达</button>
+        </div>
+        <div class="glass ghEvents">
+          <div class="ghHead"><div class="mono">PUBLIC ACTIVITY // LIVE</div><button class="ghRefresh" id="ghRefreshInline">REFRESH</button></div>
+          <div id="ghEventsInline"><div class="muted">Scanning github.com/LLR6 …</div></div>
+        </div>
+      </div>
+    </section>
+
     <section id="articles" class="reveal">
       <div class="head"><div><div class="eyebrow">01 / NOTES</div><h2>最近写了什么</h2></div><p>技术、学习和碎碎念都放在这里。点击卡片可以直接阅读。</p></div>
       <div class="filter" id="filters"></div><div class="posts" id="posts"></div>
@@ -732,6 +823,8 @@
     <button class="dockBtn" id="notifyBtn" title="通知中心" data-label="NOTIFY">♢</button>
     <button class="dockBtn" data-win="achievementWin" title="成就" data-label="ACHIEVE">★</button>
     <button class="dockBtn" data-win="deviceWin" title="设备状态" data-label="DEVICE">▣</button>
+    <button class="dockBtn" data-win="toolDeckWin" title="LR Tool Deck" data-label="TOOLS">⌁</button>
+    <button class="dockBtn" data-win="githubWin" title="GitHub Radar" data-label="GITHUB">GH</button>
     <button class="dockBtn" data-win="aiWin" title="LR AI Core" data-label="AI CORE">◈</button>
     <button class="dockBtn" data-win="universeWin" title="项目宇宙" data-label="UNIVERSE">◎</button>
     <button class="dockBtn" data-win="terminalWin" title="终端" data-label="TERMINAL">⌘</button>
@@ -795,6 +888,54 @@
         <div class="universeHud">PROJECT SPACE<br><b>5 NODES ONLINE</b><br>GRAVITY // STABLE</div>
         <div class="universeTip">移动鼠标观察空间 · 点击节点传送</div>
       </div>
+    </div>
+  </div>
+
+
+  <div class="osWindow" id="toolDeckWin">
+    <div class="winBar">
+      <i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i>
+      <span class="winTitle">LR_TOOL_DECK.local</span>
+      <div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div>
+    </div>
+    <div class="winBody">
+      <div class="toolDeck">
+        <div class="toolModeRow">
+          <select class="toolSelect" id="cyberToolMode">
+            <option value="json-format">JSON / 格式化</option>
+            <option value="json-minify">JSON / 压缩</option>
+            <option value="base64-encode">Base64 / 编码</option>
+            <option value="base64-decode">Base64 / 解码</option>
+            <option value="url-encode">URL / 编码</option>
+            <option value="url-decode">URL / 解码</option>
+            <option value="sha256">SHA-256</option>
+            <option value="timestamp">时间戳 / 日期转换</option>
+            <option value="uuid">UUID v4</option>
+            <option value="password">随机密码</option>
+          </select>
+          <button class="toolAction" id="cyberExample">示例</button>
+        </div>
+        <textarea class="toolTextarea" id="cyberToolInput" placeholder="在这里输入内容。UUID / 随机密码模式可留空。"></textarea>
+        <div class="toolActions">
+          <button class="toolAction primary" id="cyberRun">RUN</button>
+          <button class="toolAction" id="cyberCopy">COPY RESULT</button>
+          <button class="toolAction" id="cyberClear">CLEAR</button>
+        </div>
+        <div class="toolResult" id="cyberToolResult">LR//TOOL-DECK READY_</div>
+        <div class="toolHint">LOCAL FIRST · JSON / Base64 / URL / SHA-256 等处理均在浏览器端完成。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="osWindow" id="githubWin">
+    <div class="winBar">
+      <i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i>
+      <span class="winTitle">GITHUB_RADAR // LLR6</span>
+      <div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div>
+    </div>
+    <div class="winBody">
+      <div class="ghHead"><div><div class="mono">github.com/LLR6</div><div style="font-size:24px;font-weight:1000;color:#26377d;margin-top:5px">PUBLIC ACTIVITY RADAR</div></div><button class="ghRefresh" id="ghRefreshWindow">REFRESH</button></div>
+      <div class="ghEvents" style="padding:4px 0 0"><div id="ghEventsWindow"><div class="muted">Waiting for GitHub signal…</div></div></div>
     </div>
   </div>
 
@@ -1113,7 +1254,7 @@
     // terminal commands
     const termInput=document.getElementById("termInput"),terminalOut=document.getElementById("terminalOut");
     const cmds={
-      help:"commands: help, about, projects, skills, globe, ai, universe, achievements, device, theme, clear, matrix, status",
+      help:"commands: help, about, projects, tools, github, skills, globe, ai, universe, achievements, device, theme, clear, matrix, status",
       about:"LR//OS is a personal digital base for code, security, study and ideas.",
       projects:"opening PROJECTS module...",
       skills:"opening SKILL_UNIVERSE...",
@@ -1122,6 +1263,8 @@
       universe:"opening PROJECT_UNIVERSE.3d...",
       achievements:"opening ACHIEVEMENTS.db...",
       device:"opening DEVICE_TELEMETRY.sys...",
+      tools:"opening LR_TOOL_DECK.local...",
+      github:"opening GITHUB_RADAR...",
       theme:"themes: aurora / sakura / ice",
       status:"CORE=ONLINE | NODE=LR-01 | CREATIVE=ACTIVE | SECURITY=NORMAL",
       matrix:"01001100 01010010 // signal acquired."
@@ -1139,6 +1282,8 @@
       if(c==="universe"){termPrint(cmds.universe,"tViolet");openWin("universeWin");return}
       if(c==="achievements"){termPrint(cmds.achievements,"tCyan");openWin("achievementWin");return}
       if(c==="device"){termPrint(cmds.device,"tCyan");openWin("deviceWin");return}
+      if(c==="tools"){termPrint(cmds.tools,"tCyan");openWin("toolDeckWin");return}
+      if(c==="github"){termPrint(cmds.github,"tCyan");openWin("githubWin");return}
       if(c==="bios"){termPrint("hidden firmware layer detected...","tGreen");openBios();return}
       if(c==="shutdown"){termPrint("suspending LR//OS...","tPink");setTimeout(()=>powerOverlay.classList.add("show"),280);return}
       if(c.startsWith("theme ")){const t=c.split(/\s+/)[1],btn=document.querySelector('.themeBtn[data-theme="'+t+'"]');if(btn){btn.click();termPrint("theme switched to "+t,"tPink")}else termPrint("unknown theme","tPink");return}
@@ -1182,6 +1327,144 @@
     function sizeNet(){const d=devicePixelRatio||1;nc.width=innerWidth*d;nc.height=innerHeight*d;nc.style.width=innerWidth+"px";nc.style.height=innerHeight+"px";nx.setTransform(d,0,0,d,0,0);nodes=Array.from({length:Math.min(46,Math.floor(innerWidth/30)+16)},()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight,vx:(Math.random()-.5)*.12,vy:(Math.random()-.5)*.12}))}
     function drawNet(){nx.clearRect(0,0,innerWidth,innerHeight);for(let i=0;i<nodes.length;i++){const a=nodes[i];a.x+=a.vx;a.y+=a.vy;if(a.x<0||a.x>innerWidth)a.vx*=-1;if(a.y<0||a.y>innerHeight)a.vy*=-1;for(let j=i+1;j<nodes.length;j++){const b=nodes[j],dx=a.x-b.x,dy=a.y-b.y,dist=Math.hypot(dx,dy);if(dist<145){nx.strokeStyle="rgba(76,112,255,"+(0.13*(1-dist/145))+")";nx.lineWidth=.7;nx.beginPath();nx.moveTo(a.x,a.y);nx.lineTo(b.x,b.y);nx.stroke()}}nx.fillStyle="rgba(48,205,235,.34)";nx.beginPath();nx.arc(a.x,a.y,1.3,0,Math.PI*2);nx.fill()}requestAnimationFrame(drawNet)}
     addEventListener("resize",sizeNet);sizeNet();drawNet();
+
+
+    // LR CyberSpace services
+    document.querySelectorAll("[data-open-cyber]").forEach(function(el){
+      el.addEventListener("click",function(){ openWin(el.dataset.openCyber); });
+    });
+
+    var cyberMode=document.getElementById("cyberToolMode");
+    var cyberInput=document.getElementById("cyberToolInput");
+    var cyberResult=document.getElementById("cyberToolResult");
+    function cyberUtf8ToBase64(str){
+      var bytes=new TextEncoder().encode(str), bin="";
+      bytes.forEach(function(b){bin+=String.fromCharCode(b)});
+      return btoa(bin);
+    }
+    function cyberBase64ToUtf8(str){
+      var bin=atob(str.trim()), bytes=new Uint8Array(bin.length);
+      for(var i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);
+      return new TextDecoder().decode(bytes);
+    }
+    function cyberPassword(len){
+      len=len||24;
+      var chars="ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%^&*_-+=";
+      var arr=new Uint32Array(len);crypto.getRandomValues(arr);
+      return Array.from(arr,function(x){return chars[x%chars.length]}).join("");
+    }
+    async function cyberSha256(str){
+      var buf=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(str));
+      return Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,"0")}).join("");
+    }
+    async function cyberRunTool(){
+      var mode=cyberMode.value, raw=cyberInput.value, out="";
+      try{
+        if(mode==="json-format")out=JSON.stringify(JSON.parse(raw),null,2);
+        else if(mode==="json-minify")out=JSON.stringify(JSON.parse(raw));
+        else if(mode==="base64-encode")out=cyberUtf8ToBase64(raw);
+        else if(mode==="base64-decode")out=cyberBase64ToUtf8(raw);
+        else if(mode==="url-encode")out=encodeURIComponent(raw);
+        else if(mode==="url-decode")out=decodeURIComponent(raw);
+        else if(mode==="sha256")out=await cyberSha256(raw);
+        else if(mode==="uuid")out=(crypto.randomUUID?crypto.randomUUID():cyberPassword(32));
+        else if(mode==="password"){
+          var n=parseInt(raw,10);out=cyberPassword(Number.isFinite(n)&&n>=8&&n<=128?n:24);
+        }else if(mode==="timestamp"){
+          var v=raw.trim();
+          if(/^\d{10,13}$/.test(v)){
+            var n2=Number(v);if(v.length===10)n2*=1000;
+            var d=new Date(n2);out="ISO: "+d.toISOString()+"\nLOCAL: "+d.toLocaleString()+"\nMILLISECONDS: "+d.getTime()+"\nSECONDS: "+Math.floor(d.getTime()/1000);
+          }else{
+            var d2=v?new Date(v):new Date();
+            if(Number.isNaN(d2.getTime()))throw new Error("无法识别这个日期/时间");
+            out="ISO: "+d2.toISOString()+"\nLOCAL: "+d2.toLocaleString()+"\nMILLISECONDS: "+d2.getTime()+"\nSECONDS: "+Math.floor(d2.getTime()/1000);
+          }
+        }
+        cyberResult.textContent=out||"(empty result)";
+      }catch(err){cyberResult.textContent="ERROR // "+(err&&err.message?err.message:String(err))}
+    }
+    document.getElementById("cyberRun").onclick=cyberRunTool;
+    document.getElementById("cyberCopy").onclick=async function(){
+      try{await navigator.clipboard.writeText(cyberResult.textContent);pushNotice("TOOL DECK","结果已复制到剪贴板。")}catch(e){pushNotice("TOOL DECK","浏览器没有授予剪贴板权限。")}
+    };
+    document.getElementById("cyberClear").onclick=function(){cyberInput.value="";cyberResult.textContent="LR//TOOL-DECK READY_"};
+    document.getElementById("cyberExample").onclick=function(){
+      var m=cyberMode.value;
+      if(m.indexOf("json")===0)cyberInput.value='{"name":"LR","system":"CyberSpace","online":true,"tools":["JSON","SHA-256","UUID"]}';
+      else if(m==="timestamp")cyberInput.value=String(Date.now());
+      else if(m==="password")cyberInput.value="24";
+      else cyberInput.value="Hello, LR CyberSpace!";
+    };
+    cyberMode.onchange=function(){cyberResult.textContent="MODE // "+cyberMode.options[cyberMode.selectedIndex].text};
+
+    function ghTypeLabel(type){
+      var map={PushEvent:"PUSH",WatchEvent:"STAR",CreateEvent:"CREATE",ForkEvent:"FORK",IssuesEvent:"ISSUE",PullRequestEvent:"PR",IssueCommentEvent:"COMMENT",ReleaseEvent:"RELEASE"};
+      return map[type]||type.replace("Event","").toUpperCase();
+    }
+    function ghEventDesc(e){
+      var repo=e.repo&&e.repo.name?e.repo.name:"GitHub";
+      if(e.type==="PushEvent"){
+        var count=e.payload&&Array.isArray(e.payload.commits)?e.payload.commits.length:0;
+        return "向 "+repo+" 推送 "+count+" 个提交";
+      }
+      if(e.type==="WatchEvent")return "Starred "+repo;
+      if(e.type==="CreateEvent")return "创建 "+((e.payload&&e.payload.ref_type)||"内容")+" · "+repo;
+      if(e.type==="ForkEvent")return "Forked "+repo;
+      if(e.type==="PullRequestEvent")return ((e.payload&&e.payload.action)||"更新")+" PR · "+repo;
+      if(e.type==="IssuesEvent")return ((e.payload&&e.payload.action)||"更新")+" Issue · "+repo;
+      if(e.type==="IssueCommentEvent")return "评论 · "+repo;
+      if(e.type==="ReleaseEvent")return "发布 Release · "+repo;
+      return repo;
+    }
+    function renderGhEvents(target,events){
+      target.innerHTML="";
+      if(!events.length){var empty=document.createElement("div");empty.className="muted";empty.textContent="暂时没有可显示的公开活动。";target.appendChild(empty);return}
+      events.slice(0,8).forEach(function(e){
+        var row=document.createElement("div");row.className="ghEvent";
+        var type=document.createElement("span");type.className="ghType";type.textContent=ghTypeLabel(e.type);
+        var mid=document.createElement("div"),b=document.createElement("b"),sm=document.createElement("small");
+        b.textContent=e.repo&&e.repo.name?e.repo.name:"GitHub";sm.textContent=ghEventDesc(e);mid.appendChild(b);mid.appendChild(sm);
+        var time=document.createElement("time");var d=new Date(e.created_at);time.textContent=d.toLocaleDateString("zh-CN",{month:"2-digit",day:"2-digit"})+" "+d.toLocaleTimeString("zh-CN",{hour:"2-digit",minute:"2-digit"});
+        row.appendChild(type);row.appendChild(mid);row.appendChild(time);target.appendChild(row);
+      });
+    }
+    async function loadGithubRadar(){
+      var inline=document.getElementById("ghEventsInline"),win=document.getElementById("ghEventsWindow");
+      if(inline)inline.innerHTML='<div class="muted">Scanning GitHub public API…</div>';
+      if(win)win.innerHTML='<div class="muted">Scanning GitHub public API…</div>';
+      try{
+        var rs=await Promise.all([
+          fetch("https://api.github.com/users/LLR6",{headers:{Accept:"application/vnd.github+json"}}),
+          fetch("https://api.github.com/users/LLR6/events/public?per_page=10",{headers:{Accept:"application/vnd.github+json"}})
+        ]);
+        if(!rs[0].ok||!rs[1].ok)throw new Error("GitHub API "+rs[0].status+"/"+rs[1].status);
+        var profile=await rs[0].json(),events=await rs[1].json();
+        document.getElementById("ghBio").textContent=profile.bio||"GitHub public profile connected.";
+        document.getElementById("ghRepos").textContent=profile.public_repos;
+        document.getElementById("ghFollowers").textContent=profile.followers;
+        document.getElementById("ghEventCount").textContent=events.length;
+        document.getElementById("ghLastActivity").textContent=events[0]?new Date(events[0].created_at).toLocaleDateString("zh-CN",{month:"2-digit",day:"2-digit"}):"NONE";
+        renderGhEvents(inline,events);renderGhEvents(win,events);
+      }catch(err){
+        var msg="GitHub 公共 API 暂时不可用："+(err&&err.message?err.message:String(err));
+        if(inline){inline.innerHTML="";var d=document.createElement("div");d.className="muted";d.textContent=msg;inline.appendChild(d)}
+        if(win){win.innerHTML="";var d2=document.createElement("div");d2.className="muted";d2.textContent=msg;win.appendChild(d2)}
+      }
+    }
+    document.getElementById("ghRefreshInline").onclick=loadGithubRadar;
+    document.getElementById("ghRefreshWindow").onclick=loadGithubRadar;
+    loadGithubRadar();
+
+    var cyberCmdList=document.getElementById("cmdList");
+    if(cyberCmdList){
+      cyberCmdList.insertAdjacentHTML("afterbegin",
+        '<div class="cmdItem" data-cyber-win="toolDeckWin"><span>打开 LR 工具中心</span><small>TOOLS</small></div>'+
+        '<div class="cmdItem" data-cyber-win="githubWin"><span>打开 GitHub 雷达</span><small>GITHUB</small></div>');
+      cyberCmdList.querySelectorAll("[data-cyber-win]").forEach(function(i){
+        i.onclick=function(){closePalette();openWin(i.dataset.cyberWin)};
+      });
+    }
 
     // Creative interactions
     const ideas=[
