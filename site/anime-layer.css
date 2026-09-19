@@ -102,3 +102,187 @@ linear-gradient(90deg,transparent 0 2%,#586ed2 2% 7%,transparent 7% 8%,#334dba 8
 .animeMode .techMetrics{right:12px;top:12px;opacity:.78}.animeMode .orbit{opacity:.38}.animeMode .scanBeam{opacity:.18}.animeMode .frameMarks{opacity:.5}
 .animeMode .scanlines{opacity:.018}.animeMode .hexGrid{opacity:.07}.animeMode #netCanvas{opacity:.24}.animeMode .systemRail{opacity:.35}.animeMode .hudCorner{opacity:.18}
 @media(max-width:850px){.heroLumi{height:112%;right:5%;bottom:-22%}.heroSpeech{top:18px;left:16px}.animeMode .avatarCard .avatar{width:54px;height:54px;bottom:36px}.ownerTag{bottom:12px}}
+
+
+/* =========================================================
+   LR//NEO CINEMATIC ANIME REDESIGN
+   User-art-led, dark editorial / anime blog direction
+   ========================================================= */
+:root{
+  --night:#061020;--night2:#09162b;--night3:#101d38;
+  --ink:#e9f1ff;--sub:#95a7c9;--line2:rgba(162,194,255,.18);
+  --ice:#99dfff;--violet2:#a898ff;--sakura:#f7a6ce;
+}
+html{background:var(--night)}
+body,body.animeMode,body[data-theme="aurora"],body[data-theme="sakura"],body[data-theme="ice"]{
+  background:
+    radial-gradient(circle at 82% 18%,rgba(66,105,180,.16),transparent 28%),
+    radial-gradient(circle at 18% 56%,rgba(90,68,145,.13),transparent 24%),
+    linear-gradient(180deg,#061020 0%,#071326 36%,#08152a 100%) !important;
+  color:var(--ink);
+}
+body:before{opacity:.10!important;background-image:radial-gradient(circle,rgba(174,203,255,.38) 0 1px,transparent 1.3px)!important;background-size:28px 28px!important;mask-image:linear-gradient(to bottom,black,transparent 82%)}
+body.animeMode:after{opacity:.045;background-size:7px 7px;background-image:radial-gradient(circle,#fff 0 .75px,transparent 1px);mix-blend-mode:soft-light}
+#stars{opacity:.35}
+.scanlines,.hexGrid,.hudCorner,.systemRail,.aurora,.orb,#cursorGlow{display:none!important}
+.neoRibbon{background:rgba(5,14,31,.72);border:1px solid rgba(184,211,255,.16);color:#dce9ff;box-shadow:none;backdrop-filter:blur(12px)}
+.neoRibbon i{color:#90d8ff}
+.episodeCard{color:#8193b8}.episodeCard b{color:#dbe8ff}
+
+.shell{width:min(1280px,calc(100% - 38px))}
+.nav.neoNav{
+  position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:220;
+  width:min(1280px,calc(100% - 34px));margin:0;padding:11px 16px;
+  background:linear-gradient(90deg,rgba(4,12,28,.78),rgba(10,24,48,.64));
+  border:1px solid rgba(190,214,255,.14);border-radius:4px;
+  box-shadow:0 14px 40px rgba(0,0,0,.26);backdrop-filter:blur(18px) saturate(120%)
+}
+.nav.neoNav .brand{font-family:Georgia,"Times New Roman",serif;font-size:23px;font-weight:600;letter-spacing:.04em;color:#f0f6ff;text-shadow:0 0 18px rgba(125,190,255,.28)}
+.nav.neoNav .brand i{color:#f2f7ff;text-shadow:0 0 20px rgba(132,204,255,.50)}
+.nav.neoNav .navlinks{gap:4px}
+.nav.neoNav .navlinks a{font-family:Georgia,"Times New Roman",serif;color:#b6c5df;border-radius:0;padding:8px 12px;font-size:14px;position:relative}
+.nav.neoNav .navlinks a:after{content:"";position:absolute;left:12px;right:12px;bottom:4px;height:1px;background:#d9e9ff;transform:scaleX(0);transition:.22s}
+.nav.neoNav .navlinks a:hover{color:#fff;background:transparent}.nav.neoNav .navlinks a:hover:after{transform:scaleX(1)}
+.nav.neoNav .pill{background:rgba(255,255,255,.04);border-color:rgba(180,208,255,.14);color:#9fb4d5;box-shadow:none;font:11px ui-monospace,monospace}
+
+.cinematicHero{
+  width:min(1480px,calc(100vw - 24px));height:min(880px,calc(100vh - 24px));min-height:690px;
+  margin:12px 0 34px 50%;transform:translateX(-50%);padding:0!important;
+  display:block!important;position:relative;overflow:hidden;border:1px solid rgba(184,209,255,.15);
+  border-radius:2px;background:#061021;box-shadow:0 28px 90px rgba(0,0,0,.35)
+}
+.cinematicMedia{position:absolute;inset:0;background-image:url("./assets/anime-night.webp");background-size:cover;background-position:center;transform:scale(1.02)}
+.cinematicShade{position:absolute;inset:0;background:
+  linear-gradient(90deg,rgba(3,10,23,.26) 0%,rgba(4,12,27,.10) 36%,rgba(3,10,24,.60) 64%,rgba(3,9,21,.88) 100%),
+  linear-gradient(180deg,rgba(1,8,20,.25),transparent 38%,rgba(2,8,20,.72));
+}
+.mangaTone{position:absolute;inset:0;pointer-events:none;opacity:.12;background-image:
+  radial-gradient(circle,rgba(255,255,255,.55) 0 .65px,transparent .8px),
+  linear-gradient(120deg,transparent 45%,rgba(166,202,255,.10) 46%,transparent 47%);
+  background-size:5px 5px,100% 100%;mix-blend-mode:overlay
+}
+.cinematicHero:before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;border:10px solid rgba(255,255,255,.018);box-shadow:inset 0 0 0 1px rgba(209,226,255,.08)}
+.cinematicHero:after{content:"LR//NEO";position:absolute;right:-20px;top:22%;z-index:2;font:italic 900 clamp(70px,10vw,164px)/.8 Arial,sans-serif;letter-spacing:-.08em;color:rgba(232,243,255,.055);transform:rotate(-4deg);pointer-events:none}
+
+.heroEditorial{position:absolute;z-index:5;left:57%;top:24%;width:min(520px,39vw)}
+.heroSerial{font:700 10px ui-monospace,monospace;letter-spacing:.28em;color:#8fa8cc;text-transform:uppercase}
+.heroJapanese{margin:12px 0 0;font-family:"Yu Mincho","Hiragino Mincho ProN",serif;font-size:18px;letter-spacing:.18em;color:#d7e5f7}
+.neoHeroTitle{margin:16px 0 2px!important;font-family:Georgia,"Times New Roman",serif;font-style:italic;font-size:clamp(64px,8vw,128px)!important;line-height:.85!important;letter-spacing:-.07em!important;color:#f3f7ff;text-shadow:0 0 28px rgba(104,176,255,.26)}
+.neoHeroTitle span{font-weight:400}
+.heroJpSub{font-family:"Yu Mincho","Hiragino Mincho ProN",serif;font-size:16px;letter-spacing:.10em;color:#c8d8ee;margin:22px 0 8px}
+.heroDesc{max-width:500px;color:#a6b7d3;line-height:1.9;font-size:13px;letter-spacing:.03em}
+.heroActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.heroActions a{display:inline-flex;align-items:center;gap:22px;padding:12px 17px;border:1px solid rgba(211,229,255,.22);font:800 10px ui-monospace,monospace;letter-spacing:.16em;transition:.22s}
+.neoPrimary{background:#eef5ff;color:#142340!important;box-shadow:0 12px 26px rgba(0,0,0,.20)}
+.neoGhost{background:rgba(6,17,36,.48);color:#dce9ff!important;backdrop-filter:blur(12px)}
+.heroActions a:hover{transform:translateY(-3px);box-shadow:0 12px 34px rgba(75,137,220,.20)}
+
+.heroAside{position:absolute;z-index:5;left:3.3%;top:13%;bottom:15%;width:230px;color:#d5e4f7}
+.verticalVerse{font-family:"Yu Mincho","Hiragino Mincho ProN",serif;writing-mode:vertical-rl;letter-spacing:.18em;line-height:2;font-size:14px;height:210px;border-right:1px solid rgba(211,228,255,.26);padding-right:14px;text-shadow:0 2px 16px rgba(0,0,0,.4)}
+.portraitScrap{position:absolute;left:0;bottom:0;width:210px;border:1px solid rgba(215,232,255,.28);padding:8px;background:rgba(6,16,34,.50);backdrop-filter:blur(7px);transform:rotate(-1.2deg)}
+.portraitScrap img{width:100%;aspect-ratio:1;object-fit:cover;display:block;filter:saturate(.72) contrast(1.04) brightness(.78)}
+.portraitScrap div{padding:8px 3px 2px}.portraitScrap b{display:block;font:800 9px ui-monospace,monospace;letter-spacing:.19em;color:#e6efff}.portraitScrap span{display:block;margin-top:4px;font:8px/1.55 ui-monospace,monospace;letter-spacing:.13em;color:#8fa4c8}
+.handNote{position:absolute;left:118px;bottom:165px;width:170px;font:italic 22px "Comic Sans MS","KaiTi",cursive;color:#d9e8fb;transform:rotate(-7deg);text-shadow:0 3px 16px rgba(0,0,0,.45)}
+.heroFoot{position:absolute;z-index:5;left:3%;right:3%;bottom:3.6%;display:flex;align-items:center;gap:18px;color:#8599ba;font:700 8px ui-monospace,monospace;letter-spacing:.22em}
+.heroFoot i{flex:1;height:1px;background:linear-gradient(90deg,rgba(184,211,255,.40),rgba(184,211,255,.04))}
+
+.gatewaySection{padding:18px 0 64px!important}
+.gatewayIntro{display:flex;justify-content:space-between;align-items:end;margin-bottom:14px;color:#98aac8}.gatewayIntro>span{font:800 10px ui-monospace,monospace;letter-spacing:.24em}.gatewayIntro p{margin:0;font-size:12px}
+.gatewayGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.gatewayCard{height:250px;position:relative;overflow:hidden;border:1px solid rgba(184,210,255,.17);background:#0b1730;padding:16px;display:flex;flex-direction:column;justify-content:flex-end;isolation:isolate;transition:.28s}
+.gatewayCard:before{content:"";position:absolute;inset:0;z-index:-2;background-size:cover;background-position:center;filter:saturate(.72) brightness(.48);transform:scale(1.03);transition:.45s}
+.gatewayCard:after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(5,14,31,.08),rgba(5,13,29,.92) 76%)}
+.gatewayCard.g1:before{background-image:url("./assets/anime-boy.webp")}
+.gatewayCard.g2:before{background-image:url("./assets/anime-night.webp");background-position:70% center}
+.gatewayCard.g3:before{background-image:url("./assets/anime-boy.webp");background-position:65% center;filter:saturate(.35) hue-rotate(14deg) brightness(.40)}
+.gatewayCard.g4:before{background-image:linear-gradient(145deg,#111b38,#24345d 52%,#0b152b)}
+.gatewayCard.g5:before{background-image:url("./assets/anime-night.webp");background-position:84% center;filter:saturate(.45) brightness(.36)}
+.gatewayCard:hover{transform:translateY(-7px);border-color:rgba(199,222,255,.34);box-shadow:0 18px 42px rgba(0,0,0,.28)}.gatewayCard:hover:before{transform:scale(1.10)}
+.gatewayCard em{position:absolute;left:14px;top:12px;font:700 9px ui-monospace,monospace;letter-spacing:.16em;color:#8fa5c7;font-style:normal}
+.gatewayCard strong{font-family:Georgia,"Times New Roman",serif;font-size:25px;color:#edf4ff}.gatewayCard small{margin-top:3px;color:#a9bad4;font-family:"Yu Mincho",serif}.gatewayCard p{font-size:11px;line-height:1.6;color:#8fa0bd;margin:13px 0 0}.gatewayCard>b{position:absolute;right:15px;bottom:15px;color:#dceaff;font-size:18px}
+
+/* Dark anime editorial styling for the rest of the site */
+section{scroll-margin-top:92px}
+.head{border-top:1px solid rgba(168,198,245,.15);padding-top:18px}.eyebrow{color:#89ccef}.head h2,.quote{color:#eaf2ff;font-family:Georgia,"Noto Serif SC","Songti SC",serif}.head p,.muted,.post p,.project p,.event p{color:#8fa0bd}
+.glass,.post,.project,.about>div,.ideaPanel,.commandPanel,.radarPanel,.telemetryPanel{
+  background:linear-gradient(145deg,rgba(14,29,55,.88),rgba(8,20,41,.78))!important;
+  border:1px solid rgba(159,191,239,.14)!important;border-radius:3px!important;
+  box-shadow:0 14px 34px rgba(0,0,0,.18)!important;color:#dce8fb
+}
+.glass:hover,.post:hover,.project:hover{border-color:rgba(147,207,255,.30)!important;box-shadow:0 18px 42px rgba(0,0,0,.30)!important}
+.stat span,.post footer{color:#8092b2}.tag{background:rgba(116,159,220,.12);color:#a8d9ff;border:1px solid rgba(151,200,255,.12)}
+.chip{background:rgba(13,28,53,.82);border-color:rgba(154,190,240,.14);color:#8fa1c0}.chip.on,.chip:hover{background:rgba(74,117,180,.18);color:#ddecff;border-color:rgba(140,205,255,.28)}
+.event time,.mono,.techLabel{color:#85d2f3}
+.timeline:before{background:linear-gradient(#73d5f5,#8e82ef,transparent)}
+.event:before{background:#8fdcff;box-shadow:0 0 14px rgba(118,217,255,.55)}
+.footer{border-color:rgba(158,190,240,.13);color:#7588aa}
+
+/* episode cards */
+.chapterRail:before{background:linear-gradient(90deg,#7597d2,#8e7bd8,#6bbdd2,#a7b7d1);opacity:.24}
+.chapterCard,.neoModule,.moment,.acgCard{
+  color:#dce8fa;background:linear-gradient(145deg,rgba(14,29,55,.96),rgba(7,18,39,.94))!important;
+  border:1px solid rgba(165,196,240,.16)!important;box-shadow:7px 9px 0 rgba(0,0,0,.12)!important
+}
+.chapterCard h3,.moduleTop h3,.moment b,.acgCard h3{color:#edf4ff}
+.chapterCard p,.moduleTop .sub,.moment p,.acgCard p,.bondMeta small{color:#8699b9}
+.chapterCard .ep,.moment time{color:#91a6c9}.chapterCard .jp,.acgCard:after{color:rgba(210,230,255,.04)}
+.chapterCard .orbital{box-shadow:0 0 24px color-mix(in srgb,var(--c) 65%,transparent)}
+.neoModule:before{opacity:.035}
+.moduleTop .jp,.acgCard span{color:#8ad1ef}
+.gachaBack{background:radial-gradient(circle at 50% 45%,rgba(79,162,212,.20),transparent 25%),linear-gradient(145deg,#09152c,#16284b 60%,#22355e)}
+.gachaFront{background:linear-gradient(145deg,#132342,#0a172e);color:#e7f0ff}.gachaInfo p{color:#91a4c3}
+.gachaFace{border-color:rgba(175,205,246,.22);box-shadow:10px 12px 0 rgba(0,0,0,.16)}
+.gachaControls button{background:linear-gradient(120deg,#456a9e,#6e72bb,#4389aa);box-shadow:0 10px 24px rgba(0,0,0,.22)}
+.gachaControls .secondary{background:#0b1931;color:#b7c8e1;border-color:rgba(160,193,240,.16)}
+.miniCard{background:#0a182f;border-color:#324769;color:#cfe1fa}.miniCard.got{box-shadow:0 0 18px rgba(102,185,230,.18)}
+.lumiBond{background:linear-gradient(135deg,#0d1d37,#0b172d);border:1px solid rgba(158,195,241,.16)}
+.lumiBond img,.syncPortrait{width:100%;aspect-ratio:1;object-fit:cover;border-radius:2px;filter:saturate(.60) brightness(.75)}
+.bondBar{background:#071326;border-color:#20365a}.bondBar i{background:linear-gradient(90deg,#72b8e4,#887fd1,#8bd6ea)}.bondText{color:#8ba6cc}
+.worldChip{background:#0a1930;border-color:rgba(157,192,240,.14);color:#8fa6c7}
+.momentComposer input{background:#09172d;border:1px solid rgba(158,193,240,.18);color:#dce8fa}.momentComposer input::placeholder{color:#617595}.momentComposer button{background:#dce9fb;color:#15233d}
+
+/* ACG cards gain visual identity without fake personal data */
+.acgCard:nth-child(1){background:linear-gradient(155deg,rgba(18,39,72,.94),rgba(7,17,37,.95)),url("./assets/anime-boy.webp") center/cover!important}
+.acgCard:nth-child(2){background:linear-gradient(155deg,rgba(18,39,72,.90),rgba(7,17,37,.96)),url("./assets/anime-night.webp") center/cover!important}
+.acgCard:nth-child(3){background:linear-gradient(155deg,rgba(22,34,67,.96),rgba(7,17,37,.97))!important}
+.acgCard:nth-child(4){background:linear-gradient(155deg,rgba(13,36,62,.96),rgba(7,17,37,.97))!important}
+
+/* keep tech tools, but make them feel like hidden utilities, not the visual identity */
+#system,#lab{opacity:.82}
+.commandPanel .screen,.terminalBox,.skillUniverse,.globeStage,.universe{background:#050d1c!important}
+.desktopDock{background:rgba(5,14,30,.80);border-color:rgba(177,207,248,.14);box-shadow:0 15px 46px rgba(0,0,0,.32)}
+.dockBtn{background:linear-gradient(145deg,rgba(17,33,61,.96),rgba(8,20,40,.88));border-color:rgba(162,194,240,.13);color:#b9cae5;box-shadow:none}.dockBtn:hover{box-shadow:0 10px 25px rgba(0,0,0,.30)}
+.osWindow{background:rgba(7,17,36,.96);border-color:rgba(172,202,244,.17);box-shadow:0 28px 90px rgba(0,0,0,.50);color:#dce8fa}.winBar{background:linear-gradient(90deg,#0d1c35,#101f3b);border-color:rgba(152,187,238,.12)}.winTitle{color:#8fa6c9}
+.palette{background:rgba(2,8,19,.70)}.paletteBox{background:#0b1931;border-color:rgba(164,197,242,.18)}.paletteBox input{color:#d9e7f9;border-color:rgba(155,190,238,.12)}.cmdItem{color:#b6c8e3}.cmdItem:hover{background:rgba(81,130,193,.12)}
+.paper{background:#09172d;border-color:rgba(166,199,242,.16);box-shadow:0 25px 70px rgba(0,0,0,.45)}.paper h2,.paper article h3{color:#edf4ff}.paper article{color:#a2b3cd}.modal{background:rgba(2,8,18,.78)}
+
+.vnBox{background:rgba(8,19,39,.96);border:1px solid rgba(180,210,250,.22);box-shadow:12px 12px 0 rgba(0,0,0,.18),0 20px 60px rgba(0,0,0,.34);border-radius:2px 14px 2px 14px}.vnName{background:#dce9fb;color:#12213b}.vnText{color:#b8c8e1}.vnActions button{background:#0d203d;border-color:rgba(160,195,241,.16);color:#c9d8ed}
+.animeMascot,.heroLumi,.heroSpeech{display:none!important}
+
+/* old manga panels become dark editorial panels */
+.mangaPanel{border:1px solid rgba(167,199,240,.16)!important;box-shadow:8px 8px 0 rgba(0,0,0,.16)!important;color:#dce8fa}
+.mp1,.mp2,.mp3,.mp4{background:linear-gradient(145deg,#0d1c36,#09162b)!important;clip-path:none!important}.mangaPanel h3{color:#edf4ff}.mangaPanel p{color:#8295b5}.mangaPanel .num{color:#7f94b8}.mangaPanel .fx{color:rgba(174,207,249,.035)}
+
+@media(max-width:1050px){
+  .heroEditorial{left:48%;width:48vw}.heroAside{width:190px}.portraitScrap{width:170px}.handNote{display:none}
+  .gatewayGrid{grid-template-columns:repeat(3,1fr)}.gatewayCard{height:220px}
+}
+@media(max-width:780px){
+  .nav.neoNav{top:8px}.nav.neoNav .brand{font-size:19px}.nav.neoNav .pill{display:none}
+  .cinematicHero{height:760px;min-height:0;margin-top:8px}
+  .cinematicMedia{background-position:35% center}
+  .cinematicShade{background:linear-gradient(180deg,rgba(2,8,20,.10),rgba(3,10,23,.58) 42%,rgba(3,10,23,.92) 72%)}
+  .heroEditorial{left:7%;right:7%;top:auto;bottom:10%;width:auto}
+  .neoHeroTitle{font-size:clamp(58px,16vw,92px)!important}
+  .heroAside{left:6%;top:12%;height:230px;width:150px}.portraitScrap{display:none}.verticalVerse{height:180px;font-size:12px}
+  .heroFoot{display:none}.cinematicHero:after{font-size:110px;top:14%}
+  .gatewayGrid{grid-template-columns:1fr 1fr}.gatewayCard{height:190px}
+}
+@media(max-width:520px){
+  .shell{width:min(100% - 24px,1280px)}
+  .cinematicHero{width:calc(100vw - 12px);height:690px}
+  .heroEditorial{bottom:8%}.heroSerial{font-size:8px}.heroJapanese{font-size:14px}.heroJpSub{font-size:13px}.heroDesc{font-size:12px}
+  .gatewayGrid{grid-template-columns:1fr}.gatewayCard{height:180px}
+  .gatewayIntro{align-items:start;flex-direction:column;gap:7px}
+  .neoRibbon,.episodeCard{display:none}
+}
