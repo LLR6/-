@@ -85,3 +85,63 @@ musicFiles?.addEventListener("change",()=>{
   });
 });
 addEventListener("beforeunload",()=>localAudioUrls.forEach(URL.revokeObjectURL));
+
+
+// Seasonal anime schedule — data snapshot from bangumi-data (CC BY 4.0)
+let onairPool=[];
+const dayNames=["SUN","MON","TUE","WED","THU","FRI","SAT"];
+function getNextBroadcast(item,now=new Date()){
+  const base=new Date(item.begin);
+  if(Number.isNaN(base.getTime()))return null;
+  const week=7*24*60*60*1000;
+  let nextTime=base.getTime();
+  if(nextTime<now.getTime()){
+    const n=Math.ceil((now.getTime()-nextTime)/week);
+    nextTime+=n*week;
+  }
+  const end=item.end?new Date(item.end).getTime():Infinity;
+  if(nextTime>end)return null;
+  return new Date(nextTime);
+}
+function animeName(item){
+  return item.titleTranslate?.["zh-Hans"]?.[0]||item.titleTranslate?.["zh-Hant"]?.[0]||item.title;
+}
+function animeBangumiUrl(item){
+  const hit=(item.sites||[]).find(x=>x.site==="bangumi");
+  return hit?("https://bangumi.tv/subject/"+hit.id):item.officialSite||"#";
+}
+function renderOnair(list){
+  const grid=$("#onairGrid");if(!grid)return;
+  if(!list.length){grid.innerHTML='<div class="onairLoading">暂时没有可计算的本季放送数据。</div>';return}
+  grid.innerHTML=list.map(({item,next})=>{
+    const name=animeName(item),day=dayNames[next.getDay()];
+    const time=next.toLocaleString("zh-CN",{month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit"});
+    return `<a class="onairCard" data-day="${day}" href="${esc(animeBangumiUrl(item))}" target="_blank" rel="noreferrer">
+      <div class="onairTop"><span class="onairBadge">${day} / TV</span><span class="onairTime">NEXT BROADCAST</span></div>
+      <h3>${esc(name)}</h3>
+      <div class="onairJp">${esc(item.title)}</div>
+      <div class="onairMeta"><span class="onairNext">${esc(time)}</span><span class="onairLink">BANGUMI ↗</span></div>
+    </a>`;
+  }).join("");
+}
+async function initOnair(){
+  const label=$("#onairNow");
+  const stamp=()=>{if(label)label.textContent="LOCAL TIME / "+new Date().toLocaleString("zh-CN",{month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit"})};
+  stamp();setInterval(stamp,1000);
+  try{
+    const res=await fetch("./data/anime-2026-07.json",{cache:"no-store"});
+    if(!res.ok)throw new Error("HTTP "+res.status);
+    const data=await res.json(),now=new Date();
+    onairPool=data.filter(x=>x.type==="tv").map(item=>({item,next:getNextBroadcast(item,now)})).filter(x=>x.next).sort((a,b)=>a.next-b.next);
+    renderOnair(onairPool.slice(0,8));
+  }catch(err){
+    const grid=$("#onairGrid");if(grid)grid.innerHTML='<div class="onairLoading">本季番组数据读取失败，稍后刷新再试。</div>';
+  }
+}
+$("#onairShuffle")?.addEventListener("click",()=>{
+  if(onairPool.length<=8){renderOnair(onairPool);return}
+  const copy=[...onairPool];
+  for(let i=copy.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[copy[i],copy[j]]=[copy[j],copy[i]]}
+  renderOnair(copy.slice(0,8).sort((a,b)=>a.next-b.next));
+});
+initOnair();
