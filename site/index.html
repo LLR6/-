@@ -7,6 +7,7 @@
   <meta name="description" content="LR//NEO：二次元、技术、CTF、学习、项目与生活碎片组成的个人档案。" />
   <title>LR//NEO — Personal Anime Archive</title>
   <link rel="stylesheet" href="./vendor/aplayer/APlayer.min.css" />
+  <link rel="stylesheet" href="./vendor/photoswipe/photoswipe.css" />
   <link rel="stylesheet" href="./v4.css" />
 </head>
 <body>
@@ -16,6 +17,7 @@
       <a href="#episodes">Episodes</a>
       <a href="#moments">Moments</a>
       <a href="#acg">ACG</a>
+      <a href="#gallery">Gallery</a>
       <a href="#projects">Projects</a>
       <a href="#articles">Articles</a>
     </div>
@@ -123,9 +125,41 @@
       </div>
     </section>
 
+    <section class="section container fade" id="gallery">
+      <div class="sectionHead">
+        <div><div class="kicker">04 / CG GALLERY</div><h2>二次元图集 / CG Archive</h2></div>
+        <p>这里开始放真正适合公开使用的图：你自己的图片、原创图，以及许可证明确的 CC0 素材。点击可以缩放、滑动和全屏查看。</p>
+      </div>
+      <div class="cgGallery pswp-gallery" id="cgGallery">
+        <a class="cgItem wide" href="./assets/anime-night.webp" data-pswp-width="1650" data-pswp-height="929" target="_blank">
+          <img src="./assets/anime-night.webp" alt="雨夜二次元场景" loading="lazy" />
+          <span><b>NIGHT / 01</b><small>雨夜 · 原有站内素材</small></span>
+        </a>
+        <a class="cgItem" href="./assets/anime-boy.webp" data-pswp-width="1215" data-pswp-height="1215" target="_blank">
+          <img src="./assets/anime-boy.webp" alt="黑发二次元人物插画" loading="lazy" />
+          <span><b>PORTRAIT / 02</b><small>人物 · 原有站内素材</small></span>
+        </a>
+        <a class="cgItem" href="https://opengameart.org/sites/default/files/background_43.png" data-pswp-width="1920" data-pswp-height="1080" target="_blank" rel="noreferrer">
+          <img src="https://opengameart.org/sites/default/files/background_43.png" alt="CC0 黑白废墟背景" loading="lazy" referrerpolicy="no-referrer" />
+          <span><b>CC0 / 03</b><small>Background with ruins · Kutejnikov</small></span>
+        </a>
+        <a class="cgItem wide" href="https://opengameart.org/sites/default/files/room1_0.png" data-pswp-width="1000" data-pswp-height="708" target="_blank" rel="noreferrer">
+          <img src="https://opengameart.org/sites/default/files/room1_0.png" alt="CC0 日式房间背景" loading="lazy" referrerpolicy="no-referrer" />
+          <span><b>CC0 / 04</b><small>Japanese Room · HachiStudio</small></span>
+        </a>
+      </div>
+      <div class="gallerySources">
+        <span>CC0 SOURCES</span>
+        <a href="https://opengameart.org/content/background-with-ruins" target="_blank" rel="noreferrer">Ruins ↗</a>
+        <a href="https://opengameart.org/content/japanese-room" target="_blank" rel="noreferrer">Japanese Room ↗</a>
+        <a href="https://iletora.itch.io/club-room" target="_blank" rel="noreferrer">School Club Room ↗</a>
+        <a href="https://the-outlander.itch.io/free-japanese-backgrounds" target="_blank" rel="noreferrer">Japanese Background Pack ↗</a>
+      </div>
+    </section>
+
     <section class="section container fade" id="projects">
       <div class="sectionHead">
-        <div><div class="kicker">04 / PROJECTS</div><h2>做出来，比想象更有意思</h2></div>
+        <div><div class="kicker">05 / PROJECTS</div><h2>做出来，比想象更有意思</h2></div>
         <p>这里以后放真正做过的东西。现在先保留最清晰的三条线，不用一屏塞十几个功能。</p>
       </div>
       <div class="projectGrid">
@@ -152,7 +186,7 @@
 
     <section class="section container fade" id="articles">
       <div class="sectionHead">
-        <div><div class="kicker">05 / ARTICLES</div><h2>文章与长一点的记录</h2></div>
+        <div><div class="kicker">06 / ARTICLES</div><h2>文章与长一点的记录</h2></div>
         <p>真正需要展开写的内容再放到这里。少而清楚，比首页塞满一堆假文章更好。</p>
       </div>
       <div class="journalList">
@@ -192,6 +226,7 @@
   </footer>
 
   <script src="./vendor/aplayer/APlayer.min.js"></script>
+  <script type="module" src="./gallery.js"></script>
   <script src="./v4.js"></script>
 </body>
 </html>
