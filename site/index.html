@@ -2047,6 +2047,233 @@
     }
 
 
+
+    // LR//OS Expansion runtime
+    var EXPANSION_APPS=[
+      {id:"webos",name:"WebOS",repo:"https://github.com/Martin-R-D/WebOS"},
+      {id:"wasmforge",name:"WasmForge",repo:"https://github.com/TaniyaTaragi/WasmForge"},
+      {id:"ciliterm",name:"ciliterm",repo:"https://github.com/ciliverse/ciliterm"},
+      {id:"skedra",name:"Skedra",repo:"https://github.com/moonriddim/skedra-community"},
+      {id:"padlocal",name:"pad.local",repo:"https://github.com/ymerej-noyorb/pad.local"},
+      {id:"retrox",name:"RetroX",repo:"https://github.com/polius/RetroX"},
+      {id:"vme",name:"VM/E",repo:"https://github.com/gitGalu/vme"},
+      {id:"openloaf",name:"OpenLoaf",repo:"https://github.com/OpenLoaf/OpenLoaf"},
+      {id:"liveagent",name:"LiveAgent",repo:"https://github.com/Stack-Cairn/LiveAgent"},
+      {id:"libragent",name:"LibrAgent",repo:"https://github.com/fritzprix/libr-agent"},
+      {id:"catcher",name:"Catcher",repo:"https://github.com/Catcher2026/Catcher"},
+      {id:"pinchtab",name:"PinchTab",repo:"https://github.com/pinchtab/pinchtab"},
+      {id:"lap",name:"Lap",repo:"https://github.com/julyx10/lap"},
+      {id:"zettelgarden",name:"Zettelgarden",repo:"https://github.com/Zettelgarden/Zettelgarden"},
+      {id:"cruxwire",name:"Cruxwire",repo:"https://github.com/philoking/cruxwire"},
+      {id:"papr",name:"Papr",repo:"https://github.com/l0ng-ai/papr"},
+      {id:"parson",name:"Parson",repo:"https://github.com/ParsonLabs/parson"},
+      {id:"kaiboard",name:"KaiBoard",repo:"https://github.com/ChasenKai/KaiBoard"}
+    ];
+    if(typeof LR_INTEGRATIONS!=="undefined"){
+      var existingIds=new Set(LR_INTEGRATIONS.map(function(x){return x.id}));
+      EXPANSION_APPS.forEach(function(x){if(!existingIds.has(x.id))LR_INTEGRATIONS.push(x)});
+      renderIntegrationList();
+    }
+
+    function saveEndpointInputs(buttonId,selector){
+      var btn=document.getElementById(buttonId);if(!btn)return;
+      btn.onclick=function(){
+        var bad=false;
+        document.querySelectorAll(selector).forEach(function(i){
+          var v=i.value.trim();
+          if(v&&!validEndpoint(v)){bad=true;i.style.outline="2px solid rgba(255,90,120,.35)";return}
+          i.style.outline="";
+          if(v)localStorage.setItem(endpointKey(i.dataset.endpoint),v);else localStorage.removeItem(endpointKey(i.dataset.endpoint));
+        });
+        if(bad){pushNotice("SERVICE NODE","有地址格式不正确。");return}
+        renderIntegrationList();pushNotice("SERVICE NODE","服务地址已保存。");
+      };
+    }
+    saveEndpointInputs("saveAgentEndpoints","#agentHubWin [data-endpoint]");
+    saveEndpointInputs("saveBrowserEndpoints","#browserHubWin [data-endpoint]");
+    saveEndpointInputs("saveNewsEndpoints","#newsWin [data-endpoint]");
+    saveEndpointInputs("saveGameEndpoints","#gameWin [data-endpoint]");
+    saveEndpointInputs("saveTerminalEndpoint","#terminalHubWin [data-endpoint]");
+    saveEndpointInputs("saveBrainEndpoint","#brainWin [data-endpoint]");
+    syncRemoteInputs();
+
+    // Code Lab: JavaScript sandbox + Python/WASM through Pyodide
+    var codeMode="js",pyodideRuntime=null,pyodideLoading=null;
+    var codeEditor=document.getElementById("codeEditor"),codeOutput=document.getElementById("codeOutput"),pythonStatus=document.getElementById("pythonStatus");
+    function codeExample(mode){
+      if(mode==="python")return 'print("Hello from LR//OS Python")\nnums = [x*x for x in range(8)]\nprint(nums)\nsum(nums)';
+      return 'console.log("Hello from LR//OS JavaScript");\nconst nums = Array.from({length:8}, (_,i)=>i*i);\nconsole.log(nums);\nnums.reduce((a,b)=>a+b,0);';
+    }
+    if(codeEditor)codeEditor.value=codeExample("js");
+    document.querySelectorAll("[data-code-mode]").forEach(function(b){
+      b.onclick=function(){codeMode=b.dataset.codeMode;document.querySelectorAll("[data-code-mode]").forEach(function(x){x.classList.toggle("active",x===b)});codeEditor.value=codeExample(codeMode);codeOutput.textContent="MODE // "+codeMode.toUpperCase()};
+    });
+    function runJsSandbox(code){
+      return new Promise(function(resolve){
+        var token="lrjs-"+Date.now()+"-"+Math.random(),lines=[],done=false;
+        function handler(e){
+          if(!e.data||e.data.token!==token)return;
+          if(e.data.type==="log")lines.push(e.data.text);
+          if(e.data.type==="done"){done=true;window.removeEventListener("message",handler);frame.remove();resolve(lines.join("\n"))}
+        }
+        window.addEventListener("message",handler);
+        var frame=document.createElement("iframe");frame.sandbox="allow-scripts";frame.style.display="none";
+        var safe=JSON.stringify(code),tok=JSON.stringify(token);
+        frame.srcdoc='<script>(function(){var T='+tok+',out=[];function send(t,x){parent.postMessage({token:T,type:t,text:x},"*")}console.log=function(){send("log",Array.from(arguments).map(String).join(" "))};console.error=function(){send("log","ERROR: "+Array.from(arguments).map(String).join(" "))};try{var code='+safe+';var result=(0,eval)(code);if(result!==undefined)send("log","=> "+String(result));}catch(e){send("log","ERROR: "+(e&&e.stack?e.stack:e))}send("done","");})();<\/script>';
+        document.body.appendChild(frame);
+        setTimeout(function(){if(!done){window.removeEventListener("message",handler);frame.remove();resolve(lines.concat(["TIMEOUT"]).join("\n"))}},5000);
+      });
+    }
+    async function ensurePyodide(){
+      if(pyodideRuntime)return pyodideRuntime;
+      if(pyodideLoading)return pyodideLoading;
+      pyodideLoading=(async function(){
+        pythonStatus.textContent="Loading Python/WASM…";
+        if(typeof loadPyodide==="undefined"){
+          await new Promise(function(resolve,reject){
+            var sc=document.createElement("script");sc.src="https://cdn.jsdelivr.net/pyodide/v314.0.7/full/pyodide.js";sc.onload=resolve;sc.onerror=function(){reject(new Error("Pyodide CDN 加载失败"))};document.head.appendChild(sc);
+          });
+        }
+        pyodideRuntime=await loadPyodide({indexURL:"https://cdn.jsdelivr.net/pyodide/v314.0.7/full/"});
+        pythonStatus.textContent="Python/WASM READY";return pyodideRuntime;
+      })();
+      try{return await pyodideLoading}finally{pyodideLoading=null}
+    }
+    document.getElementById("codeRun").onclick=async function(){
+      codeOutput.textContent="RUNNING_";
+      try{
+        if(codeMode==="js")codeOutput.textContent=await runJsSandbox(codeEditor.value);
+        else{
+          var py=await ensurePyodide();py.globals.set("LR_USER_CODE",codeEditor.value);
+          var out=await py.runPythonAsync('import io, contextlib, traceback\n_buf=io.StringIO()\n_result=None\nwith contextlib.redirect_stdout(_buf), contextlib.redirect_stderr(_buf):\n    try:\n        _result=exec(LR_USER_CODE, globals())\n    except Exception:\n        traceback.print_exc()\n_text=_buf.getvalue()\n_text + (("\\n=> "+repr(_result)) if _result is not None else "")');
+          codeOutput.textContent=String(out||"(no output)");
+        }
+      }catch(e){codeOutput.textContent="ERROR // "+(e&&e.stack?e.stack:e)}
+    };
+    document.getElementById("codeExample").onclick=function(){codeEditor.value=codeExample(codeMode)};
+    document.getElementById("codeClear").onclick=function(){codeOutput.textContent=""};
+
+    // LR Canvas / KaiBoard-lite
+    var wb=document.getElementById("whiteboardCanvas"),wctx=wb.getContext("2d"),drawing=false,lastX=0,lastY=0,eraser=false;
+    function resizeWhiteboard(){
+      var rect=wb.getBoundingClientRect(),old=localStorage.getItem("lr-whiteboard-png");
+      wb.width=Math.max(600,Math.round(rect.width*(devicePixelRatio||1)));wb.height=Math.max(420,Math.round(rect.height*(devicePixelRatio||1)));
+      wctx.setTransform(devicePixelRatio||1,0,0,devicePixelRatio||1,0,0);wctx.lineCap="round";wctx.lineJoin="round";
+      if(old){var im=new Image();im.onload=function(){wctx.drawImage(im,0,0,rect.width,rect.height)};im.src=old}
+    }
+    setTimeout(resizeWhiteboard,80);window.addEventListener("resize",function(){if(document.getElementById("canvasWin").classList.contains("open"))resizeWhiteboard()});
+    function wbPos(e){var r=wb.getBoundingClientRect(),p=e.touches?e.touches[0]:e;return{x:p.clientX-r.left,y:p.clientY-r.top}}
+    function wbStart(e){drawing=true;var p=wbPos(e);lastX=p.x;lastY=p.y;wb.setPointerCapture&&e.pointerId!==undefined&&wb.setPointerCapture(e.pointerId)}
+    function wbMove(e){if(!drawing)return;e.preventDefault();var p=wbPos(e);wctx.globalCompositeOperation=eraser?"destination-out":"source-over";wctx.strokeStyle=document.getElementById("canvasColor").value;wctx.lineWidth=Number(document.getElementById("canvasWidth").value);wctx.beginPath();wctx.moveTo(lastX,lastY);wctx.lineTo(p.x,p.y);wctx.stroke();lastX=p.x;lastY=p.y}
+    function wbEnd(){if(!drawing)return;drawing=false;try{localStorage.setItem("lr-whiteboard-png",wb.toDataURL("image/png"))}catch(e){}}
+    wb.addEventListener("pointerdown",wbStart);wb.addEventListener("pointermove",wbMove);wb.addEventListener("pointerup",wbEnd);wb.addEventListener("pointercancel",wbEnd);
+    document.getElementById("canvasPen").onclick=function(){eraser=false;pushNotice("CANVAS","画笔模式。")};
+    document.getElementById("canvasEraser").onclick=function(){eraser=true;pushNotice("CANVAS","橡皮模式。")};
+    document.getElementById("canvasClear").onclick=function(){wctx.clearRect(0,0,wb.width,wb.height);localStorage.removeItem("lr-whiteboard-png")};
+    document.getElementById("canvasExport").onclick=function(){var a=document.createElement("a");a.download="lr-canvas.png";a.href=wb.toDataURL("image/png");a.click()};
+
+    // pad.local-inspired draggable workspace
+    var workspace=document.getElementById("workspaceCanvas");
+    var nodeWindowMap={code:"codeLabWin",terminal:"terminalHubWin",ai:"aiWin",browser:"browserHubWin"};
+    function loadWorkspaceLayout(){
+      var saved={};try{saved=JSON.parse(localStorage.getItem("lr-workspace-layout")||"{}")}catch(e){}
+      var defaults={code:[30,34],terminal:[260,190],ai:[505,55],browser:[490,275]};
+      workspace.querySelectorAll(".workspaceNode").forEach(function(n){var p=saved[n.dataset.node]||defaults[n.dataset.node];n.style.left=p[0]+"px";n.style.top=p[1]+"px"});
+    }
+    function saveWorkspaceLayout(){var obj={};workspace.querySelectorAll(".workspaceNode").forEach(function(n){obj[n.dataset.node]=[parseFloat(n.style.left)||0,parseFloat(n.style.top)||0]});localStorage.setItem("lr-workspace-layout",JSON.stringify(obj))}
+    loadWorkspaceLayout();
+    workspace.querySelectorAll(".workspaceNode").forEach(function(n){
+      var drag=false,sx=0,sy=0,ox=0,oy=0;
+      n.addEventListener("pointerdown",function(e){drag=true;sx=e.clientX;sy=e.clientY;ox=parseFloat(n.style.left)||0;oy=parseFloat(n.style.top)||0;n.setPointerCapture(e.pointerId)});
+      n.addEventListener("pointermove",function(e){if(!drag)return;var maxX=Math.max(0,workspace.clientWidth-n.offsetWidth),maxY=Math.max(0,workspace.clientHeight-n.offsetHeight);n.style.left=Math.max(0,Math.min(maxX,ox+e.clientX-sx))+"px";n.style.top=Math.max(0,Math.min(maxY,oy+e.clientY-sy))+"px"});
+      n.addEventListener("pointerup",function(){if(drag){drag=false;saveWorkspaceLayout()}});
+      n.addEventListener("dblclick",function(){openWin(nodeWindowMap[n.dataset.node])});
+    });
+    document.getElementById("workspaceReset").onclick=function(){localStorage.removeItem("lr-workspace-layout");loadWorkspaceLayout()};
+
+    // Gallery with IndexedDB and lightweight tags
+    function openGalleryDb(){return new Promise(function(resolve,reject){var q=indexedDB.open("lr-gallery",1);q.onupgradeneeded=function(){var db=q.result;if(!db.objectStoreNames.contains("photos"))db.createObjectStore("photos",{keyPath:"id"})};q.onsuccess=function(){resolve(q.result)};q.onerror=function(){reject(q.error)}})}
+    async function galleryAll(){var db=await openGalleryDb();return new Promise(function(resolve,reject){var tx=db.transaction("photos","readonly"),q=tx.objectStore("photos").getAll();q.onsuccess=function(){resolve(q.result||[])};q.onerror=function(){reject(q.error)}})}
+    async function galleryPut(x){var db=await openGalleryDb();return new Promise(function(resolve,reject){var tx=db.transaction("photos","readwrite");tx.objectStore("photos").put(x);tx.oncomplete=resolve;tx.onerror=function(){reject(tx.error)}})}
+    async function galleryDelete(id){var db=await openGalleryDb();return new Promise(function(resolve,reject){var tx=db.transaction("photos","readwrite");tx.objectStore("photos").delete(id);tx.oncomplete=resolve;tx.onerror=function(){reject(tx.error)}})}
+    var galleryUrls=[];
+    async function renderGallery(){
+      galleryUrls.forEach(URL.revokeObjectURL);galleryUrls=[];var box=document.getElementById("galleryGrid"),q=(document.getElementById("gallerySearch").value||"").toLowerCase(),items=await galleryAll();box.innerHTML="";
+      items.filter(function(x){return (x.name+" "+(x.tags||"")).toLowerCase().includes(q)}).sort(function(a,b){return b.time-a.time}).forEach(function(x){
+        var item=document.createElement("div");item.className="galleryItem";var img=document.createElement("img"),url=URL.createObjectURL(x.blob);galleryUrls.push(url);img.src=url;img.title=(x.tags||"")+"\n双击设置标签";
+        var label=document.createElement("span");label.textContent=x.name+(x.tags?" · "+x.tags:"");var del=document.createElement("button");del.textContent="×";del.onclick=async function(e){e.stopPropagation();await galleryDelete(x.id);renderGallery()};
+        item.ondblclick=async function(){var tags=prompt("图片标签（空格或逗号分隔）",x.tags||"");if(tags===null)return;x.tags=tags;x.time=Date.now();await galleryPut(x);renderGallery()};
+        item.appendChild(img);item.appendChild(label);item.appendChild(del);box.appendChild(item);
+      });
+      if(!box.children.length)box.innerHTML='<div class="muted">图库为空。导入图片后可双击设置标签。</div>';
+    }
+    document.getElementById("galleryImport").onclick=function(){document.getElementById("galleryInput").click()};
+    document.getElementById("galleryInput").onchange=async function(e){for(var i=0;i<e.target.files.length;i++){var file=e.target.files[i];await galleryPut({id:crypto.randomUUID?crypto.randomUUID():Date.now()+"-"+i,name:file.name,tags:"",time:Date.now(),blob:file})}e.target.value="";renderGallery()};
+    document.getElementById("gallerySearch").oninput=renderGallery;renderGallery();
+
+    // RSS / Atom reader (direct CORS fetch only)
+    function cleanText(str){var d=document.createElement("div");d.innerHTML=str||"";return d.textContent||""}
+    async function loadRss(url){
+      var box=document.getElementById("feedList");box.innerHTML='<div class="muted">Loading feed…</div>';
+      try{
+        var r=await fetch(url);if(!r.ok)throw new Error("HTTP "+r.status);var xml=new DOMParser().parseFromString(await r.text(),"text/xml");
+        var entries=Array.from(xml.querySelectorAll("item"));if(!entries.length)entries=Array.from(xml.querySelectorAll("entry"));
+        box.innerHTML="";entries.slice(0,30).forEach(function(it){
+          var title=(it.querySelector("title")||{}).textContent||"Untitled",link=(it.querySelector("link")||{}).textContent||"";
+          var linkEl=it.querySelector("link[href]");if(linkEl)link=linkEl.getAttribute("href")||link;
+          var date=(it.querySelector("pubDate")||it.querySelector("updated")||it.querySelector("published")||{}).textContent||"";
+          var desc=(it.querySelector("description")||it.querySelector("summary")||it.querySelector("content")||{}).textContent||"";
+          var row=document.createElement("div");row.className="feedItem";var a=document.createElement("a");a.textContent=title;a.href=link||"#";a.target="_blank";a.rel="noreferrer";var sm=document.createElement("small");sm.textContent=date;var p=document.createElement("p");p.textContent=cleanText(desc).slice(0,260);row.appendChild(a);row.appendChild(sm);row.appendChild(p);box.appendChild(row);
+        });
+        if(!entries.length)box.innerHTML='<div class="muted">没有解析到 RSS/Atom 条目。</div>';
+      }catch(e){box.innerHTML='<div class="muted">直接读取失败：'+String(e.message||e).replace(/[<>]/g,"")+'。这通常是 RSS 源的 CORS 限制；可改用 Cruxwire / Papr 服务节点。</div>'}
+    }
+    document.getElementById("rssLoad").onclick=function(){var u=document.getElementById("rssUrl").value.trim();if(validEndpoint(u))loadRss(u);else pushNotice("NEWS HUB","请输入 http/https RSS 地址。")};
+    document.getElementById("rssSave").onclick=function(){var u=document.getElementById("rssUrl").value.trim();if(validEndpoint(u)){var arr=[];try{arr=JSON.parse(localStorage.getItem("lr-rss-feeds")||"[]")}catch(e){}if(!arr.includes(u))arr.push(u);localStorage.setItem("lr-rss-feeds",JSON.stringify(arr));pushNotice("NEWS HUB","RSS 地址已保存。")}};
+
+    // Local music player + Parson endpoint
+    var musicFiles=[],musicUrls=[];
+    function renderPlaylist(){
+      var box=document.getElementById("playlist");box.innerHTML="";musicFiles.forEach(function(x,i){var row=document.createElement("div");row.className="track";row.textContent=x.file.name;row.onclick=function(){playTrack(i)};box.appendChild(row)});if(!musicFiles.length)box.innerHTML='<div class="muted">添加本地音频后会出现在这里。</div>';
+    }
+    function playTrack(i){
+      var x=musicFiles[i];if(!x)return;document.getElementById("musicPlayer").src=x.url;document.getElementById("musicTitle").textContent=x.file.name;document.getElementById("musicMeta").textContent=Math.round(x.file.size/1024/1024*10)/10+" MB · local session";document.querySelectorAll("#playlist .track").forEach(function(t,j){t.classList.toggle("active",i===j)});document.getElementById("musicPlayer").play().catch(function(){});
+    }
+    document.getElementById("musicImport").onclick=function(){document.getElementById("musicInput").click()};
+    document.getElementById("musicInput").onchange=function(e){Array.from(e.target.files).forEach(function(file){var url=URL.createObjectURL(file);musicUrls.push(url);musicFiles.push({file:file,url:url})});e.target.value="";renderPlaylist();if(musicFiles.length&&!document.getElementById("musicPlayer").src)playTrack(0)};
+    document.getElementById("openParson").onclick=function(){launchEndpoint("parson")};renderPlaylist();
+
+    // Game mode
+    document.getElementById("gameHandheld").onclick=function(){setShellMode("handheld");closeWin(document.getElementById("gameWin"));pushNotice("GAME MODE","Handheld 模式已启用。")};
+
+    // Expand terminal commands
+    if(typeof cmds==="object"){
+      Object.assign(cmds,{code:"opening LR_CODE_LAB.wasm...",canvas:"opening LR_CANVAS.board...",workspace:"opening LR_WORKSPACE.canvas...",agents:"opening LR_AGENT_HUB.connect...",browser:"opening BROWSER_AUTOMATION_HUB.connect...",gallery:"opening LR_GALLERY.idb...",news:"opening LR_NEWS_HUB.rss...",music:"opening LR_MUSIC.local...",game:"opening LR_GAME_MODE.launcher...",brain:"opening LR_BRAIN.connect...",cyberterm:"opening CYBER_TERMINAL_HUB.connect..."});
+      cmds.help="commands: help, about, projects, tools, github, apps, files, memory, macro, image, pdf, clip, remote, mode, code, canvas, workspace, agents, browser, gallery, news, music, game, brain, cyberterm, skills, globe, ai, universe, achievements, device, theme, clear, matrix, status";
+    }
+    var expansionTermHandler=function(e){
+      if(e.key!=="Enter")return;var c=(termInput.value||"").trim().toLowerCase();
+      var map={code:"codeLabWin",canvas:"canvasWin",workspace:"workspaceWin",agents:"agentHubWin",browser:"browserHubWin",gallery:"galleryWin",news:"newsWin",music:"musicWin",game:"gameWin",brain:"brainWin",cyberterm:"terminalHubWin"};
+      if(map[c]){e.stopImmediatePropagation();termPrint("lr@space:~$ "+c,"tGreen");termInput.value="";termPrint(cmds[c],"tCyan");openWin(map[c])}
+    };
+    termInput.addEventListener("keydown",expansionTermHandler,true);
+
+    // Expand palette
+    var exPalette=document.getElementById("cmdList");
+    if(exPalette&&!exPalette.querySelector('[data-exp-win="codeLabWin"]')){
+      exPalette.insertAdjacentHTML("afterbegin",
+        '<div class="cmdItem" data-exp-win="codeLabWin"><span>打开 Code Lab</span><small>CODE</small></div>'+
+        '<div class="cmdItem" data-exp-win="canvasWin"><span>打开 LR Canvas</span><small>CANVAS</small></div>'+
+        '<div class="cmdItem" data-exp-win="workspaceWin"><span>打开 Workspace</span><small>WORK</small></div>'+
+        '<div class="cmdItem" data-exp-win="agentHubWin"><span>打开 Agent Hub</span><small>AGENTS</small></div>'+
+        '<div class="cmdItem" data-exp-win="galleryWin"><span>打开 Gallery</span><small>GALLERY</small></div>'+
+        '<div class="cmdItem" data-exp-win="newsWin"><span>打开 News Hub</span><small>NEWS</small></div>'+
+        '<div class="cmdItem" data-exp-win="musicWin"><span>打开 Music</span><small>MUSIC</small></div>'+
+        '<div class="cmdItem" data-exp-win="gameWin"><span>打开 Game Mode</span><small>GAME</small></div>');
+      exPalette.querySelectorAll("[data-exp-win]").forEach(function(i){i.onclick=function(){closePalette();openWin(i.dataset.expWin)}});
+    }
+
+
     // Creative interactions
     const ideas=[
       ["做一个只有自己看得懂的彩蛋","比如连续点击头像 5 次，弹出隐藏页面。"],
