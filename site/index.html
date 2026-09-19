@@ -651,6 +651,23 @@
     .terminalHub{display:grid;grid-template-columns:1fr 1fr;gap:10px}.terminalService{padding:14px;border-radius:11px;background:#081222;color:#bcd7ff;border:1px solid rgba(89,151,245,.12)}.terminalService h4{margin:0 0 6px;color:#72e7f7}.terminalService p{font-size:11px;color:#90a6ca;line-height:1.55}
     @media(max-width:800px){.codeLayout,.terminalHub,.agentGrid,.automationGrid,.gameGrid{grid-template-columns:1fr}.galleryGrid{grid-template-columns:repeat(2,1fr)}}
 
+  
+    /* === LR CYBER DEFENSE PACK === */
+    .secGrid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
+    .secCard{grid-column:span 4;padding:18px;min-height:185px;display:flex;flex-direction:column;gap:8px}
+    .secCard h3{margin:2px 0;font-size:19px;color:#283b83}.secCard p{margin:0;color:var(--muted);font-size:12px;line-height:1.6}
+    .secBadge{display:inline-flex;width:max-content;padding:5px 7px;border-radius:6px;background:rgba(61,109,217,.08);font:900 8px ui-monospace,monospace;color:#5368b5}
+    .secToolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+    .secInput,.secText{border:1px solid rgba(78,105,202,.14);background:rgba(255,255,255,.82);border-radius:9px;padding:10px 11px;outline:0;color:#28376f}
+    .secInput{flex:1;min-width:180px}.secText{width:100%;min-height:180px;resize:vertical;font:12px/1.6 ui-monospace,Consolas,monospace}
+    .secStats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0}.secStat{padding:11px;border-radius:10px;background:rgba(255,255,255,.66);border:1px solid rgba(75,104,205,.09)}.secStat span{display:block;font:800 8px ui-monospace,monospace;letter-spacing:.1em;color:#8994b5}.secStat b{display:block;margin-top:4px;color:#38509f;font-size:20px}
+    .secTable{width:100%;border-collapse:collapse;font-size:11px}.secTable th,.secTable td{text-align:left;padding:8px;border-bottom:1px solid rgba(77,103,198,.08);vertical-align:top}.secTable th{color:#5a6fae;font:900 9px ui-monospace,monospace}.secTable td{color:#5d688e;word-break:break-word}
+    .secPane{max-height:360px;overflow:auto;border-radius:10px;background:rgba(255,255,255,.54);border:1px solid rgba(76,104,204,.08)}
+    .iocGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.iocBox{padding:12px;border-radius:10px;background:#0a1430;color:#d8e6ff;min-height:120px;white-space:pre-wrap;word-break:break-word;font:11px/1.6 ui-monospace,Consolas,monospace}
+    .securityLaunchGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.securityLaunch{padding:13px;border-radius:10px;background:rgba(255,255,255,.66);border:1px solid rgba(75,104,205,.09)}.securityLaunch h4{margin:0 0 5px;color:#344995}.securityLaunch p{margin:0 0 8px;font-size:10px;line-height:1.5;color:#7d88aa}
+    .caseList{display:grid;gap:7px;max-height:320px;overflow:auto}.caseRow{padding:10px;border-radius:9px;background:rgba(255,255,255,.66);border:1px solid rgba(75,104,205,.09);cursor:pointer}.caseRow b{display:block;color:#354a99}.caseRow small{display:block;margin-top:3px;color:#8791b0}
+    @media(max-width:900px){.secCard{grid-column:span 6}.secStats{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.secCard{grid-column:span 12}.iocGrid,.securityLaunchGrid{grid-template-columns:1fr}}
+
   </style>
 </head>
 <body data-theme="aurora">
@@ -879,6 +896,29 @@
         <div class="glass appCard" data-expansion-pack="1"><div class="appCardTop"><span class="appGlyph">🎧</span><span class="appState">BUILT-IN</span></div><h3>Parson</h3><p>内置本地 Music Player；完整自托管音乐库可配置 Parson 地址。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="musicWin">MUSIC</button><a class="miniBtn" href="https://github.com/ParsonLabs/parson" target="_blank">REPO ↗</a></div></div>
         <div class="glass appCard" data-expansion-pack="1"><div class="appCardTop"><span class="appGlyph">✍️</span><span class="appState">BUILT-IN LITE</span></div><h3>KaiBoard</h3><p>与 Canvas 合并：手写/鼠标白板、自动本地保存和 PNG 导出。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="canvasWin">CANVAS</button><a class="miniBtn" href="https://github.com/ChasenKai/KaiBoard" target="_blank">REPO ↗</a></div></div>
 
+
+        <div class="glass secCard" data-cyber-defense-pack="1"><span class="secBadge">SOC / NDR</span><h3>Security Onion</h3><p>完整 SOC / Hunt / PCAP / IDS 平台，作为 LR SOC Center 服务节点。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="socCenterWin">SOC CENTER</button><a class="miniBtn" href="https://github.com/Security-Onion-Solutions/securityonion" target="_blank">REPO ↗</a></div></div>
+        <div class="glass secCard" data-cyber-defense-pack="1"><span class="secBadge">NETWORK FORENSICS</span><h3>Malcolm</h3><p>PCAP、Zeek、Suricata 与 Arkime/OpenSearch 综合网络取证。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="networkForensicsWin">FORENSICS</button><a class="miniBtn" href="https://github.com/cisagov/Malcolm" target="_blank">REPO ↗</a></div></div>
+        <div class="glass secCard" data-cyber-defense-pack="1"><span class="secBadge">ENDPOINT</span><h3>Wazuh</h3><p>主机安全监控、日志分析与可见性节点。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="endpointSecurityWin">ENDPOINT</button><a class="miniBtn" href="https://github.com/wazuh/wazuh" target="_blank">REPO ↗</a></div></div>
+        <div class="glass secCard" data-cyber-defense-pack="1"><span class="secBadge">NETWORK TELEMETRY</span><h3>Zeek</h3><p>网络行为与协议日志；LR Log Lab 可本地分析导出的 Zeek 日志。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="securityLogWin">LOG LAB</button><a class="miniBtn" href="https://github.com/zeek/zeek" target="_blank">REPO ↗</a></div></div>
+        <div class="glass secCard" data-cyber-defense-pack="1"><span class="secBadge">IDS / IPS</span><h3>Suricata</h3><p>IDS/IPS/NSM；EVE JSON 可直接导入 LR Log Lab 做本地统计。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="securityLogWin">LOG LAB</button><a class="miniBtn" href="https://github.com/OISF/suricata" target="_blank">REPO ↗</a></div></div>
+        <div class="glass secCard" data-cyber-defense-pack="1"><span class="secBadge">PCAP VAULT</span><h3>Arkime</h3><p>全量 PCAP 检索与会话分析服务节点。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="networkForensicsWin">PACKET VAULT</button><a class="miniBtn" href="https://github.com/arkime/arkime" target="_blank">REPO ↗</a></div></div>
+        <div class="glass secCard" data-cyber-defense-pack="1"><span class="secBadge">DFIR</span><h3>Velociraptor</h3><p>端点取证与可见性，统一接入 LR DFIR / Endpoint Center。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="endpointSecurityWin">DFIR</button><a class="miniBtn" href="https://github.com/Velocidex/velociraptor" target="_blank">REPO ↗</a></div></div>
+        <div class="glass secCard" data-cyber-defense-pack="1"><span class="secBadge">SYSTEM QUERY</span><h3>osquery</h3><p>把主机状态映射为 SQL 表；完整查询由本机 osquery/Fleet 提供。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="endpointSecurityWin">DEVICE QUERY</button><a class="miniBtn" href="https://github.com/osquery/osquery" target="_blank">REPO ↗</a></div></div>
+        <div class="glass secCard" data-cyber-defense-pack="1"><span class="secBadge">FLEET</span><h3>Fleet</h3><p>集中管理 osquery 主机、策略与状态。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="endpointSecurityWin">FLEET</button><a class="miniBtn" href="https://github.com/fleetdm/fleet" target="_blank">REPO ↗</a></div></div>
+        <div class="glass secCard" data-cyber-defense-pack="1"><span class="secBadge">LAN VISIBILITY</span><h3>NetAlertX</h3><p>局域网资产发现与变化提醒；浏览器不会主动扫描网络，完整能力通过服务节点接入。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="lanRadarWin">LAN RADAR</button><a class="miniBtn" href="https://github.com/jokob-sk/NetAlertX" target="_blank">REPO ↗</a></div></div>
+        <div class="glass secCard" data-cyber-defense-pack="1"><span class="secBadge">FIREWALL</span><h3>Portmaster</h3><p>应用级网络监控与本机防火墙节点。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="lanRadarWin">FIREWALL</button><a class="miniBtn" href="https://github.com/safing/portmaster" target="_blank">REPO ↗</a></div></div>
+        <div class="glass secCard" data-cyber-defense-pack="1"><span class="secBadge">HONEYPOT</span><h3>OpenCanary</h3><p>轻量多协议蜜罐；只建议放在你控制的实验/防御环境。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="honeypotWin">HONEYPOT</button><a class="miniBtn" href="https://github.com/thinkst/opencanary" target="_blank">REPO ↗</a></div></div>
+        <div class="glass secCard" data-cyber-defense-pack="1"><span class="secBadge">DECEPTION</span><h3>HoneyOS</h3><p>欺骗防御与诱饵资产服务节点。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="honeypotWin">DECEPTION</button><a class="miniBtn" href="https://github.com/honey-os/honeyos" target="_blank">REPO ↗</a></div></div>
+        <div class="glass secCard" data-cyber-defense-pack="1"><span class="secBadge">SWISS ARMY KNIFE</span><h3>CyberChef</h3><p>编码、解码、哈希与数据处理；LR Tool Deck 继续作为内置轻量版。</p><div class="appActions"><button class="miniBtn primary" onclick="openWin('toolDeckWin')">TOOL DECK</button><a class="miniBtn" href="https://github.com/gchq/CyberChef" target="_blank">REPO ↗</a></div></div>
+        <div class="glass secCard" data-cyber-defense-pack="1"><span class="secBadge">RULE LAB</span><h3>YARA-X</h3><p>规则检测引擎服务节点；网页内置 IOC Workbench 负责安全的文本/哈希分析。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="iocLabWin">IOC LAB</button><a class="miniBtn" href="https://github.com/VirusTotal/yara-x" target="_blank">REPO ↗</a></div></div>
+        <div class="glass secCard" data-cyber-defense-pack="1"><span class="secBadge">WEB APP SECURITY</span><h3>OWASP ZAP</h3><p>用于你自己或明确授权目标的 Web/API 安全测试。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="webSecurityWin">WEB SECURITY</button><a class="miniBtn" href="https://github.com/zaproxy/zaproxy" target="_blank">REPO ↗</a></div></div>
+        <div class="glass secCard" data-cyber-defense-pack="1"><span class="secBadge">HTTP INSPECTOR</span><h3>mitmproxy</h3><p>HTTP(S)/WebSocket 调试与流量检查服务节点，仅用于你自己的或授权环境。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="webSecurityWin">HTTP INSPECTOR</button><a class="miniBtn" href="https://github.com/mitmproxy/mitmproxy" target="_blank">REPO ↗</a></div></div>
+        <div class="glass secCard" data-cyber-defense-pack="1"><span class="secBadge">CTF PLATFORM</span><h3>CTFd</h3><p>私人 CTF 平台、题库、Flag、榜单与插件。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="ctfRangeWin">CTF ARENA</button><a class="miniBtn" href="https://github.com/CTFd/CTFd" target="_blank">REPO ↗</a></div></div>
+        <div class="glass secCard" data-cyber-defense-pack="1"><span class="secBadge">CYBER RANGE</span><h3>LabForge</h3><p>把故意存在漏洞的训练靶场集中启动；只放本机/隔离实验网络。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="ctfRangeWin">CYBER RANGE</button><a class="miniBtn" href="https://github.com/anshu19981/Lab-forge" target="_blank">REPO ↗</a></div></div>
+        <div class="glass secCard" data-cyber-defense-pack="1"><span class="secBadge">TRAINING LAB</span><h3>OWASP Juice Shop</h3><p>故意存在漏洞的 Web 安全训练靶场。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="ctfRangeWin">TRAINING</button><a class="miniBtn" href="https://github.com/juice-shop/juice-shop" target="_blank">REPO ↗</a></div></div>
+        <div class="glass secCard" data-cyber-defense-pack="1"><span class="secBadge">AI SOC</span><h3>Lidless Labs SOC Stack</h3><p>把 Wazuh、Zeek、Suricata、TheHive/MISP 等安全节点接入统一 SOC。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="socCenterWin">AI SOC</button><a class="miniBtn" href="https://github.com/lidless-labs" target="_blank">GITHUB ↗</a></div></div>
+
       </div>
     </section>
 
@@ -952,6 +992,11 @@
     <button class="dockBtn" data-win="newsWin" title="News Hub" data-label="NEWS">N</button>
     <button class="dockBtn" data-win="musicWin" title="Music" data-label="MUSIC">♪</button>
     <button class="dockBtn" data-win="gameWin" title="Game Mode" data-label="GAME">🎮</button>
+    <button class="dockBtn" data-win="socCenterWin" title="SOC Center" data-label="SOC">S</button>
+    <button class="dockBtn" data-win="securityLogWin" title="Security Log Lab" data-label="LOGS">L</button>
+    <button class="dockBtn" data-win="iocLabWin" title="IOC Lab" data-label="IOC">I</button>
+    <button class="dockBtn" data-win="webSecurityWin" title="Web Security" data-label="WEBSEC">WS</button>
+    <button class="dockBtn" data-win="ctfRangeWin" title="CTF Range" data-label="CTF">旗</button>
     <button class="dockBtn" data-win="aiWin" title="LR AI Core" data-label="AI CORE">◈</button>
     <button class="dockBtn" data-win="universeWin" title="项目宇宙" data-label="UNIVERSE">◎</button>
     <button class="dockBtn" data-win="terminalWin" title="终端" data-label="TERMINAL">⌘</button>
@@ -1206,6 +1251,96 @@
   <div class="osWindow" id="terminalHubWin">
     <div class="winBar"><i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i><span class="winTitle">CYBER_TERMINAL_HUB.connect</span><div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div></div>
     <div class="winBody"><div class="terminalHub"><div class="terminalService"><h4>LR Local Terminal</h4><p>当前网页内置命令终端，只控制 LR//OS 本身。</p><button class="miniBtn primary" onclick="openWin('terminalWin')">OPEN LOCAL</button></div><div class="terminalService"><h4>ciliterm</h4><p>部署后可获得真实 shell、SSH、tmux、文件浏览器与系统监控。</p><div class="endpointRow"><input class="endpointInput" data-endpoint="ciliterm" placeholder="http://localhost:..." /><button class="miniBtn" data-launch-endpoint="ciliterm">OPEN</button></div></div></div><div class="suiteToolbar" style="margin-top:10px"><button class="miniBtn" id="saveTerminalEndpoint">SAVE ENDPOINT</button></div></div>
+  </div>
+
+
+  <div class="osWindow" id="socCenterWin">
+    <div class="winBar"><i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i><span class="winTitle">LR_SOC_CENTER.connect</span><div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div></div>
+    <div class="winBody"><div class="expansionNote">这里是 LR//OS 的防御服务总线。Security Onion / Malcolm / Lidless SOC 等完整平台需要独立主机或容器运行，本页只保存你自己的服务地址。</div><div class="securityLaunchGrid">
+      <div class="securityLaunch"><h4>Security Onion</h4><p>SOC / Hunt / PCAP / Alerts</p><div class="endpointRow"><input class="endpointInput" data-endpoint="securityonion" placeholder="https://..." /><button class="miniBtn" data-launch-endpoint="securityonion">OPEN</button></div></div>
+      <div class="securityLaunch"><h4>Malcolm</h4><p>Zeek / Suricata / Arkime / OpenSearch</p><div class="endpointRow"><input class="endpointInput" data-endpoint="malcolm" placeholder="https://..." /><button class="miniBtn" data-launch-endpoint="malcolm">OPEN</button></div></div>
+      <div class="securityLaunch"><h4>Lidless SOC</h4><p>AI-assisted SOC stack</p><div class="endpointRow"><input class="endpointInput" data-endpoint="lidlesssoc" placeholder="https://..." /><button class="miniBtn" data-launch-endpoint="lidlesssoc">OPEN</button></div></div>
+      <div class="securityLaunch"><h4>Local Log Lab</h4><p>安全地分析你导出的 Zeek / Suricata / JSONL 日志。</p><button class="miniBtn primary" onclick="openWin('securityLogWin')">OPEN LOCAL</button></div>
+    </div><div class="secToolbar" style="margin-top:10px"><button class="miniBtn primary" id="saveSocEndpoints">SAVE ENDPOINTS</button></div></div>
+  </div>
+
+  <div class="osWindow" id="securityLogWin">
+    <div class="winBar"><i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i><span class="winTitle">SECURITY_LOG_LAB.local</span><div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div></div>
+    <div class="winBody">
+      <input type="file" id="secLogInput" accept=".json,.jsonl,.log,.txt,.csv,.tsv" hidden />
+      <div class="secToolbar"><button class="miniBtn primary" id="secLogOpen">IMPORT LOG</button><button class="miniBtn" id="secLogExample">LOAD EVE EXAMPLE</button><input class="secInput" id="secLogSearch" placeholder="过滤关键字 / IP / event_type…" /><button class="miniBtn" id="secLogClear">CLEAR</button></div>
+      <div class="secStats"><div class="secStat"><span>EVENTS</span><b id="secEventCount">0</b></div><div class="secStat"><span>ALERTS</span><b id="secAlertCount">0</b></div><div class="secStat"><span>UNIQUE IPs</span><b id="secIpCount">0</b></div><div class="secStat"><span>TYPES</span><b id="secTypeCount">0</b></div></div>
+      <div class="secPane"><table class="secTable"><thead><tr><th>TIME</th><th>TYPE</th><th>SOURCE</th><th>DEST</th><th>INFO</th></tr></thead><tbody id="secLogRows"></tbody></table></div>
+    </div>
+  </div>
+
+  <div class="osWindow" id="networkForensicsWin">
+    <div class="winBar"><i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i><span class="winTitle">NETWORK_FORENSICS.connect</span><div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div></div>
+    <div class="winBody"><div class="securityLaunchGrid">
+      <div class="securityLaunch"><h4>Malcolm</h4><p>综合网络取证平台。</p><div class="endpointRow"><input class="endpointInput" data-endpoint="malcolm" placeholder="https://..." /><button class="miniBtn" data-launch-endpoint="malcolm">OPEN</button></div></div>
+      <div class="securityLaunch"><h4>Arkime</h4><p>PCAP 会话检索。</p><div class="endpointRow"><input class="endpointInput" data-endpoint="arkime" placeholder="https://..." /><button class="miniBtn" data-launch-endpoint="arkime">OPEN</button></div></div>
+      <div class="securityLaunch"><h4>Zeek</h4><p>网络行为日志平台地址。</p><div class="endpointRow"><input class="endpointInput" data-endpoint="zeek" placeholder="https://..." /><button class="miniBtn" data-launch-endpoint="zeek">OPEN</button></div></div>
+      <div class="securityLaunch"><h4>Suricata</h4><p>IDS 告警/NSM 平台地址。</p><div class="endpointRow"><input class="endpointInput" data-endpoint="suricata" placeholder="https://..." /><button class="miniBtn" data-launch-endpoint="suricata">OPEN</button></div></div>
+    </div><div class="secToolbar" style="margin-top:10px"><button class="miniBtn primary" id="saveNetworkEndpoints">SAVE ENDPOINTS</button></div></div>
+  </div>
+
+  <div class="osWindow" id="endpointSecurityWin">
+    <div class="winBar"><i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i><span class="winTitle">ENDPOINT_SECURITY.connect</span><div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div></div>
+    <div class="winBody"><div class="securityLaunchGrid">
+      <div class="securityLaunch"><h4>Wazuh</h4><p>主机安全监控。</p><div class="endpointRow"><input class="endpointInput" data-endpoint="wazuh" placeholder="https://..." /><button class="miniBtn" data-launch-endpoint="wazuh">OPEN</button></div></div>
+      <div class="securityLaunch"><h4>Velociraptor</h4><p>DFIR 与端点可见性。</p><div class="endpointRow"><input class="endpointInput" data-endpoint="velociraptor" placeholder="https://..." /><button class="miniBtn" data-launch-endpoint="velociraptor">OPEN</button></div></div>
+      <div class="securityLaunch"><h4>Fleet</h4><p>集中式 osquery 管理。</p><div class="endpointRow"><input class="endpointInput" data-endpoint="fleet" placeholder="https://..." /><button class="miniBtn" data-launch-endpoint="fleet">OPEN</button></div></div>
+      <div class="securityLaunch"><h4>osquery</h4><p>本机查询接口/管理 UI。</p><div class="endpointRow"><input class="endpointInput" data-endpoint="osquery" placeholder="http://localhost:..." /><button class="miniBtn" data-launch-endpoint="osquery">OPEN</button></div></div>
+    </div><div class="secToolbar" style="margin-top:10px"><button class="miniBtn primary" id="saveEndpointSecurityEndpoints">SAVE ENDPOINTS</button></div></div>
+  </div>
+
+  <div class="osWindow" id="lanRadarWin">
+    <div class="winBar"><i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i><span class="winTitle">LAN_RADAR.connect</span><div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div></div>
+    <div class="winBody"><div class="expansionNote">普通网页没有权限扫描你的局域网或读取其它应用连接，因此这里连接你自己部署的 NetAlertX / Portmaster，而不是尝试绕过浏览器安全模型。</div><div class="securityLaunchGrid">
+      <div class="securityLaunch"><h4>NetAlertX</h4><p>局域网设备发现与变化。</p><div class="endpointRow"><input class="endpointInput" data-endpoint="netalertx" placeholder="http://localhost:..." /><button class="miniBtn" data-launch-endpoint="netalertx">OPEN</button></div></div>
+      <div class="securityLaunch"><h4>Portmaster</h4><p>本机应用网络与防火墙。</p><div class="endpointRow"><input class="endpointInput" data-endpoint="portmaster" placeholder="http://localhost:..." /><button class="miniBtn" data-launch-endpoint="portmaster">OPEN</button></div></div>
+    </div><div class="secToolbar" style="margin-top:10px"><button class="miniBtn primary" id="saveLanEndpoints">SAVE ENDPOINTS</button></div></div>
+  </div>
+
+  <div class="osWindow" id="honeypotWin">
+    <div class="winBar"><i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i><span class="winTitle">HONEYPOT_RADAR.connect</span><div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div></div>
+    <div class="winBody"><div class="expansionNote">蜜罐只建议部署在你拥有和控制的实验/防御环境，并做好隔离、日志和访问控制。</div><div class="securityLaunchGrid">
+      <div class="securityLaunch"><h4>OpenCanary</h4><p>轻量多协议蜜罐。</p><div class="endpointRow"><input class="endpointInput" data-endpoint="opencanary" placeholder="https://..." /><button class="miniBtn" data-launch-endpoint="opencanary">OPEN</button></div></div>
+      <div class="securityLaunch"><h4>HoneyOS</h4><p>欺骗防御 / 假设备节点。</p><div class="endpointRow"><input class="endpointInput" data-endpoint="honeyos" placeholder="https://..." /><button class="miniBtn" data-launch-endpoint="honeyos">OPEN</button></div></div>
+    </div><div class="secToolbar" style="margin-top:10px"><button class="miniBtn primary" id="saveHoneypotEndpoints">SAVE ENDPOINTS</button></div></div>
+  </div>
+
+  <div class="osWindow" id="iocLabWin">
+    <div class="winBar"><i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i><span class="winTitle">IOC_MALWARE_LAB.local</span><div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div></div>
+    <div class="winBody">
+      <input type="file" id="iocFileInput" hidden />
+      <div class="secToolbar"><button class="miniBtn primary" id="iocExtract">EXTRACT IOCS</button><button class="miniBtn" id="iocHashFile">HASH FILE</button><button class="miniBtn" id="openYaraX">OPEN YARA-X NODE</button></div>
+      <textarea class="secText" id="iocText" placeholder="粘贴安全日志、邮件头、告警文本或调查笔记；这里仅做本地 IOC 提取与哈希，不上传内容。"></textarea>
+      <div class="iocGrid"><div><div class="mono" style="margin-bottom:6px">EXTRACTED IOCS</div><div class="iocBox" id="iocOutput">READY_</div></div><div><div class="mono" style="margin-bottom:6px">FILE SHA-256</div><div class="iocBox" id="iocHashOutput">选择文件计算 SHA-256。</div></div></div>
+    </div>
+  </div>
+
+  <div class="osWindow" id="webSecurityWin">
+    <div class="winBar"><i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i><span class="winTitle">WEB_SECURITY_CENTER.connect</span><div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div></div>
+    <div class="winBody"><div class="expansionNote">ZAP / mitmproxy 节点用于你自己或明确授权的应用、API、测试环境；LR//OS 不自动对公网目标发起扫描。</div><div class="securityLaunchGrid">
+      <div class="securityLaunch"><h4>OWASP ZAP</h4><p>Web/API 安全测试代理。</p><div class="endpointRow"><input class="endpointInput" data-endpoint="zap" placeholder="http://localhost:8080" /><button class="miniBtn" data-launch-endpoint="zap">OPEN</button></div></div>
+      <div class="securityLaunch"><h4>mitmproxy / mitmweb</h4><p>HTTP(S) 调试与检查。</p><div class="endpointRow"><input class="endpointInput" data-endpoint="mitmproxy" placeholder="http://localhost:8081" /><button class="miniBtn" data-launch-endpoint="mitmproxy">OPEN</button></div></div>
+    </div><div class="secToolbar" style="margin-top:10px"><button class="miniBtn primary" id="saveWebsecEndpoints">SAVE ENDPOINTS</button></div></div>
+  </div>
+
+  <div class="osWindow" id="ctfRangeWin">
+    <div class="winBar"><i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i><span class="winTitle">LR_CTF_RANGE.connect</span><div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div></div>
+    <div class="winBody"><div class="expansionNote">训练靶场应运行在本机、容器或隔离实验网络中。不要把故意存在漏洞的环境直接暴露到公网。</div><div class="securityLaunchGrid">
+      <div class="securityLaunch"><h4>CTFd</h4><p>私人题库 / Flag / 榜单。</p><div class="endpointRow"><input class="endpointInput" data-endpoint="ctfd" placeholder="http://localhost:8000" /><button class="miniBtn" data-launch-endpoint="ctfd">OPEN</button></div></div>
+      <div class="securityLaunch"><h4>LabForge</h4><p>隔离靶场启动中心。</p><div class="endpointRow"><input class="endpointInput" data-endpoint="labforge" placeholder="http://localhost:..." /><button class="miniBtn" data-launch-endpoint="labforge">OPEN</button></div></div>
+      <div class="securityLaunch"><h4>OWASP Juice Shop</h4><p>Web 安全训练靶场。</p><div class="endpointRow"><input class="endpointInput" data-endpoint="juiceshop" placeholder="http://localhost:3000" /><button class="miniBtn" data-launch-endpoint="juiceshop">OPEN</button></div></div>
+      <div class="securityLaunch"><h4>Casebook</h4><p>本地保存你的 CTF / DFIR / SOC 复盘记录。</p><button class="miniBtn primary" id="openCasebookBtn">OPEN CASEBOOK</button></div>
+    </div><div class="secToolbar" style="margin-top:10px"><button class="miniBtn primary" id="saveCtfEndpoints">SAVE ENDPOINTS</button></div></div>
+  </div>
+
+  <div class="osWindow" id="casebookWin">
+    <div class="winBar"><i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i><span class="winTitle">SECURITY_CASEBOOK.local</span><div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div></div>
+    <div class="winBody"><div class="suiteGrid"><div><div class="secToolbar"><button class="miniBtn primary" id="caseNew">NEW CASE</button></div><div class="caseList" id="caseList"></div></div><div><input class="suiteInput" id="caseTitle" placeholder="Case / CTF / Incident 标题" /><textarea class="suiteText" id="caseBody" placeholder="现象、证据、假设、验证、结论、复盘…"></textarea><div class="secToolbar"><button class="miniBtn primary" id="caseSave">SAVE</button><button class="miniBtn" id="caseDelete">DELETE</button></div></div></div></div>
   </div>
 
   <div class="osWindow" id="terminalWin">
