@@ -2409,6 +2409,199 @@
     }
 
 
+
+    // LR Cyber Defense runtime
+    var SECURITY_APPS=[
+      {id:"securityonion",name:"Security Onion",repo:"https://github.com/Security-Onion-Solutions/securityonion"},
+      {id:"malcolm",name:"Malcolm",repo:"https://github.com/cisagov/Malcolm"},
+      {id:"wazuh",name:"Wazuh",repo:"https://github.com/wazuh/wazuh"},
+      {id:"zeek",name:"Zeek",repo:"https://github.com/zeek/zeek"},
+      {id:"suricata",name:"Suricata",repo:"https://github.com/OISF/suricata"},
+      {id:"arkime",name:"Arkime",repo:"https://github.com/arkime/arkime"},
+      {id:"velociraptor",name:"Velociraptor",repo:"https://github.com/Velocidex/velociraptor"},
+      {id:"osquery",name:"osquery",repo:"https://github.com/osquery/osquery"},
+      {id:"fleet",name:"Fleet",repo:"https://github.com/fleetdm/fleet"},
+      {id:"netalertx",name:"NetAlertX",repo:"https://github.com/jokob-sk/NetAlertX"},
+      {id:"portmaster",name:"Portmaster",repo:"https://github.com/safing/portmaster"},
+      {id:"opencanary",name:"OpenCanary",repo:"https://github.com/thinkst/opencanary"},
+      {id:"honeyos",name:"HoneyOS",repo:"https://github.com/honey-os/honeyos"},
+      {id:"cyberchef",name:"CyberChef",repo:"https://github.com/gchq/CyberChef"},
+      {id:"yarax",name:"YARA-X",repo:"https://github.com/VirusTotal/yara-x"},
+      {id:"zap",name:"OWASP ZAP",repo:"https://github.com/zaproxy/zaproxy"},
+      {id:"mitmproxy",name:"mitmproxy",repo:"https://github.com/mitmproxy/mitmproxy"},
+      {id:"ctfd",name:"CTFd",repo:"https://github.com/CTFd/CTFd"},
+      {id:"labforge",name:"LabForge",repo:"https://github.com/anshu19981/Lab-forge"},
+      {id:"juiceshop",name:"OWASP Juice Shop",repo:"https://github.com/juice-shop/juice-shop"},
+      {id:"lidlesssoc",name:"Lidless Labs SOC Stack",repo:"https://github.com/lidless-labs"}
+    ];
+    if(typeof LR_INTEGRATIONS!=="undefined"){
+      var secExistingIds=new Set(LR_INTEGRATIONS.map(function(x){return x.id}));
+      SECURITY_APPS.forEach(function(x){if(!secExistingIds.has(x.id))LR_INTEGRATIONS.push(x)});
+      renderIntegrationList();
+    }
+
+    function saveSecurityEndpointGroup(buttonId,selector){
+      var btn=document.getElementById(buttonId);if(!btn)return;
+      btn.onclick=function(){
+        var bad=false;
+        document.querySelectorAll(selector).forEach(function(i){
+          var v=i.value.trim();
+          if(v&&!validEndpoint(v)){bad=true;i.style.outline="2px solid rgba(255,90,120,.35)";return}
+          i.style.outline="";
+          if(v)localStorage.setItem(endpointKey(i.dataset.endpoint),v);else localStorage.removeItem(endpointKey(i.dataset.endpoint));
+        });
+        if(bad){pushNotice("SECURITY NODE","有地址格式不正确。");return}
+        renderIntegrationList();pushNotice("SECURITY NODE","安全服务地址已保存。");
+      };
+    }
+    saveSecurityEndpointGroup("saveSocEndpoints","#socCenterWin [data-endpoint]");
+    saveSecurityEndpointGroup("saveNetworkEndpoints","#networkForensicsWin [data-endpoint]");
+    saveSecurityEndpointGroup("saveEndpointSecurityEndpoints","#endpointSecurityWin [data-endpoint]");
+    saveSecurityEndpointGroup("saveLanEndpoints","#lanRadarWin [data-endpoint]");
+    saveSecurityEndpointGroup("saveHoneypotEndpoints","#honeypotWin [data-endpoint]");
+    saveSecurityEndpointGroup("saveWebsecEndpoints","#webSecurityWin [data-endpoint]");
+    saveSecurityEndpointGroup("saveCtfEndpoints","#ctfRangeWin [data-endpoint]");
+    syncRemoteInputs();
+
+    // Security Log Lab: Suricata EVE JSON / generic JSONL / Zeek TSV
+    var secEvents=[];
+    function normaliseSecurityEvent(obj){
+      var src=obj.src_ip||obj["id.orig_h"]||obj.source_ip||obj.client_ip||obj.src||"";
+      var dst=obj.dest_ip||obj.dst_ip||obj["id.resp_h"]||obj.destination_ip||obj.server_ip||obj.dest||"";
+      var type=obj.event_type||obj._path||obj.type||obj.kind||obj.category||"event";
+      var time=obj.timestamp||obj.ts||obj.time||obj["@timestamp"]||"";
+      var alert=obj.alert||{};
+      var info=alert.signature||obj.signature||obj.message||obj.msg||obj.query||obj.host||obj.uri||obj.proto||"";
+      return {raw:obj,time:String(time||""),type:String(type||"event"),src:String(src||""),dst:String(dst||""),info:String(info||"")};
+    }
+    function parseZeekTsv(text){
+      var lines=text.split(/\r?\n/),fields=null,out=[];
+      lines.forEach(function(line){
+        if(!line)return;
+        if(line.startsWith("#fields")){fields=line.split("\t").slice(1);return}
+        if(line.startsWith("#"))return;
+        var parts=line.split("\t"),obj={};
+        if(fields){fields.forEach(function(k,i){obj[k]=parts[i]})}
+        else obj={message:line};
+        out.push(normaliseSecurityEvent(obj));
+      });
+      return out;
+    }
+    function parseSecurityText(text){
+      var trimmed=text.trim();if(!trimmed)return[];
+      if(trimmed.startsWith("#separator")||trimmed.includes("\n#fields"))return parseZeekTsv(text);
+      var lines=text.split(/\r?\n/).filter(function(x){return x.trim()});
+      var out=[],jsonHits=0;
+      lines.forEach(function(line){
+        try{var obj=JSON.parse(line);out.push(normaliseSecurityEvent(obj));jsonHits++}catch(e){}
+      });
+      if(jsonHits)return out;
+      try{
+        var root=JSON.parse(trimmed),arr=Array.isArray(root)?root:[root];
+        return arr.map(normaliseSecurityEvent);
+      }catch(e){}
+      return lines.map(function(line){return normaliseSecurityEvent({message:line,type:"text"})});
+    }
+    function collectIps(e){
+      var ips=[];[e.src,e.dst,e.info,JSON.stringify(e.raw||{})].forEach(function(t){
+        String(t||"").match(/\b(?:\d{1,3}\.){3}\d{1,3}\b/g)?.forEach(function(ip){ips.push(ip)})
+      });return ips;
+    }
+    function renderSecurityLogs(){
+      var q=(document.getElementById("secLogSearch").value||"").toLowerCase(),rows=document.getElementById("secLogRows"),filtered=secEvents.filter(function(e){return !q||JSON.stringify(e).toLowerCase().includes(q)});rows.innerHTML="";
+      filtered.slice(0,500).forEach(function(e){
+        var tr=document.createElement("tr");
+        [e.time,e.type,e.src,e.dst,e.info].forEach(function(v){var td=document.createElement("td");td.textContent=String(v||"");tr.appendChild(td)});rows.appendChild(tr);
+      });
+      var ips=new Set(),types=new Set(),alerts=0;
+      secEvents.forEach(function(e){collectIps(e).forEach(function(ip){ips.add(ip)});types.add(e.type);if(e.type==="alert"||e.raw&&e.raw.alert)alerts++});
+      document.getElementById("secEventCount").textContent=secEvents.length;
+      document.getElementById("secAlertCount").textContent=alerts;
+      document.getElementById("secIpCount").textContent=ips.size;
+      document.getElementById("secTypeCount").textContent=types.size;
+      if(!rows.children.length){var tr=document.createElement("tr"),td=document.createElement("td");td.colSpan=5;td.textContent=secEvents.length?"没有匹配结果。":"尚未导入日志。";tr.appendChild(td);rows.appendChild(tr)}
+    }
+    document.getElementById("secLogOpen").onclick=function(){document.getElementById("secLogInput").click()};
+    document.getElementById("secLogInput").onchange=async function(e){var file=e.target.files[0];if(!file)return;try{secEvents=parseSecurityText(await file.text());renderSecurityLogs();pushNotice("LOG LAB","已导入 "+secEvents.length+" 条事件。")}catch(err){pushNotice("LOG LAB","日志解析失败。")}e.target.value=""};
+    document.getElementById("secLogExample").onclick=function(){
+      var sample=[
+        {"timestamp":"2026-09-19T12:00:01Z","event_type":"dns","src_ip":"192.168.1.20","dest_ip":"1.1.1.1","dns":{"rrname":"example.org"}},
+        {"timestamp":"2026-09-19T12:00:05Z","event_type":"alert","src_ip":"192.168.1.22","dest_ip":"192.168.1.5","alert":{"signature":"Example IDS alert","severity":2}},
+        {"timestamp":"2026-09-19T12:00:08Z","event_type":"http","src_ip":"192.168.1.20","dest_ip":"93.184.216.34","http":{"hostname":"example.com"}}
+      ].map(JSON.stringify).join("\n");
+      secEvents=parseSecurityText(sample);renderSecurityLogs();
+    };
+    document.getElementById("secLogSearch").oninput=renderSecurityLogs;
+    document.getElementById("secLogClear").onclick=function(){secEvents=[];document.getElementById("secLogSearch").value="";renderSecurityLogs()};renderSecurityLogs();
+
+    // IOC extraction / hashing
+    function uniqSorted(arr){return Array.from(new Set(arr.filter(Boolean))).sort()}
+    function extractIocs(text){
+      var urls=uniqSorted(text.match(/https?:\/\/[^\s<>"']+/gi)||[]);
+      var ipv4=uniqSorted((text.match(/\b(?:\d{1,3}\.){3}\d{1,3}\b/g)||[]).filter(function(ip){return ip.split(".").every(function(x){var n=Number(x);return n>=0&&n<=255})}));
+      var sha256=uniqSorted(text.match(/\b[a-fA-F0-9]{64}\b/g)||[]);
+      var sha1=uniqSorted(text.match(/\b[a-fA-F0-9]{40}\b/g)||[]);
+      var md5=uniqSorted(text.match(/\b[a-fA-F0-9]{32}\b/g)||[]);
+      var emails=uniqSorted(text.match(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi)||[]);
+      var domains=uniqSorted((text.match(/\b(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,}\b/gi)||[]).filter(function(d){return !emails.some(function(e){return e.endsWith("@"+d)})}));
+      return {IPv4:ipv4,URLs:urls,Domains:domains,Emails:emails,SHA256:sha256,SHA1:sha1,MD5:md5};
+    }
+    document.getElementById("iocExtract").onclick=function(){
+      var result=extractIocs(document.getElementById("iocText").value),parts=[];
+      Object.keys(result).forEach(function(k){parts.push("["+k+"] "+result[k].length);result[k].forEach(function(v){parts.push(v)});parts.push("")});
+      document.getElementById("iocOutput").textContent=parts.join("\n").trim()||"没有提取到 IOC。";
+    };
+    document.getElementById("iocHashFile").onclick=function(){document.getElementById("iocFileInput").click()};
+    document.getElementById("iocFileInput").onchange=async function(e){
+      var file=e.target.files[0];if(!file)return;var out=document.getElementById("iocHashOutput");out.textContent="HASHING "+file.name+" …";
+      try{var buf=await file.arrayBuffer(),digest=await crypto.subtle.digest("SHA-256",buf),hex=Array.from(new Uint8Array(digest)).map(function(b){return b.toString(16).padStart(2,"0")}).join("");out.textContent=file.name+"\nSIZE: "+file.size+" bytes\nSHA-256:\n"+hex}catch(err){out.textContent="ERROR // "+(err.message||err)}
+      e.target.value="";
+    };
+    document.getElementById("openYaraX").onclick=function(){launchEndpoint("yarax")};
+
+    // Local Security Casebook
+    var caseSelected=null;
+    function loadCases(){try{return JSON.parse(localStorage.getItem("lr-security-cases")||"[]")}catch(e){return[]}}
+    function saveCases(a){localStorage.setItem("lr-security-cases",JSON.stringify(a))}
+    function renderCases(){
+      var box=document.getElementById("caseList"),arr=loadCases().sort(function(a,b){return b.updated-a.updated});box.innerHTML="";
+      arr.forEach(function(x){var row=document.createElement("div");row.className="caseRow";var b=document.createElement("b"),sm=document.createElement("small");b.textContent=x.title||"Untitled Case";sm.textContent=new Date(x.updated).toLocaleString();row.appendChild(b);row.appendChild(sm);row.onclick=function(){caseSelected=x.id;document.getElementById("caseTitle").value=x.title;document.getElementById("caseBody").value=x.body};box.appendChild(row)});
+      if(!box.children.length)box.innerHTML='<div class="muted">还没有 Case。可以记录 CTF、DFIR、SOC 告警或排障复盘。</div>';
+    }
+    document.getElementById("openCasebookBtn").onclick=function(){openWin("casebookWin")};
+    document.getElementById("caseNew").onclick=function(){caseSelected=null;document.getElementById("caseTitle").value="";document.getElementById("caseBody").value=""};
+    document.getElementById("caseSave").onclick=function(){
+      var title=document.getElementById("caseTitle").value.trim()||"Untitled Case",body=document.getElementById("caseBody").value,arr=loadCases(),now=Date.now();
+      if(caseSelected){var x=arr.find(function(c){return c.id===caseSelected});if(x){x.title=title;x.body=body;x.updated=now}}
+      else{caseSelected=crypto.randomUUID?crypto.randomUUID():String(now);arr.push({id:caseSelected,title:title,body:body,updated:now})}
+      saveCases(arr);renderCases();pushNotice("CASEBOOK","安全复盘已保存到当前浏览器。");
+    };
+    document.getElementById("caseDelete").onclick=function(){if(!caseSelected)return;saveCases(loadCases().filter(function(x){return x.id!==caseSelected}));caseSelected=null;document.getElementById("caseTitle").value="";document.getElementById("caseBody").value="";renderCases()};renderCases();
+
+    // Security terminal commands
+    if(typeof cmds==="object"){
+      Object.assign(cmds,{soc:"opening LR_SOC_CENTER.connect...",seclogs:"opening SECURITY_LOG_LAB.local...",ioc:"opening IOC_MALWARE_LAB.local...",websec:"opening WEB_SECURITY_CENTER.connect...",ctf:"opening LR_CTF_RANGE.connect...",dfir:"opening ENDPOINT_SECURITY.connect...",lan:"opening LAN_RADAR.connect...",honeypot:"opening HONEYPOT_RADAR.connect...",casebook:"opening SECURITY_CASEBOOK.local..."});
+      cmds.help="commands: help, about, projects, tools, github, apps, files, memory, macro, image, pdf, clip, remote, mode, code, canvas, workspace, agents, browser, gallery, news, music, game, brain, cyberterm, soc, seclogs, ioc, websec, ctf, dfir, lan, honeypot, casebook, skills, globe, ai, universe, achievements, device, theme, clear, matrix, status";
+    }
+    var securityTermHandler=function(e){
+      if(e.key!=="Enter")return;var c=(termInput.value||"").trim().toLowerCase();
+      var map={soc:"socCenterWin",seclogs:"securityLogWin",ioc:"iocLabWin",websec:"webSecurityWin",ctf:"ctfRangeWin",dfir:"endpointSecurityWin",lan:"lanRadarWin",honeypot:"honeypotWin",casebook:"casebookWin"};
+      if(map[c]){e.stopImmediatePropagation();termPrint("lr@space:~$ "+c,"tGreen");termInput.value="";termPrint(cmds[c],"tCyan");openWin(map[c])}
+    };
+    termInput.addEventListener("keydown",securityTermHandler,true);
+
+    var secPalette=document.getElementById("cmdList");
+    if(secPalette&&!secPalette.querySelector('[data-sec-win="socCenterWin"]')){
+      secPalette.insertAdjacentHTML("afterbegin",
+        '<div class="cmdItem" data-sec-win="socCenterWin"><span>打开 SOC Center</span><small>SOC</small></div>'+
+        '<div class="cmdItem" data-sec-win="securityLogWin"><span>打开 Security Log Lab</span><small>LOGS</small></div>'+
+        '<div class="cmdItem" data-sec-win="iocLabWin"><span>打开 IOC Lab</span><small>IOC</small></div>'+
+        '<div class="cmdItem" data-sec-win="webSecurityWin"><span>打开 Web Security</span><small>WEBSEC</small></div>'+
+        '<div class="cmdItem" data-sec-win="ctfRangeWin"><span>打开 CTF Range</span><small>CTF</small></div>');
+      secPalette.querySelectorAll("[data-sec-win]").forEach(function(i){i.onclick=function(){closePalette();openWin(i.dataset.secWin)}});
+    }
+
+
     // Creative interactions
     const ideas=[
       ["做一个只有自己看得懂的彩蛋","比如连续点击头像 5 次，弹出隐藏页面。"],
