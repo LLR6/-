@@ -6,6 +6,7 @@
   <meta name="theme-color" content="#07101d" />
   <meta name="description" content="LR//NEO：二次元、技术、CTF、学习、项目与生活碎片组成的个人档案。" />
   <title>LR//NEO — Personal Anime Archive</title>
+  <link rel="stylesheet" href="./vendor/aplayer/APlayer.min.css" />
   <link rel="stylesheet" href="./v4.css" />
 </head>
 <body>
@@ -40,6 +41,17 @@
 
     <div class="heroFooter">
       <span>STILL HERE · IN MY OWN STORY</span><i></i><span>GOOD ANIME · BETTER DAYS</span>
+    </div>
+    <div class="shokaWaves" aria-hidden="true">
+      <svg viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs><path id="neo-gentle-wave" d="M-160 44c30 0 58-18 88-18s58 18 88 18 58-18 88-18 58 18 88 18v44h-352z"/></defs>
+        <g class="neoParallax">
+          <use href="#neo-gentle-wave" x="48" y="0"></use>
+          <use href="#neo-gentle-wave" x="48" y="3"></use>
+          <use href="#neo-gentle-wave" x="48" y="5"></use>
+          <use href="#neo-gentle-wave" x="48" y="7"></use>
+        </g>
+      </svg>
     </div>
   </header>
 
@@ -143,19 +155,43 @@
         <div><div class="kicker">05 / ARTICLES</div><h2>文章与长一点的记录</h2></div>
         <p>真正需要展开写的内容再放到这里。少而清楚，比首页塞满一堆假文章更好。</p>
       </div>
-      <div class="articleList">
-        <a class="article" href="#"><time>ARCHIVE</time><div><h3>为什么我要做一个自己的数字空间</h3><p>与其把每一种兴趣拆散在不同平台，不如留一个真正属于自己的地方。</p></div><b>→</b></a>
-        <a class="article" href="#"><time>SECURITY</time><div><h3>CTF 复盘到底应该留下什么</h3><p>不是只记最终 payload，而是留下错误方向、判断过程和真正学会的东西。</p></div><b>→</b></a>
-        <a class="article" href="#"><time>STUDY</time><div><h3>长期学习最怕的不是慢，而是没有反馈</h3><p>进度条不重要，知道自己为什么卡住、下一步做什么更重要。</p></div><b>→</b></a>
+      <div class="journalList">
+        <a class="journal" href="#">
+          <div class="journalCover jc1"></div>
+          <div class="journalInfo"><time>ARCHIVE / 01</time><h3>为什么我要做一个自己的数字空间</h3><p>与其把每一种兴趣拆散在不同平台，不如留一个真正属于自己的地方。它不需要迎合算法，只需要以后回来看时，还能认出当时的自己。</p><span>READ STORY →</span></div>
+        </a>
+        <a class="journal" href="#">
+          <div class="journalCover jc2"></div>
+          <div class="journalInfo"><time>SECURITY / 02</time><h3>CTF 复盘到底应该留下什么</h3><p>不是只记最终 payload，而是把错误方向、判断过程、卡住的位置和真正想通的那一刻一起留下。</p><span>READ STORY →</span></div>
+        </a>
+        <a class="journal" href="#">
+          <div class="journalCover jc3"></div>
+          <div class="journalInfo"><time>STUDY / 03</time><h3>长期学习最怕的不是慢，而是没有反馈</h3><p>进度条不是主角。知道自己为什么卡住、下一步该做什么，才是能让这一章继续连载下去的东西。</p><span>READ STORY →</span></div>
+        </a>
       </div>
     </section>
   </main>
 
+  <button class="musicOrb" id="musicToggle" aria-label="打开音乐舱" title="Music">♪</button>
+  <aside class="musicPanel" id="musicPanel" aria-label="本地音乐播放器">
+    <div class="musicHead">
+      <div><b>MUSIC / LOCAL</b><span>powered by APlayer</span></div>
+      <button id="musicClose" aria-label="关闭">×</button>
+    </div>
+    <label class="musicPicker">
+      <input id="musicFiles" type="file" accept="audio/*" multiple />
+      <span>＋ 选择本地音频</span>
+      <small>文件只在当前浏览器播放，不会上传。</small>
+    </label>
+    <div id="aplayer"></div>
+  </aside>
+
   <footer class="footer container">
     <span>LR//NEO — FOR A BRIGHTER TOMORROW, STILL OTAKU.</span>
-    <span>© <b id="year">2026</b> LR</span>
+    <span>© <b id="year">2026</b> LR · <a href="./OPEN_SOURCE_NOTICES.md" target="_blank" rel="noreferrer">OPEN SOURCE</a></span>
   </footer>
 
+  <script src="./vendor/aplayer/APlayer.min.js"></script>
   <script src="./v4.js"></script>
 </body>
 </html>
