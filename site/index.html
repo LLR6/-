@@ -317,6 +317,135 @@
 
     @media(max-width:520px){.shell,.nav{width:min(100% - 20px,1180px)}.stat{grid-column:span 12}section{padding:48px 0}.hero{padding-top:50px}.pill{display:none}h1{font-size:54px}.footer{flex-direction:column}}
     @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+    /* === LR AVATAR EDITION / refinement layer === */
+    :root{
+      --pink:#8f82ff;
+      --violet:#776dff;
+      --cyan:#2bcde8;
+      --blue:#4f7cff;
+      --text:#182146;
+      --muted:#66729b;
+      --line:rgba(83,109,214,.15);
+    }
+    body{
+      background:
+        radial-gradient(circle at 16% 12%,rgba(83,125,255,.16),transparent 26%),
+        radial-gradient(circle at 85% 18%,rgba(43,205,232,.18),transparent 28%),
+        radial-gradient(circle at 54% 78%,rgba(119,109,255,.13),transparent 31%),
+        linear-gradient(135deg,#fbfdff 0%,#f0f6ff 42%,#f7f5ff 76%,#f2fbff 100%);
+    }
+    body:before{opacity:.14;background-size:52px 52px}
+    .aurora.one{background:rgba(93,112,255,.22);opacity:.27}
+    .aurora.two{background:rgba(43,205,232,.26);opacity:.28}
+    .aurora.three{background:rgba(119,109,255,.18);opacity:.22}
+    .scanlines{opacity:.018}
+    .hexGrid{opacity:.075}
+    #netCanvas{opacity:.25}
+    .hudCorner{opacity:.18}
+    .systemRail{opacity:.34}
+    .nav{
+      border-radius:14px;
+      background:rgba(255,255,255,.76);
+      border-color:rgba(116,143,228,.18);
+      box-shadow:0 14px 42px rgba(74,92,175,.10);
+    }
+    .navlinks a{border-radius:8px}
+    .navlinks a:hover{background:rgba(77,113,218,.07);color:#4058be}
+    .brand i{color:#486fff;text-shadow:0 0 20px rgba(43,205,232,.34)}
+    .hero{grid-template-columns:1.1fr .9fr;gap:54px;min-height:86vh;padding-top:74px}
+    .heroCopy:before{color:#8390ba;letter-spacing:.22em}
+    h1{letter-spacing:-.065em}
+    .grad{
+      background:linear-gradient(95deg,#344dbe 0%,#7269ff 38%,#3887ef 68%,#25cde4 100%);
+      background-size:180% auto;
+      filter:drop-shadow(0 8px 18px rgba(74,100,210,.16));
+    }
+    .lead{max-width:680px}
+    .btn{border-radius:9px;background:rgba(255,255,255,.78)}
+    .btn.primary{
+      background:linear-gradient(118deg,#4b62d8,#7569f6 46%,#34bddc);
+      box-shadow:0 12px 28px rgba(80,96,210,.23),0 0 24px rgba(43,205,232,.12);
+    }
+    .heroBadge{
+      border-radius:10px;background:rgba(255,255,255,.66);
+      border-color:rgba(99,123,214,.14);box-shadow:none
+    }
+    .heroBadge b{color:#4459b7}.heroBadge small{color:#7480a8}
+    .neoIdentity{
+      margin-top:16px;display:grid;gap:5px;width:max-content;max-width:100%;
+      padding-left:14px;border-left:2px solid #41cde5
+    }
+    .neoIdentity span{font:800 9px ui-monospace,monospace;letter-spacing:.22em;color:#6f7fab}
+    .neoIdentity b{font-family:"Yu Mincho","Hiragino Mincho ProN","Songti SC",serif;font-size:17px;letter-spacing:.16em;color:#283878}
+    .neoIdentity small{font:700 8px/1.55 ui-monospace,monospace;letter-spacing:.09em;color:#8a95b9}
+    .avatarCard.techFrame{
+      aspect-ratio:4/5.15;border-radius:18px;
+      border:1px solid rgba(79,112,222,.22);
+      background:
+        radial-gradient(circle at 50% 42%,rgba(58,202,233,.11),transparent 25%),
+        linear-gradient(155deg,rgba(255,255,255,.92),rgba(235,243,255,.70));
+      box-shadow:0 28px 74px rgba(69,88,175,.16),inset 0 0 0 1px rgba(255,255,255,.78);
+    }
+    .avatarCard.techFrame:before{
+      width:310px;height:310px;
+      border:1px solid rgba(52,188,222,.22);
+      box-shadow:0 0 0 28px rgba(103,97,236,.045),0 0 80px rgba(52,188,222,.13);
+    }
+    .avatarCard.techFrame:after{
+      content:"PROFILE // LR-01";left:22px;bottom:18px;color:#5270c3;font-size:10px
+    }
+    .avatar{
+      width:190px;height:190px;
+      border:5px solid rgba(255,255,255,.98);
+      box-shadow:0 0 0 10px rgba(88,104,226,.075),0 18px 45px rgba(72,88,176,.24),0 0 70px rgba(43,205,232,.12);
+      transition:.35s cubic-bezier(.2,.8,.2,1);
+    }
+    .avatarCard:hover .avatar{transform:scale(1.045) translateY(-3px)}
+    .orbitRing.r1{width:292px;height:292px;border-color:rgba(65,114,222,.18)}
+    .orbitRing.r2{width:370px;height:370px;border-color:rgba(43,190,222,.16)}
+    .sat{
+      border-radius:6px;background:rgba(250,253,255,.82);
+      border-color:rgba(91,119,210,.14);box-shadow:0 8px 24px rgba(62,82,164,.10);
+      color:#4f63ad
+    }
+    .sat.s1{transform:translate(158px,-86px)}
+    .sat.s2{transform:translate(-145px,98px)}
+    .sat.s3{transform:translate(108px,152px)}
+    .techMetrics{right:13px;top:13px;gap:5px}
+    .metric{
+      min-width:94px;border-radius:6px;background:rgba(255,255,255,.66);
+      border-color:rgba(76,103,205,.12);color:#7180ab
+    }
+    .metric strong{color:#4058b7}
+    .scanBeam{opacity:.30}
+    .frameMarks:before,.frameMarks:after{opacity:.30}
+    .avatarCaption{
+      position:absolute;left:18px;top:18px;z-index:4;display:grid;gap:4px;
+      padding:9px 11px;border-left:2px solid #39c7e1;background:rgba(255,255,255,.53);backdrop-filter:blur(10px)
+    }
+    .avatarCaption span{font:800 8px ui-monospace,monospace;letter-spacing:.18em;color:#6e7ba5}
+    .avatarCaption b{font:900 10px ui-monospace,monospace;letter-spacing:.08em;color:#35498f}
+    .avatarKana{
+      position:absolute;right:-7px;bottom:78px;z-index:2;
+      writing-mode:vertical-rl;font-family:"Yu Mincho","Hiragino Mincho ProN",serif;
+      font-weight:900;font-size:30px;letter-spacing:.16em;color:rgba(49,69,137,.055);user-select:none
+    }
+    .glass{border-radius:16px;background:linear-gradient(145deg,rgba(255,255,255,.78),rgba(244,248,255,.62));border-color:rgba(105,130,214,.13)}
+    .stat,.post,.project,.about>div{box-shadow:0 12px 34px rgba(72,92,176,.09)}
+    .post:hover{box-shadow:0 18px 40px rgba(76,96,188,.13),0 0 24px rgba(43,205,232,.07)}
+    .tag{background:rgba(78,111,217,.08);color:#4e61b4}
+    .chip.on,.chip:hover{background:rgba(73,106,213,.08);border-color:rgba(43,190,222,.28)}
+    .desktopDock{border-radius:16px;background:rgba(255,255,255,.70);box-shadow:0 14px 38px rgba(68,87,169,.13)}
+    .dockBtn{border-radius:11px}
+    .trail{opacity:.62}
+    @media(max-width:850px){
+      .hero{grid-template-columns:1fr;gap:30px}
+      .avatarCard.techFrame{aspect-ratio:16/10;min-height:360px}
+      .avatar{width:156px;height:156px}
+      .neoIdentity{width:auto}
+    }
+
   </style>
 </head>
 <body data-theme="aurora">
@@ -352,6 +481,11 @@
         <p class="lead">这里是我的个人数字基地。记录 <span class="type" id="typing">技术折腾</span>、学习过程、项目碎片、生活灵感，以及那些我不想忘掉的瞬间。</p>
         <div class="actions"><a class="btn primary" href="#articles">进入我的世界 →</a><a class="btn" href="https://github.com/LLR6" target="_blank" rel="noreferrer">GitHub ↗</a><button class="btn" id="openPalette">⌘ 快速导航</button></div>
         <div class="heroBadge"><span class="sig"></span><b>LR_OS / STATUS: ONLINE</b><small>一个会随着我一起生长的个人数字空间</small></div>
+        <div class="neoIdentity">
+          <span>LR / PROFILE 01</span>
+          <b>記録 · 技術 · 生活</b>
+          <small>BUILD WHAT I LIKE. KEEP WHAT I DON'T WANT TO FORGET.</small>
+        </div>
       </div>
       <div class="avatarCard techFrame"><div class="shine"></div><div class="frameMarks"></div><div class="scanBeam"></div>
         <div class="techMetrics">
@@ -365,7 +499,13 @@
           <div class="sat s2">DEV // BUILD</div>
           <div class="sat s3">STUDY // SYNC</div>
         </div>
+
+        <div class="avatarCaption">
+          <span>IDENTITY // LR</span>
+          <b>BLACK HAIR / NODE-01</b>
+        </div>
         <img class="avatar" src="https://github.com/LLR6.png" alt="LR avatar" onerror="this.style.display='none'" />
+        <div class="avatarKana">エルアール</div>
       </div>
     </section>
 
@@ -903,9 +1043,22 @@
     // secret shortcut: Ctrl/Cmd + K opens terminal
     addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){e.preventDefault();openWin("terminalWin")}});
 
-    // Future terminal boot
+    // Future terminal boot — once per tab/session
     const boot=document.getElementById("boot"),bootPct=document.getElementById("bootPct");
-    let bp=12;const bootTimer=setInterval(()=>{bp=Math.min(100,bp+Math.floor(Math.random()*16+7));bootPct.textContent=bp+"%";if(bp>=100){clearInterval(bootTimer);setTimeout(()=>boot.classList.add("hide"),320)}},120);
+    if(sessionStorage.getItem("lr-boot-seen")){
+      boot?.classList.add("hide");
+    }else{
+      let bp=12;
+      const bootTimer=setInterval(()=>{
+        bp=Math.min(100,bp+Math.floor(Math.random()*16+7));
+        if(bootPct)bootPct.textContent=bp+"%";
+        if(bp>=100){
+          clearInterval(bootTimer);
+          sessionStorage.setItem("lr-boot-seen","1");
+          setTimeout(()=>boot?.classList.add("hide"),320);
+        }
+      },120);
+    }
 
     // Simulated telemetry
     const latencyMetric=document.getElementById("latencyMetric");
