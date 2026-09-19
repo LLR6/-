@@ -1,0 +1,45 @@
+/* LR//NEO anime layer — original design */
+:root{--neo-ink:#17214d;--neo-cyan:#35d9ef;--neo-violet:#786aff;--neo-pink:#ff62c9;--neo-yellow:#ffd857}
+body.animeMode{background:
+ radial-gradient(circle at 82% 8%,rgba(255,216,87,.26),transparent 17%),
+ radial-gradient(circle at 9% 24%,rgba(255,98,201,.22),transparent 24%),
+ radial-gradient(circle at 73% 55%,rgba(53,217,239,.20),transparent 26%),
+ linear-gradient(145deg,#fffefd 0%,#eef9ff 36%,#f5efff 67%,#fff4fb 100%)}
+body.animeMode:after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.16;background-image:radial-gradient(circle at center,#4455b0 0 1px,transparent 1.6px);background-size:18px 18px;mask-image:linear-gradient(90deg,transparent,#000 15% 85%,transparent)}
+.neoRibbon{position:fixed;right:0;top:120px;z-index:23;writing-mode:vertical-rl;padding:14px 8px;border-radius:14px 0 0 14px;background:linear-gradient(#182351,#5f57df);color:white;font:900 10px/1.5 ui-monospace,monospace;letter-spacing:.25em;box-shadow:0 12px 30px rgba(55,65,150,.18)}
+.neoRibbon i{font-style:normal;color:#78efff}
+.neoCity{position:absolute;left:0;right:0;bottom:0;height:210px;pointer-events:none;opacity:.34;overflow:hidden;mask-image:linear-gradient(to top,#000 0 64%,transparent)}
+.neoCity:before{content:"";position:absolute;left:-2%;right:-2%;bottom:-20px;height:170px;background:
+linear-gradient(90deg,transparent 0 2%,#586ed2 2% 7%,transparent 7% 8%,#334dba 8% 12%,transparent 12% 15%,#6c5fe6 15% 23%,transparent 23% 25%,#3dbfd8 25% 29%,transparent 29% 31%,#4c60c9 31% 39%,transparent 39% 42%,#596fd6 42% 47%,transparent 47% 49%,#7b68e9 49% 57%,transparent 57% 60%,#36cbe2 60% 64%,transparent 64% 67%,#5269ce 67% 75%,transparent 75% 78%,#8069e6 78% 84%,transparent 84% 87%,#3ac9df 87% 92%,transparent 92% 94%,#5a6dd0 94% 100%);clip-path:polygon(0 48%,4% 48%,4% 18%,7% 18%,7% 58%,11% 58%,11% 32%,15% 32%,15% 0,22% 0,22% 66%,27% 66%,27% 27%,31% 27%,31% 46%,35% 46%,35% 10%,41% 10%,41% 60%,46% 60%,46% 25%,50% 25%,50% 44%,55% 44%,55% 8%,61% 8%,61% 70%,67% 70%,67% 35%,72% 35%,72% 14%,78% 14%,78% 57%,84% 57%,84% 23%,89% 23%,89% 48%,94% 48%,94% 31%,100% 31%,100% 100%,0 100%)}
+.neoCity:after{content:"NEO DISTRICT 26 // 未来都市";position:absolute;right:5%;bottom:32px;font:900 11px ui-monospace,monospace;letter-spacing:.2em;color:#4056b8}
+.hero{position:relative}.heroCopy{z-index:2}
+.animeStamp{display:flex;gap:12px;align-items:center;margin:0 0 12px;font:900 12px ui-monospace,monospace;letter-spacing:.16em;color:#4556b6}
+.animeStamp .jp{font-size:25px;letter-spacing:.08em;color:#ff56bd;text-shadow:3px 3px 0 rgba(255,216,87,.45)}
+.animeStamp .slash{width:52px;height:2px;background:linear-gradient(90deg,#ff5bc4,#44dced);transform:rotate(-7deg)}
+.mangaHeroTag{display:inline-block;margin-top:16px;padding:8px 12px;background:#18224c;color:white;font:900 10px ui-monospace,monospace;letter-spacing:.18em;clip-path:polygon(0 0,94% 0,100% 50%,94% 100%,0 100%,5% 50%);box-shadow:8px 8px 0 rgba(255,100,198,.12)}
+.animeMascot{position:fixed;right:18px;bottom:96px;width:142px;z-index:115;cursor:pointer;filter:drop-shadow(0 18px 28px rgba(72,84,180,.22));transition:.25s cubic-bezier(.2,.8,.2,1)}
+.animeMascot:hover{transform:translateY(-8px) rotate(-2deg) scale(1.04)}
+.animeMascot img{width:100%;display:block;border-radius:24px;border:2px solid rgba(255,255,255,.9);background:white}
+.mascotBadge{position:absolute;left:-18px;top:14px;padding:6px 9px;border-radius:999px;background:#17204a;color:#fff;font:900 8px ui-monospace,monospace;letter-spacing:.12em;box-shadow:0 8px 20px rgba(49,61,140,.22)}
+.mascotPing{position:absolute;right:-4px;top:-4px;width:16px;height:16px;border-radius:50%;background:#55efb7;border:3px solid white;box-shadow:0 0 16px #55efb7;animation:neoPing 1.8s ease infinite}
+@keyframes neoPing{50%{transform:scale(1.3);opacity:.55}}
+.vnBox{position:fixed;left:50%;bottom:24px;transform:translate(-50%,24px);width:min(760px,calc(100% - 28px));z-index:260;opacity:0;visibility:hidden;transition:.22s;border:2px solid #1a2557;background:rgba(255,255,255,.95);box-shadow:12px 12px 0 rgba(116,101,255,.14),0 20px 60px rgba(60,76,166,.22);border-radius:8px 22px 8px 22px;padding:18px 20px 16px}
+.vnBox.open{opacity:1;visibility:visible;transform:translate(-50%,0)}
+.vnName{position:absolute;left:18px;top:-15px;padding:5px 12px;background:linear-gradient(90deg,#6e63ff,#3ed9ef);color:white;font:1000 11px ui-monospace,monospace;letter-spacing:.14em;transform:skew(-8deg)}
+.vnText{font-size:14px;line-height:1.8;color:#34406f}.vnActions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.vnActions button{border:1px solid rgba(75,99,210,.15);background:#f5f8ff;color:#4352aa;padding:7px 10px;border-radius:10px;font-weight:800;cursor:pointer}
+.vnClose{position:absolute;right:9px;top:8px;border:0;background:transparent;color:#6370a0;cursor:pointer;font-size:18px}
+.jpDeco{position:absolute;z-index:1;font-weight:1000;letter-spacing:.08em;pointer-events:none;user-select:none}.jpDeco.don{right:31%;top:17%;font-size:70px;color:rgba(23,32,76,.06);transform:rotate(9deg)}.jpDeco.kira{left:49%;bottom:20%;font-size:38px;color:rgba(255,81,188,.11);transform:rotate(-8deg)}
+.neoPetal{position:fixed;top:-30px;z-index:22;width:10px;height:16px;border-radius:100% 0 100% 0;background:linear-gradient(135deg,#fff,#ff91d3);opacity:.65;pointer-events:none;animation:petalFall linear forwards}
+@keyframes petalFall{to{transform:translate3d(var(--drift),110vh,0) rotate(520deg);opacity:.08}}
+.memorySection{position:relative}.memoryTitle{display:flex;align-items:center;gap:14px}.memoryTitle .jp{font-size:36px;font-weight:1000;color:#ff58bd;text-shadow:4px 4px 0 rgba(255,216,87,.34)}
+.mangaGrid{display:grid;grid-template-columns:1.35fr .65fr .75fr 1.25fr;grid-template-rows:210px 180px;gap:12px}
+.mangaPanel{position:relative;overflow:hidden;border:3px solid #17204a;background:#fff;box-shadow:8px 8px 0 rgba(23,32,74,.10);padding:18px;cursor:pointer;transition:.24s}
+.mangaPanel:hover{transform:translate(-3px,-5px) rotate(-.5deg);box-shadow:13px 14px 0 rgba(118,105,255,.15)}
+.mangaPanel:before{content:"";position:absolute;inset:0;opacity:.18;background-image:radial-gradient(circle,#243273 0 1px,transparent 1.5px);background-size:8px 8px;mask-image:linear-gradient(135deg,#000,transparent 70%)}
+.mangaPanel>*{position:relative}.mangaPanel .num{font:1000 10px ui-monospace,monospace;color:#6f79a2}.mangaPanel h3{font-size:25px;margin:10px 0 6px}.mangaPanel p{font-size:12px;line-height:1.65;color:#64709a;margin:0}.mangaPanel .fx{position:absolute;right:10px;bottom:2px;font-size:50px;font-weight:1000;color:rgba(110,94,245,.10);transform:rotate(-8deg)}
+.mp1{grid-row:span 2;background:linear-gradient(145deg,#fdfefe,#e7fbff)}.mp2{background:linear-gradient(145deg,#fff8fc,#ffe7f5)}.mp3{background:linear-gradient(145deg,#fffdf5,#fff4c9)}.mp4{grid-row:span 2;background:linear-gradient(145deg,#f8f5ff,#ece7ff)}
+.mp2,.mp3{clip-path:polygon(0 0,100% 0,94% 100%,6% 100%)}.mp4{clip-path:polygon(6% 0,100% 0,100% 100%,0 100%)}
+.animeModeBtn{position:relative}.animeModeBtn.on{background:linear-gradient(135deg,#ff5fc7,#7367ff)!important;color:white!important;box-shadow:0 0 24px rgba(255,95,199,.24)}
+.episodeCard{position:fixed;left:20px;bottom:22px;z-index:24;pointer-events:none;font:900 9px ui-monospace,monospace;letter-spacing:.16em;color:#5664a8}.episodeCard b{display:block;font-size:18px;color:#25337c;letter-spacing:.04em}
+@media(max-width:900px){.mangaGrid{grid-template-columns:1fr 1fr;grid-template-rows:auto}.mp1,.mp4{grid-row:auto}.animeMascot{width:104px;right:8px;bottom:82px}.jpDeco{display:none}}
+@media(max-width:560px){.mangaGrid{grid-template-columns:1fr}.mp2,.mp3,.mp4{clip-path:none}.neoRibbon{display:none}.animeMascot{width:86px}.vnBox{bottom:86px}.episodeCard{display:none}}
