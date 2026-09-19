@@ -6,6 +6,10 @@
   <meta name="theme-color" content="#eef4ff" />
   <meta name="description" content="LR CyberSpace：个人数字基地、工具中心、GitHub 动态、学习与项目记录。" />
   <title>LR // CyberSpace</title>
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="icon" href="./lr-icon.svg" type="image/svg+xml" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="LR//OS" />
   <style>
     :root{
       --bg:#f8fbff;--bg2:#eef4ff;--card:rgba(255,255,255,.64);--line:rgba(110,126,255,.18);
@@ -582,6 +586,55 @@
     @media(max-width:900px){.cyberQuickCard{grid-column:span 6}.ghRadar{grid-template-columns:1fr}}
     @media(max-width:560px){.cyberQuickCard{grid-column:span 12}.toolModeRow{grid-template-columns:1fr}.ghEvent{grid-template-columns:auto 1fr}.ghEvent time{display:none}}
 
+  
+    /* === LR//OS SUITE === */
+    .appMatrix{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
+    .appCard{grid-column:span 4;padding:18px;min-height:190px;display:flex;flex-direction:column;gap:8px}
+    .appCardTop{display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .appGlyph{font-size:23px}.appState{padding:5px 7px;border-radius:6px;background:rgba(70,107,215,.08);font:900 8px ui-monospace,monospace;color:#5369b7}
+    .appCard h3{margin:3px 0;font-size:19px;color:#283b83}.appCard p{margin:0;color:var(--muted);font-size:12px;line-height:1.6}
+    .appActions{display:flex;gap:7px;flex-wrap:wrap;margin-top:auto;padding-top:8px}
+    .miniBtn{border:1px solid rgba(76,104,204,.14);background:rgba(255,255,255,.78);color:#4056ad;border-radius:8px;padding:8px 9px;font:900 9px ui-monospace,monospace;cursor:pointer}
+    .miniBtn.primary{border:0;background:linear-gradient(118deg,#5368df,#7169f4,#35bfdc);color:white}
+    .suiteGrid{display:grid;grid-template-columns:220px 1fr;gap:12px;min-height:380px}
+    .suiteSide{padding:12px;border-radius:12px;background:rgba(75,103,207,.055);border:1px solid rgba(75,103,207,.09)}
+    .suiteSide button{width:100%;text-align:left;border:0;background:transparent;color:#5264a8;padding:10px;border-radius:8px;font-weight:900;cursor:pointer}
+    .suiteSide button:hover,.suiteSide button.active{background:rgba(74,107,215,.09);color:#304a9f}
+    .suiteMain{min-width:0}.suiteToolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+    .suiteInput,.suiteText,.endpointInput{border:1px solid rgba(79,105,203,.14);background:rgba(255,255,255,.82);border-radius:9px;padding:10px 11px;outline:0;color:#28376f}
+    .suiteInput{min-width:180px;flex:1}.suiteText{width:100%;min-height:220px;resize:vertical;line-height:1.65}
+    .vaultList,.memoryList,.clipList,.macroList,.integrationList{display:grid;gap:7px;max-height:330px;overflow:auto}
+    .listRow{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:10px;border-radius:9px;background:rgba(255,255,255,.64);border:1px solid rgba(75,104,205,.09)}
+    .listRow b{font-size:12px;color:#354996}.listRow small{display:block;color:#8690b1;margin-top:3px}
+    .rowActions{display:flex;gap:5px}.rowActions button{border:0;border-radius:6px;background:rgba(74,105,210,.08);color:#5266ad;padding:6px 7px;cursor:pointer;font-weight:900}
+    .filePreview{padding:12px;border-radius:10px;background:#0b1430;color:#dce9ff;min-height:220px;white-space:pre-wrap;overflow:auto;font:12px/1.6 ui-monospace,monospace}
+    .memoryEditor{display:grid;gap:8px}.memoryTitle{font-size:16px;font-weight:900}
+    .macroEditor{display:grid;gap:8px}.macroHelp{padding:10px;border-radius:9px;background:#0b1430;color:#a9b9de;font:10px/1.7 ui-monospace,monospace}
+    .imageStage{display:grid;place-items:center;min-height:280px;border-radius:12px;background:#0b1430;overflow:auto}
+    #imageCanvas{max-width:100%;height:auto;background:#fff}
+    .pdfFrame{width:100%;height:440px;border:0;border-radius:10px;background:#eef3ff}
+    .clipComposer{display:grid;gap:8px;margin-bottom:10px}.clipComposer textarea{min-height:90px}
+    .remoteGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+    .remoteCard{padding:14px;border-radius:11px;background:rgba(255,255,255,.67);border:1px solid rgba(75,104,205,.1)}
+    .remoteCard h4{margin:0 0 6px;color:#334795}.remoteCard p{font-size:11px;color:#7c87aa;line-height:1.55}
+    .endpointRow{display:flex;gap:6px;margin-top:8px}.endpointInput{min-width:0;flex:1;padding:8px;font-size:11px}
+    .shellModes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .shellMode{padding:18px;border-radius:12px;border:1px solid rgba(77,105,204,.12);background:rgba(255,255,255,.72);cursor:pointer;text-align:left}
+    .shellMode.active{outline:2px solid rgba(52,196,224,.30);background:linear-gradient(135deg,rgba(81,108,220,.10),rgba(45,201,229,.08))}
+    .shellMode b{display:block;color:#304697;font-size:17px}.shellMode small{color:#7e89ad;line-height:1.5}
+    .installBanner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 15px;margin:0 0 14px;border-radius:11px;background:linear-gradient(90deg,rgba(73,106,215,.08),rgba(43,205,232,.08));border:1px solid rgba(75,105,205,.10)}
+    body[data-shell="focus"] .aurora,body[data-shell="focus"] .orb,body[data-shell="focus"] #stars,body[data-shell="focus"] #netCanvas,body[data-shell="focus"] .hexGrid,body[data-shell="focus"] .scanlines,body[data-shell="focus"] .systemRail,body[data-shell="focus"] .hudCorner{display:none!important}
+    body[data-shell="focus"]{background:#f8faff}
+    body[data-shell="handheld"] .desktopDock{padding:12px 14px!important;border-radius:24px!important;gap:12px}
+    body[data-shell="handheld"] .dockBtn{width:54px!important;height:54px!important;border-radius:15px!important;font-size:18px}
+    body[data-shell="handheld"] .nav{max-width:760px}
+    body[data-shell="handheld"] .shell{max-width:900px}
+    .integrationModalRow{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:10px;border-bottom:1px solid rgba(78,105,200,.08)}
+    .integrationModalRow:last-child{border-bottom:0}.integrationModalRow strong{color:#354a99}.integrationModalRow span{display:block;font-size:10px;color:#818cab;margin-top:3px}
+    .integrationControls{display:flex;gap:5px}.integrationControls button,.integrationControls a{border:1px solid rgba(76,104,204,.13);background:rgba(255,255,255,.77);color:#465cad;border-radius:7px;padding:7px 8px;font:900 8px ui-monospace,monospace;cursor:pointer}
+    @media(max-width:900px){.appCard{grid-column:span 6}.suiteGrid{grid-template-columns:1fr}.suiteSide{display:flex;gap:5px;overflow:auto}.suiteSide button{width:auto;white-space:nowrap}.remoteGrid{grid-template-columns:1fr}}
+    @media(max-width:560px){.appCard{grid-column:span 12}.shellModes{grid-template-columns:1fr}.pdfFrame{height:340px}}
+
   </style>
 </head>
 <body data-theme="aurora">
@@ -605,7 +658,7 @@
   <canvas id="stars"></canvas><div class="aurora one"></div><div class="aurora two"></div><div class="aurora three"></div><div id="cursorGlow"></div><div class="orb a"></div><div class="orb b"></div>
   <nav class="nav">
     <a class="brand" href="#top"><i>LR</i> // CYBERSPACE</a>
-    <div class="navlinks"><a href="#tools">工具</a><a href="#github-radar">GitHub</a><a href="#articles">文章</a><a href="#timeline">记录</a><a href="#projects">项目</a><a href="#about">关于</a></div>
+    <div class="navlinks"><a href="#tools">工具</a><a href="#app-matrix">Apps</a><a href="#github-radar">GitHub</a><a href="#articles">文章</a><a href="#timeline">记录</a><a href="#projects">项目</a><a href="#about">关于</a></div>
     <span class="pill" id="clock">--:--:--</span>
   </nav>
 
@@ -773,6 +826,26 @@
       </div>
     </section>
 
+
+    <section id="app-matrix" class="reveal">
+      <div class="head"><div><div class="eyebrow">03 / APP MATRIX</div><h2>LR//OS 应用矩阵</h2></div><p>能在浏览器本地实现的已经内置；需要桌面程序或服务器的项目，作为可配置服务节点接入。</p></div>
+      <div class="installBanner"><div><b>LR//OS PWA</b><div class="muted" style="font-size:12px">支持安装成独立网页应用；是否显示安装按钮取决于浏览器。</div></div><button class="miniBtn primary" id="installPwaBtn">INSTALL APP</button></div>
+      <div class="appMatrix" id="appMatrixCards">
+        <div class="glass appCard"><div class="appCardTop"><span class="appGlyph">🖥️</span><span class="appState">REFERENCE</span></div><h3>YukiOS</h3><p>多桌面与掌机式 Web OS 灵感节点。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="shellWin">OS MODES</button><a class="miniBtn" href="https://github.com/Reeyuki/YukiOS" target="_blank">REPO ↗</a></div></div>
+        <div class="glass appCard"><div class="appCardTop"><span class="appGlyph">🌐</span><span class="appState">CONNECT</span></div><h3>ArozOS</h3><p>服务器 / NAS Web 桌面，部署后可把地址接回 LR//OS。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="remoteWin">CONNECT</button><a class="miniBtn" href="https://github.com/tobychui/arozos" target="_blank">REPO ↗</a></div></div>
+        <div class="glass appCard"><div class="appCardTop"><span class="appGlyph">🛰️</span><span class="appState">CONNECT</span></div><h3>FreeRemoteDesk</h3><p>远程电脑服务节点；浏览器本身不会绕过远程端部署要求。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="remoteWin">REMOTE HUB</button><a class="miniBtn" href="https://github.com/Teylersf/freeremotedesk" target="_blank">REPO ↗</a></div></div>
+        <div class="glass appCard"><div class="appCardTop"><span class="appGlyph">🤖</span><span class="appState">LOCAL LITE</span></div><h3>Writ</h3><p>在 LR//OS 里内置一个受限的本地 Macro Hub，用来编排站内动作和链接。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="automationWin">AUTOMATE</button><a class="miniBtn" href="https://github.com/usewrit/writ" target="_blank">REPO ↗</a></div></div>
+        <div class="glass appCard"><div class="appCardTop"><span class="appGlyph">🧠</span><span class="appState">LOCAL MEMORY</span></div><h3>screenpipe</h3><p>完整屏幕记忆需要桌面程序；网页侧先提供本地 Memory Vault。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="memoryWin">MEMORY</button><a class="miniBtn" href="https://github.com/screenpipe/screenpipe" target="_blank">REPO ↗</a></div></div>
+        <div class="glass appCard"><div class="appCardTop"><span class="appGlyph">🎨</span><span class="appState">BUILT-IN</span></div><h3>Picasso Studio</h3><p>内置轻量 Image Lab：旋转、翻转、灰度、反相、导出。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="imageWin">IMAGE LAB</button><a class="miniBtn" href="https://github.com/AfterRealm/picasso-studio" target="_blank">REPO ↗</a></div></div>
+        <div class="glass appCard"><div class="appCardTop"><span class="appGlyph">🧹</span><span class="appState">LOCAL VAULT</span></div><h3>Mouzi</h3><p>浏览器不能后台整理系统下载目录；这里提供本地文件仓与分类入口。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="vaultWin">FILE VAULT</button><a class="miniBtn" href="https://github.com/hsr88/mouzi" target="_blank">REPO ↗</a></div></div>
+        <div class="glass appCard"><div class="appCardTop"><span class="appGlyph">🧠</span><span class="appState">CONNECT</span></div><h3>Zeraix</h3><p>AI 工作台服务节点，可保存自己的部署地址。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="appStoreWin">CONFIGURE</button><a class="miniBtn" href="https://github.com/zeraix/zeraix" target="_blank">REPO ↗</a></div></div>
+        <div class="glass appCard"><div class="appCardTop"><span class="appGlyph">🐼</span><span class="appState">BUILT-IN LITE</span></div><h3>PandaClip</h3><p>内置本地 Clipboard Vault，手动保存、检索和复制常用片段。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="clipboardWin">CLIPBOARD</button><a class="miniBtn" href="https://github.com/xfloukiex-lab/pandaclip" target="_blank">REPO ↗</a></div></div>
+        <div class="glass appCard"><div class="appCardTop"><span class="appGlyph">🎥</span><span class="appState">CONNECT</span></div><h3>Cap</h3><p>录屏服务节点；可配置你的自托管 Cap 地址。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="appStoreWin">CONFIGURE</button><a class="miniBtn" href="https://github.com/CapSoftware/Cap" target="_blank">REPO ↗</a></div></div>
+        <div class="glass appCard"><div class="appCardTop"><span class="appGlyph">📄</span><span class="appState">PREVIEW + CONNECT</span></div><h3>Stirling PDF</h3><p>内置 PDF 本地预览；复杂处理可接自托管 Stirling PDF。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="pdfWin">PDF CENTER</button><a class="miniBtn" href="https://github.com/Stirling-Tools/Stirling-PDF" target="_blank">REPO ↗</a></div></div>
+        <div class="glass appCard"><div class="appCardTop"><span class="appGlyph">🌌</span><span class="appState">REFERENCE</span></div><h3>NovaOS</h3><p>PWA、App Store 与 Web 桌面灵感节点，已融入 LR//OS 的安装和应用矩阵。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="appStoreWin">APP MATRIX</button><a class="miniBtn" href="https://github.com/runnova/NovaOS" target="_blank">REPO ↗</a></div></div>
+      </div>
+    </section>
+
     <section id="articles" class="reveal">
       <div class="head"><div><div class="eyebrow">01 / NOTES</div><h2>最近写了什么</h2></div><p>技术、学习和碎碎念都放在这里。点击卡片可以直接阅读。</p></div>
       <div class="filter" id="filters"></div><div class="posts" id="posts"></div>
@@ -825,6 +898,15 @@
     <button class="dockBtn" data-win="deviceWin" title="设备状态" data-label="DEVICE">▣</button>
     <button class="dockBtn" data-win="toolDeckWin" title="LR Tool Deck" data-label="TOOLS">⌁</button>
     <button class="dockBtn" data-win="githubWin" title="GitHub Radar" data-label="GITHUB">GH</button>
+    <button class="dockBtn" data-win="appStoreWin" title="App Matrix" data-label="APPS">▦</button>
+    <button class="dockBtn" data-win="vaultWin" title="File Vault" data-label="FILES">▤</button>
+    <button class="dockBtn" data-win="memoryWin" title="Memory Vault" data-label="MEMORY">◌</button>
+    <button class="dockBtn" data-win="automationWin" title="Automation Hub" data-label="MACRO">▶</button>
+    <button class="dockBtn" data-win="imageWin" title="Image Lab" data-label="IMAGE">◇</button>
+    <button class="dockBtn" data-win="pdfWin" title="PDF Center" data-label="PDF">P</button>
+    <button class="dockBtn" data-win="clipboardWin" title="Clipboard Vault" data-label="CLIP">C</button>
+    <button class="dockBtn" data-win="remoteWin" title="Remote Hub" data-label="REMOTE">R</button>
+    <button class="dockBtn" data-win="shellWin" title="OS Modes" data-label="MODE">M</button>
     <button class="dockBtn" data-win="aiWin" title="LR AI Core" data-label="AI CORE">◈</button>
     <button class="dockBtn" data-win="universeWin" title="项目宇宙" data-label="UNIVERSE">◎</button>
     <button class="dockBtn" data-win="terminalWin" title="终端" data-label="TERMINAL">⌘</button>
@@ -937,6 +1019,78 @@
       <div class="ghHead"><div><div class="mono">github.com/LLR6</div><div style="font-size:24px;font-weight:1000;color:#26377d;margin-top:5px">PUBLIC ACTIVITY RADAR</div></div><button class="ghRefresh" id="ghRefreshWindow">REFRESH</button></div>
       <div class="ghEvents" style="padding:4px 0 0"><div id="ghEventsWindow"><div class="muted">Waiting for GitHub signal…</div></div></div>
     </div>
+  </div>
+
+
+  <div class="osWindow" id="appStoreWin">
+    <div class="winBar"><i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i><span class="winTitle">LR_APP_MATRIX.pkg</span><div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div></div>
+    <div class="winBody"><div class="muted" style="margin-bottom:10px">给任意外部项目保存你的部署地址。保存后点 OPEN 就能从 LR//OS 启动。</div><div id="integrationList" class="integrationList"></div></div>
+  </div>
+
+  <div class="osWindow" id="vaultWin">
+    <div class="winBar"><i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i><span class="winTitle">LOCAL_FILE_VAULT.idb</span><div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div></div>
+    <div class="winBody">
+      <input id="vaultFileInput" type="file" multiple hidden />
+      <div class="suiteToolbar"><button class="miniBtn primary" id="vaultImportBtn">IMPORT FILES</button><button class="miniBtn" id="vaultNewTextBtn">NEW TEXT</button><input class="suiteInput" id="vaultSearch" placeholder="搜索文件名…" /></div>
+      <div class="suiteGrid"><div class="vaultList" id="vaultList"></div><div><div class="filePreview" id="vaultPreview">选择一个文件预览。文本和图片可直接预览，其它文件可下载。</div><div class="suiteToolbar" style="margin-top:8px"><button class="miniBtn" id="vaultDownloadBtn">DOWNLOAD</button><button class="miniBtn" id="vaultDeleteBtn">DELETE</button></div></div></div>
+    </div>
+  </div>
+
+  <div class="osWindow" id="memoryWin">
+    <div class="winBar"><i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i><span class="winTitle">MEMORY_VAULT.local</span><div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div></div>
+    <div class="winBody">
+      <div class="suiteToolbar"><button class="miniBtn primary" id="memoryNew">NEW MEMORY</button><input class="suiteInput" id="memorySearch" placeholder="搜索记忆…" /></div>
+      <div class="suiteGrid"><div class="memoryList" id="memoryList"></div><div class="memoryEditor"><input class="suiteInput memoryTitle" id="memoryTitle" placeholder="标题" /><textarea class="suiteText" id="memoryText" placeholder="记下你不想忘掉的东西…"></textarea><div class="suiteToolbar"><button class="miniBtn primary" id="memorySave">SAVE</button><button class="miniBtn" id="memoryDelete">DELETE</button></div></div></div>
+    </div>
+  </div>
+
+  <div class="osWindow" id="automationWin">
+    <div class="winBar"><i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i><span class="winTitle">AUTOMATION_HUB.local</span><div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div></div>
+    <div class="winBody">
+      <div class="suiteGrid"><div><div class="suiteToolbar"><button class="miniBtn primary" id="macroNew">NEW MACRO</button></div><div class="macroList" id="macroList"></div></div><div class="macroEditor"><input class="suiteInput" id="macroName" placeholder="Macro 名称" /><textarea class="suiteText" id="macroScript" placeholder="每行一个命令，例如：&#10;theme ice&#10;open tools&#10;goto projects"></textarea><div class="macroHelp">支持：theme aurora|sakura|ice · open tools|github|memory|files|image|pdf|clipboard|remote|apps · goto lab|tools|github-radar|articles|timeline|projects|about · url https://example.com · wait 500</div><div class="suiteToolbar"><button class="miniBtn primary" id="macroRun">RUN</button><button class="miniBtn" id="macroSave">SAVE</button><button class="miniBtn" id="macroDelete">DELETE</button></div></div></div>
+    </div>
+  </div>
+
+  <div class="osWindow" id="imageWin">
+    <div class="winBar"><i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i><span class="winTitle">IMAGE_LAB.canvas</span><div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div></div>
+    <div class="winBody">
+      <input type="file" id="imageFileInput" accept="image/*" hidden />
+      <div class="suiteToolbar"><button class="miniBtn primary" id="imageOpen">OPEN IMAGE</button><button class="miniBtn" data-img-action="gray">GRAYSCALE</button><button class="miniBtn" data-img-action="invert">INVERT</button><button class="miniBtn" data-img-action="rotate">ROTATE 90°</button><button class="miniBtn" data-img-action="flip">FLIP</button><button class="miniBtn" data-img-action="reset">RESET</button><button class="miniBtn" id="imageDownload">EXPORT PNG</button></div>
+      <div class="imageStage"><canvas id="imageCanvas" width="640" height="360"></canvas></div>
+    </div>
+  </div>
+
+  <div class="osWindow" id="pdfWin">
+    <div class="winBar"><i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i><span class="winTitle">PDF_CENTER.local</span><div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div></div>
+    <div class="winBody">
+      <input type="file" id="pdfFileInput" accept="application/pdf" hidden />
+      <div class="suiteToolbar"><button class="miniBtn primary" id="pdfOpen">OPEN LOCAL PDF</button><button class="miniBtn" id="openStirling">OPEN STIRLING</button></div>
+      <iframe class="pdfFrame" id="pdfFrame" title="PDF Preview"></iframe><div class="muted" style="font-size:11px;margin-top:8px">预览完全在浏览器本地；合并、拆分、OCR 等复杂操作建议连接你自己的 Stirling PDF。</div>
+    </div>
+  </div>
+
+  <div class="osWindow" id="clipboardWin">
+    <div class="winBar"><i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i><span class="winTitle">CLIPBOARD_VAULT.local</span><div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div></div>
+    <div class="winBody"><div class="clipComposer"><textarea class="suiteText" id="clipText" placeholder="粘贴或输入常用片段…"></textarea><div class="suiteToolbar"><button class="miniBtn primary" id="clipSave">SAVE CLIP</button><button class="miniBtn" id="clipRead">READ CLIPBOARD</button><input class="suiteInput" id="clipSearch" placeholder="搜索片段…" /></div></div><div class="clipList" id="clipList"></div></div>
+  </div>
+
+  <div class="osWindow" id="remoteWin">
+    <div class="winBar"><i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i><span class="winTitle">REMOTE_HUB.connect</span><div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div></div>
+    <div class="winBody"><div class="remoteGrid">
+      <div class="remoteCard"><h4>FreeRemoteDesk</h4><p>保存你自己的远程控制 Web 地址。</p><div class="endpointRow"><input class="endpointInput" data-endpoint="freeremotedesk" placeholder="https://..." /><button class="miniBtn" data-launch-endpoint="freeremotedesk">OPEN</button></div></div>
+      <div class="remoteCard"><h4>ArozOS</h4><p>服务器 / NAS Web 桌面入口。</p><div class="endpointRow"><input class="endpointInput" data-endpoint="arozos" placeholder="https://..." /><button class="miniBtn" data-launch-endpoint="arozos">OPEN</button></div></div>
+      <div class="remoteCard"><h4>screenpipe</h4><p>桌面端或 Web 服务地址。</p><div class="endpointRow"><input class="endpointInput" data-endpoint="screenpipe" placeholder="http://localhost:..." /><button class="miniBtn" data-launch-endpoint="screenpipe">OPEN</button></div></div>
+      <div class="remoteCard"><h4>Cap</h4><p>你的录屏分享服务。</p><div class="endpointRow"><input class="endpointInput" data-endpoint="cap" placeholder="https://..." /><button class="miniBtn" data-launch-endpoint="cap">OPEN</button></div></div>
+    </div><div class="suiteToolbar" style="margin-top:12px"><button class="miniBtn primary" id="saveEndpoints">SAVE ENDPOINTS</button></div></div>
+  </div>
+
+  <div class="osWindow" id="shellWin">
+    <div class="winBar"><i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i><span class="winTitle">LR_OS_MODE.switch</span><div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div></div>
+    <div class="winBody"><div class="shellModes">
+      <button class="shellMode" data-shell-mode="desktop"><b>DESKTOP</b><small>完整 LR//OS：动画、状态、Dock 与所有窗口。</small></button>
+      <button class="shellMode" data-shell-mode="focus"><b>FOCUS</b><small>关闭大部分装饰背景，学习/写作时更安静。</small></button>
+      <button class="shellMode" data-shell-mode="handheld"><b>HANDHELD</b><small>放大 Dock 与窗口交互，适合平板触控。</small></button>
+    </div></div>
   </div>
 
   <div class="osWindow" id="terminalWin">
