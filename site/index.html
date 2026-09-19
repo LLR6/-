@@ -318,8 +318,23 @@
     @media(max-width:520px){.shell,.nav{width:min(100% - 20px,1180px)}.stat{grid-column:span 12}section{padding:48px 0}.hero{padding-top:50px}.pill{display:none}h1{font-size:54px}.footer{flex-direction:column}}
     @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
   </style>
+  <link rel="stylesheet" href="./anime-layer.css" />
 </head>
 <body data-theme="aurora">
+  <div id="petalRoot"></div>
+  <div class="neoRibbon">LR//NEO <i>未来・記録・創造</i></div>
+  <div class="episodeCard">NOW PLAYING<b>EP.01 // LR//NEO</b>PERSONAL WORLD</div>
+  <div class="animeMascot" id="animeMascot" title="LUMI-01">
+    <span class="mascotBadge">LUMI-01 / ルミ</span><i class="mascotPing"></i>
+    <img src="./assets/lumi-01.svg" alt="原创二次元 AI 看板娘 LUMI-01" />
+  </div>
+  <div class="vnBox" id="vnBox">
+    <div class="vnName">LUMI-01 // ルミ</div><button class="vnClose" id="vnClose">×</button>
+    <div class="vnText" id="vnText">欢迎进入 LR//NEO。这里正在从“个人主页”变成一个会持续更新的二次元数字世界。</div>
+    <div class="vnActions">
+      <button id="vnProjects">进入项目宇宙</button><button id="vnIdea">生成灵感</button><button id="vnAnime">Anime Mode</button>
+    </div>
+  </div>
   <div class="boot" id="boot">
     <div class="bootBox">
       <div class="bootLogo">LR//OS</div>
@@ -348,10 +363,12 @@
     <section class="hero">
       <div class="heroCopy">
         <div class="kicker"><span class="dot"></span> ONLINE · PERSONAL DATABASE</div>
+        <div class="animeStamp"><span class="jp">未来記録</span><span class="slash"></span><span>NEO PERSONAL WORLD // 2026</span></div>
         <h1>你好，我是<br><span class="grad glitch" data-text="LR.">LR.</span></h1>
         <p class="lead">这里是我的个人数字基地。记录 <span class="type" id="typing">技术折腾</span>、学习过程、项目碎片、生活灵感，以及那些我不想忘掉的瞬间。</p>
         <div class="actions"><a class="btn primary" href="#articles">进入我的世界 →</a><a class="btn" href="https://github.com/LLR6" target="_blank" rel="noreferrer">GitHub ↗</a><button class="btn" id="openPalette">⌘ 快速导航</button></div>
         <div class="heroBadge"><span class="sig"></span><b>LR_OS / STATUS: ONLINE</b><small>一个会随着我一起生长的个人数字空间</small></div>
+        <div class="mangaHeroTag">CHAPTER 01 // 少年感、技术、好奇心与仍在加载的未来</div>
       </div>
       <div class="avatarCard techFrame"><div class="shine"></div><div class="frameMarks"></div><div class="scanBeam"></div>
         <div class="techMetrics">
@@ -367,9 +384,32 @@
         </div>
         <img class="avatar" src="https://github.com/LLR6.png" alt="LR avatar" onerror="this.style.display='none'" />
       </div>
+      <div class="jpDeco don">ドン</div><div class="jpDeco kira">キラッ</div><div class="neoCity"></div>
     </section>
 
 
+
+
+    <section id="memories" class="memorySection reveal">
+      <div class="head">
+        <div><div class="eyebrow">EXTRA / MEMORY SHARDS</div><h2 class="memoryTitle"><span class="jp">記憶</span><span>把人生切成漫画分镜</span></h2></div>
+        <p>我不想只展示“完成品”。更有意思的是把正在发生的技术、比赛、学习和生活，都做成可以继续连载的章节。</p>
+      </div>
+      <div class="mangaGrid">
+        <article class="mangaPanel mp1" data-target="#projects" data-vn="项目不是列表，是正在扩张的世界。以后每一个 LR 项目都会拥有自己的章节、状态和世界观。">
+          <span class="num">PANEL // 01</span><h3>BUILD / 创造</h3><p>软件、网页、奇怪的小工具。先让脑子里的东西真正跑起来，再一点点变漂亮。</p><span class="fx">ガン</span>
+        </article>
+        <article class="mangaPanel mp2" data-target="#articles" data-vn="CTF 的高光不是 flag 出现的瞬间，而是你终于看懂漏洞链条的那一秒。">
+          <span class="num">02</span><h3>CTF</h3><p>攻击面、推理、失败路径和复盘。</p><span class="fx">ピッ</span>
+        </article>
+        <article class="mangaPanel mp3" data-target="#timeline" data-vn="学习像长篇连载。每天一格看不出什么，但一卷一卷翻回去，就会发现角色真的升级了。">
+          <span class="num">03</span><h3>STUDY</h3><p>408、数学、英语，以及那些熬过的阶段。</p><span class="fx">ゴゴ</span>
+        </article>
+        <article class="mangaPanel mp4" data-target="#about" data-vn="这里也要保留一些没什么用、但我就是喜欢的东西。个人网站首先应该像本人。">
+          <span class="num">PANEL // 04</span><h3>LIFE / 日常</h3><p>音乐、二次元、路上的想法、凌晨突然冒出来的灵感，以及未来想回头看的碎片。</p><span class="fx">キラ</span>
+        </article>
+      </div>
+    </section>
 
     <section id="system" class="reveal">
       <div class="head"><div><div class="eyebrow">CORE / SYSTEM DECK</div><h2>个人终端状态</h2></div><p>不是装饰性的“科技感”，而是把整个主页包装成一个持续运行的个人系统。</p></div>
@@ -491,6 +531,7 @@
   </div>
 
   <div class="desktopDock" id="desktopDock">
+    <button class="dockBtn animeModeBtn" id="animeModeToggle" title="Anime Mode">ア</button>
     <button class="dockBtn" id="notifyBtn" title="通知中心">♢</button>
     <button class="dockBtn" data-win="achievementWin" title="成就">★</button>
     <button class="dockBtn" data-win="deviceWin" title="设备状态">▣</button>
@@ -982,5 +1023,6 @@
     function size(){c.width=innerWidth*devicePixelRatio;c.height=innerHeight*devicePixelRatio;c.style.width=innerWidth+"px";c.style.height=innerHeight+"px";ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);stars=Array.from({length:Math.min(130,Math.floor(innerWidth/8))},()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*1.4+.3,v:Math.random()*.18+.03}))}
     function anim(){ctx.clearRect(0,0,innerWidth,innerHeight);ctx.fillStyle="rgba(82,103,225,.36)";stars.forEach(s=>{s.y+=s.v;if(s.y>innerHeight)s.y=0;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill()});requestAnimationFrame(anim)}addEventListener("resize",size);size();anim();
   </script>
+  <script src="./anime-layer.js"></script>
 </body>
 </html>
