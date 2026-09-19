@@ -108,6 +108,7 @@
   document.getElementById("gachaReset")?.addEventListener("click",()=>{neoSave.cards=[];persist();renderCollection();gachaCard?.classList.remove("flipped");speak("图鉴已经清空。卡牌会重新等待被发现。")});
   renderCollection();
 
+  function escText(v){const map={"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"};return String(v).replace(/[&<>"']/g,ch=>map[ch])}
   const momentDefaults=[
     {t:"SYSTEM",title:"LR//NEO 已接入",text:"这里开始从主页变成一个会生长的个人世界。",dot:"#ff62c9"},
     {t:"IDEA",title:"短内容也值得留下",text:"不够写成文章的念头，就扔进 Moments。",dot:"#35d9ef"},
@@ -117,7 +118,7 @@
   function renderMoments(){
     if(!momentsBoard)return;
     const list=[...(neoSave.moments||[]).slice().reverse(),...momentDefaults].slice(0,8);
-    momentsBoard.innerHTML=list.map(m=>'<article class="moment" style="--dot:'+m.dot+'"><time>'+m.t+'</time><b>'+m.title+'</b><p>'+m.text+'</p></article>').join("")
+    momentsBoard.innerHTML=list.map(m=>'<article class="moment" style="--dot:'+escText(m.dot)+'"><time>'+escText(m.t)+'</time><b>'+escText(m.title)+'</b><p>'+escText(m.text)+'</p></article>').join("")
   }
   document.getElementById("momentAdd")?.addEventListener("click",()=>{
     const inp=document.getElementById("momentInput"),v=inp?.value.trim();if(!v)return;
