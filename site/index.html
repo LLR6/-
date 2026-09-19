@@ -235,6 +235,57 @@
 
     @media(max-width:850px){.desktopDock{bottom:10px}.dockBtn{width:44px;height:44px}.miniStatus{display:none}.holoGlobeWrap{grid-template-columns:1fr}.skillUniverse{height:360px}.so3{width:330px;height:330px}.sn2{right:3%}.sn5{left:3%}}
 
+
+    /* === LR AI CORE + PROJECT UNIVERSE === */
+    .aiShell{display:grid;grid-template-columns:210px 1fr;gap:18px;min-height:420px}
+    .aiCorePanel{position:relative;display:grid;place-items:center;border-radius:18px;overflow:hidden;background:
+      radial-gradient(circle at 50% 44%,rgba(62,222,247,.20),transparent 26%),
+      linear-gradient(155deg,#09142d,#101a42 58%,#111638)}
+    .aiCorePanel:before{content:"";position:absolute;width:170px;height:170px;border-radius:50%;border:1px solid rgba(74,220,245,.28);box-shadow:0 0 0 24px rgba(123,107,255,.05),0 0 55px rgba(61,218,244,.22);animation:spin 13s linear infinite}
+    .aiCorePanel:after{content:"";position:absolute;width:138px;height:138px;border-radius:50%;border:1px dashed rgba(139,121,255,.35);animation:spin 9s linear infinite reverse}
+    .aiOrb{width:82px;height:82px;border-radius:50%;z-index:2;display:grid;place-items:center;background:
+      radial-gradient(circle at 36% 30%,#fff 0 8%,#69efff 9% 22%,#7769ff 23% 48%,rgba(119,105,255,.25) 49% 68%,transparent 69%);
+      box-shadow:0 0 24px #55e2fa,0 0 65px rgba(110,92,255,.44);animation:aiPulse 2.8s ease-in-out infinite}
+    .aiOrb span{color:white;font:1000 17px ui-monospace,monospace;letter-spacing:.06em;text-shadow:0 0 8px rgba(255,255,255,.8)}
+    @keyframes aiPulse{50%{transform:scale(1.08);filter:hue-rotate(20deg)}}
+    .aiLabel{position:absolute;bottom:18px;left:0;right:0;text-align:center;font:800 9px ui-monospace,monospace;letter-spacing:.16em;color:#8feeff}
+    .aiStatus{position:absolute;top:16px;left:16px;right:16px;display:flex;justify-content:space-between;font:700 8px ui-monospace,monospace;color:#91a7cc}
+    .aiStatus b{color:#70f0c5}
+    .aiChat{display:flex;flex-direction:column;min-width:0}
+    .aiMessages{flex:1;min-height:315px;max-height:380px;overflow:auto;padding:4px 4px 12px;scrollbar-width:thin}
+    .msg{max-width:86%;padding:11px 13px;border-radius:15px;margin:8px 0;font-size:13px;line-height:1.65}
+    .msg.bot{background:linear-gradient(135deg,rgba(80,111,255,.09),rgba(47,213,239,.10));border:1px solid rgba(80,111,255,.12);color:#43517f}
+    .msg.user{margin-left:auto;background:linear-gradient(135deg,#7768ff,#46d8f0);color:white;box-shadow:0 8px 20px rgba(96,99,230,.18)}
+    .aiQuick{display:flex;gap:7px;flex-wrap:wrap;margin:4px 0 10px}.aiQuick button{border:1px solid rgba(79,104,220,.14);background:rgba(255,255,255,.76);color:#5360b2;border-radius:999px;padding:7px 10px;font-size:11px;font-weight:800;cursor:pointer}
+    .aiInputRow{display:flex;gap:8px}.aiInputRow input{flex:1;min-width:0;border:1px solid rgba(79,104,220,.14);background:rgba(255,255,255,.78);border-radius:13px;padding:12px 13px;outline:0;color:#293367}.aiInputRow button{border:0;border-radius:13px;padding:0 16px;background:linear-gradient(125deg,#7467ff,#3cd8ef);color:white;font-weight:900;cursor:pointer}
+    .aiHint{font:9px ui-monospace,monospace;color:#8c96b7;margin-top:8px}
+
+    .universe{position:relative;height:520px;overflow:hidden;border-radius:18px;background:
+      radial-gradient(circle at 50% 48%,rgba(56,210,241,.14),transparent 22%),
+      radial-gradient(circle at 30% 26%,rgba(132,108,255,.14),transparent 18%),
+      linear-gradient(145deg,#071126,#0e1839 52%,#111536);perspective:1000px;cursor:grab}
+    .universe:active{cursor:grabbing}.universeStars{position:absolute;inset:0;background-image:
+      radial-gradient(circle,rgba(255,255,255,.72) 0 1px,transparent 1.4px),
+      radial-gradient(circle,rgba(91,220,245,.55) 0 1px,transparent 1.5px);
+      background-size:43px 43px,73px 73px;background-position:0 0,20px 16px;opacity:.22}
+    .universeScene{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .18s ease-out}
+    .uCore{position:absolute;left:50%;top:50%;width:108px;height:108px;transform:translate(-50%,-50%) translateZ(80px);border-radius:50%;display:grid;place-items:center;color:white;font:1000 23px ui-monospace,monospace;letter-spacing:.08em;background:
+      radial-gradient(circle,#fff 0 7%,#52e3f9 8% 20%,#7768ff 21% 47%,rgba(119,104,255,.18) 48% 70%,transparent 71%);
+      box-shadow:0 0 34px rgba(82,227,249,.65),0 0 90px rgba(119,104,255,.38)}
+    .uOrbit{position:absolute;left:50%;top:50%;border:1px solid rgba(96,135,255,.22);border-radius:50%;transform-style:preserve-3d}
+    .uo1{width:300px;height:150px;transform:translate(-50%,-50%) rotateX(68deg) rotateZ(8deg)}
+    .uo2{width:420px;height:220px;transform:translate(-50%,-50%) rotateX(68deg) rotateZ(-24deg)}
+    .uo3{width:520px;height:290px;transform:translate(-50%,-50%) rotateX(70deg) rotateZ(36deg)}
+    .projectPlanet{position:absolute;min-width:116px;padding:10px 12px;border-radius:14px;background:rgba(248,251,255,.92);border:1px solid rgba(255,255,255,.94);box-shadow:0 12px 32px rgba(18,35,100,.30);font:800 10px ui-monospace,monospace;color:#3f50b0;transform-style:preserve-3d;cursor:pointer;transition:.22s}
+    .projectPlanet:hover{transform:scale(1.08) translateZ(40px)!important;box-shadow:0 15px 38px rgba(48,90,200,.38),0 0 24px rgba(58,216,241,.24)}
+    .projectPlanet small{display:block;margin-top:5px;color:#7b86ae;font-weight:600}
+    .pp1{left:13%;top:19%;transform:translateZ(35px)}.pp2{right:9%;top:24%;transform:translateZ(60px)}.pp3{left:16%;bottom:16%;transform:translateZ(55px)}.pp4{right:13%;bottom:13%;transform:translateZ(24px)}.pp5{left:43%;top:8%;transform:translateZ(78px)}
+    .uScan{position:absolute;left:6%;right:6%;top:50%;height:1px;background:linear-gradient(90deg,transparent,#50e5f7,#7968ff,transparent);box-shadow:0 0 20px rgba(80,229,247,.7);animation:uScan 4.5s ease-in-out infinite}
+    @keyframes uScan{0%,100%{transform:translateY(-180px);opacity:.15}50%{transform:translateY(180px);opacity:.65}}
+    .universeHud{position:absolute;left:16px;top:16px;font:700 9px/1.7 ui-monospace,monospace;letter-spacing:.12em;color:#8aa5d5}.universeHud b{color:#65e8ff}
+    .universeTip{position:absolute;right:16px;bottom:14px;font:700 9px ui-monospace,monospace;color:#7188b9}
+    @media(max-width:700px){.aiShell{grid-template-columns:1fr}.aiCorePanel{min-height:180px}.universe{height:430px}.uo3{width:400px}.projectPlanet{min-width:98px;font-size:9px}}
+
     @media(max-width:520px){.shell,.nav{width:min(100% - 20px,1180px)}.stat{grid-column:span 12}section{padding:48px 0}.hero{padding-top:50px}.pill{display:none}h1{font-size:54px}.footer{flex-direction:column}}
     @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
   </style>
@@ -411,11 +462,69 @@
   </div>
 
   <div class="desktopDock" id="desktopDock">
+    <button class="dockBtn" data-win="aiWin" title="LR AI Core">◈</button>
+    <button class="dockBtn" data-win="universeWin" title="项目宇宙">◎</button>
     <button class="dockBtn" data-win="terminalWin" title="终端">⌘</button>
     <button class="dockBtn" data-win="skillsWin" title="技能星图">✦</button>
     <button class="dockBtn" data-win="globeWin" title="全息地球">◉</button>
     <button class="dockBtn" data-target="#projects" title="项目">◫</button>
     <button class="dockBtn" data-target="#articles" title="文章">≡</button>
+  </div>
+
+
+  <div class="osWindow" id="aiWin">
+    <div class="winBar">
+      <i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i>
+      <span class="winTitle">LR_AI_CORE.local</span>
+      <div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div>
+    </div>
+    <div class="winBody">
+      <div class="aiShell">
+        <div class="aiCorePanel">
+          <div class="aiStatus"><span>CORE // 01</span><b>ONLINE</b></div>
+          <div class="aiOrb"><span>AI</span></div>
+          <div class="aiLabel">LR ASSISTANT CORE</div>
+        </div>
+        <div class="aiChat">
+          <div class="aiMessages" id="aiMessages">
+            <div class="msg bot">你好，我是这个站点里的 <b>LR Assistant Core</b>。我目前是前端本地助手，可以帮你导航、打开项目宇宙、切换主题、随机生成灵感。</div>
+          </div>
+          <div class="aiQuick">
+            <button data-ai="看看项目">看看项目</button>
+            <button data-ai="打开项目宇宙">项目宇宙</button>
+            <button data-ai="给我一个灵感">随机灵感</button>
+            <button data-ai="切换冰蓝主题">冰蓝主题</button>
+          </div>
+          <div class="aiInputRow"><input id="aiInput" placeholder="问我：项目、文章、技能、主题、灵感…" /><button id="aiSend">发送</button></div>
+          <div class="aiHint">LOCAL CORE · 不上传输入 · 以后可接真实 AI 后端</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="osWindow" id="universeWin">
+    <div class="winBar">
+      <i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i>
+      <span class="winTitle">PROJECT_UNIVERSE.3d</span>
+      <div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div>
+    </div>
+    <div class="winBody">
+      <div class="universe" id="projectUniverse">
+        <div class="universeStars"></div>
+        <div class="universeScene" id="universeScene">
+          <div class="uOrbit uo1"></div><div class="uOrbit uo2"></div><div class="uOrbit uo3"></div>
+          <div class="uCore">LR</div>
+          <button class="projectPlanet pp1" data-jump="#projects">LR 工具宇宙<small>Apps / Tools</small></button>
+          <button class="projectPlanet pp2" data-jump="#projects">CTF 节点<small>Security Lab</small></button>
+          <button class="projectPlanet pp3" data-jump="#projects">学习系统<small>Study OS</small></button>
+          <button class="projectPlanet pp4" data-jump="#articles">知识档案<small>Notes / Blog</small></button>
+          <button class="projectPlanet pp5" data-jump="#lab">灵感实验室<small>Creative Core</small></button>
+        </div>
+        <div class="uScan"></div>
+        <div class="universeHud">PROJECT SPACE<br><b>5 NODES ONLINE</b><br>GRAVITY // STABLE</div>
+        <div class="universeTip">移动鼠标观察空间 · 点击节点传送</div>
+      </div>
+    </div>
   </div>
 
   <div class="osWindow" id="terminalWin">
@@ -533,6 +642,42 @@
 
 
 
+
+    // LR Assistant Core (local, no network calls)
+    const aiMessages=document.getElementById("aiMessages"),aiInput=document.getElementById("aiInput"),aiSend=document.getElementById("aiSend");
+    function aiAdd(text,who="bot"){const d=document.createElement("div");d.className="msg "+who;d.innerHTML=text;aiMessages.appendChild(d);aiMessages.scrollTop=aiMessages.scrollHeight}
+    function aiReply(q){
+      const t=q.trim().toLowerCase();if(!t)return;
+      aiAdd(q,"user");
+      setTimeout(()=>{
+        if(/宇宙|universe/.test(t)){aiAdd("正在打开 <b>PROJECT_UNIVERSE.3d</b>。");openWin("universeWin")}
+        else if(/项目/.test(t)){aiAdd("项目模块已定位。你也可以从项目宇宙的节点进入。");setTimeout(()=>document.querySelector("#projects")?.scrollIntoView({behavior:"smooth"}),250)}
+        else if(/文章|博客|知识/.test(t)){aiAdd("正在打开知识档案区域。");setTimeout(()=>document.querySelector("#articles")?.scrollIntoView({behavior:"smooth"}),250)}
+        else if(/技能|skill/.test(t)){aiAdd("技能星图上线。");openWin("skillsWin")}
+        else if(/灵感|idea/.test(t)){shuffleIdea();aiAdd("生成了一条新的灵感：<b>"+ideaTitle.textContent+"</b><br>"+ideaText.textContent)}
+        else if(/冰|ice/.test(t)){document.querySelector('.themeBtn[data-theme="ice"]')?.click();aiAdd("视觉环境已切换为 <b>ICE</b>。")}
+        else if(/樱|sakura/.test(t)){document.querySelector('.themeBtn[data-theme="sakura"]')?.click();aiAdd("视觉环境已切换为 <b>SAKURA</b>。")}
+        else if(/极光|aurora|默认/.test(t)){document.querySelector('.themeBtn[data-theme="aurora"]')?.click();aiAdd("视觉环境已切换为 <b>AURORA</b>。")}
+        else if(/你好|hello|hi/.test(t)){aiAdd("你好。LR//OS 正常运行中。可以让我打开项目、技能、文章、项目宇宙，或者给你随机灵感。")}
+        else aiAdd("这个本地 Core 还没有接云端大模型。目前我能理解：<b>项目 / 项目宇宙 / 文章 / 技能 / 灵感 / Aurora / Sakura / Ice</b>。");
+      },240);
+    }
+    aiSend.onclick=()=>{aiReply(aiInput.value);aiInput.value=""};aiInput.addEventListener("keydown",e=>{if(e.key==="Enter")aiSend.click()});
+    document.querySelectorAll("[data-ai]").forEach(b=>b.onclick=()=>aiReply(b.dataset.ai));
+
+    // 3D project universe motion
+    const universe=document.getElementById("projectUniverse"),universeScene=document.getElementById("universeScene");
+    if(universe&&universeScene){
+      universe.addEventListener("pointermove",e=>{
+        const r=universe.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+        universeScene.style.transform="rotateX("+(-y*10)+"deg) rotateY("+(x*14)+"deg)";
+      });
+      universe.addEventListener("pointerleave",()=>universeScene.style.transform="rotateX(0deg) rotateY(0deg)");
+      universe.querySelectorAll(".projectPlanet").forEach(p=>p.onclick=()=>{
+        const target=p.dataset.jump;closeWin(document.getElementById("universeWin"));setTimeout(()=>document.querySelector(target)?.scrollIntoView({behavior:"smooth"}),180)
+      });
+    }
+
     // Desktop OS windows
     const winMap={};
     document.querySelectorAll(".osWindow").forEach(w=>winMap[w.id]=w);
@@ -564,11 +709,13 @@
     // terminal commands
     const termInput=document.getElementById("termInput"),terminalOut=document.getElementById("terminalOut");
     const cmds={
-      help:"commands: help, about, projects, skills, globe, theme, clear, matrix, status",
+      help:"commands: help, about, projects, skills, globe, ai, universe, theme, clear, matrix, status",
       about:"LR//OS is a personal digital base for code, security, study and ideas.",
       projects:"opening PROJECTS module...",
       skills:"opening SKILL_UNIVERSE...",
       globe:"opening HOLOGRAPHIC_WORLD...",
+      ai:"opening LR_AI_CORE...",
+      universe:"opening PROJECT_UNIVERSE.3d...",
       theme:"themes: aurora / sakura / ice",
       status:"CORE=ONLINE | NODE=LR-01 | CREATIVE=ACTIVE | SECURITY=NORMAL",
       matrix:"01001100 01010010 // signal acquired."
@@ -582,6 +729,8 @@
       if(c==="projects"){termPrint(cmds.projects,"tCyan");setTimeout(()=>{closeWin(document.getElementById("terminalWin"));document.querySelector("#projects")?.scrollIntoView({behavior:"smooth"})},300);return}
       if(c==="skills"){termPrint(cmds.skills,"tViolet");openWin("skillsWin");return}
       if(c==="globe"){termPrint(cmds.globe,"tCyan");openWin("globeWin");return}
+      if(c==="ai"){termPrint(cmds.ai,"tCyan");openWin("aiWin");return}
+      if(c==="universe"){termPrint(cmds.universe,"tViolet");openWin("universeWin");return}
       if(c.startsWith("theme ")){const t=c.split(/\s+/)[1],btn=document.querySelector('.themeBtn[data-theme="'+t+'"]');if(btn){btn.click();termPrint("theme switched to "+t,"tPink")}else termPrint("unknown theme","tPink");return}
       termPrint(cmds[c]||"command not found. type 'help'.",c==="matrix"?"tViolet":"");
     });
