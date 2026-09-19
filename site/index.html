@@ -61,12 +61,53 @@
     @keyframes titleFlow{to{background-position:220% center}}
     @keyframes auroraMove{50%{transform:translateY(-28px) translateX(22px) scale(1.08)}}
     @keyframes sweep{0%,58%{transform:translateX(-130%)}80%,100%{transform:translateX(130%)}}
+
+    /* === LR Creative Layer === */
+    .progressBar{position:fixed;top:0;left:0;height:3px;width:0;z-index:999;background:linear-gradient(90deg,#ff5fcf,#7c6cff,#26cfee);box-shadow:0 0 18px rgba(124,108,255,.45)}
+    .heroBadge{display:inline-grid;grid-template-columns:auto 1fr;gap:10px 12px;align-items:center;margin-top:18px;padding:12px 14px;border-radius:16px;background:rgba(255,255,255,.58);border:1px solid rgba(255,255,255,.82);box-shadow:0 10px 28px rgba(92,110,220,.10);backdrop-filter:blur(16px)}
+    .heroBadge .sig{width:10px;height:10px;border-radius:50%;background:#53f1b2;box-shadow:0 0 16px #53f1b2}
+    .heroBadge b{font:800 12px ui-monospace,monospace;letter-spacing:.12em;color:#4c5dcc}
+    .heroBadge small{grid-column:2;color:#7380aa}
+    .orbit{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
+    .orbitRing{position:absolute;border:1px dashed rgba(96,119,255,.20);border-radius:50%;animation:spin 18s linear infinite}
+    .orbitRing.r1{width:250px;height:250px}.orbitRing.r2{width:330px;height:330px;animation-direction:reverse;animation-duration:24s}
+    .sat{position:absolute;pointer-events:auto;padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.80);border:1px solid rgba(255,255,255,.92);box-shadow:0 10px 24px rgba(72,96,200,.12);font:700 11px ui-monospace,monospace;color:#5361c7;backdrop-filter:blur(12px);animation:float 6s ease-in-out infinite}
+    .sat.s1{transform:translate(145px,-72px)}.sat.s2{transform:translate(-132px,86px);animation-delay:-2s}.sat.s3{transform:translate(92px,132px);animation-delay:-4s}
+    .creativeStrip{display:grid;grid-template-columns:1.2fr .8fr;gap:16px;margin-top:18px}
+    .ideaPanel,.commandPanel{padding:24px;position:relative;overflow:hidden}
+    .ideaPanel:before{content:"";position:absolute;inset:-40%;background:conic-gradient(from 90deg,transparent,rgba(255,95,207,.12),transparent,rgba(38,207,238,.12),transparent);animation:spin 22s linear infinite}
+    .ideaPanel>*{position:relative}.ideaGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
+    .ideaNode{padding:14px;border-radius:16px;background:rgba(255,255,255,.56);border:1px solid rgba(255,255,255,.82);cursor:pointer;transition:.24s;text-align:left}
+    .ideaNode:hover{transform:translateY(-4px) rotate(-1deg);box-shadow:0 14px 30px rgba(91,108,255,.14)}
+    .ideaNode b{display:block;margin-bottom:6px}.ideaNode span{font-size:12px;color:var(--muted);line-height:1.5}
+    .reactor{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:18px;padding:16px;border-radius:18px;background:linear-gradient(120deg,rgba(255,95,207,.08),rgba(124,108,255,.08),rgba(38,207,238,.10))}
+    .reactor .core{width:48px;height:48px;border-radius:50%;background:radial-gradient(circle,#fff 0 18%,#8a6cff 19% 38%,rgba(38,207,238,.9) 39% 56%,transparent 57%);box-shadow:0 0 28px rgba(124,108,255,.40);animation:pulseCore 2.2s ease-in-out infinite}
+    @keyframes pulseCore{50%{transform:scale(1.12);filter:hue-rotate(18deg)}}
+    .reactor button,.cmdBtn,.themeBtn{border:1px solid rgba(91,108,255,.15);background:rgba(255,255,255,.78);color:#4454bd;border-radius:12px;padding:9px 12px;font-weight:800;cursor:pointer}
+    .commandPanel .screen{margin-top:14px;padding:16px;border-radius:16px;background:#11152c;color:#d9e2ff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);font:13px/1.7 ui-monospace,SFMono-Regular,Consolas,monospace;min-height:120px}
+    .screen .prompt{color:#6ef3c5}.screen .cyan{color:#67dfff}.screen .pink{color:#ff8ad6}
+    .themeRow{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.themeBtn.active{background:linear-gradient(120deg,#ff68cf,#8a6cff,#43d7f2);color:white;border-color:transparent}
+    .portal{position:fixed;right:18px;bottom:18px;z-index:50;display:flex;flex-direction:column;gap:10px}
+    .portal button{width:48px;height:48px;border:1px solid rgba(255,255,255,.8);border-radius:16px;background:rgba(255,255,255,.72);backdrop-filter:blur(15px);box-shadow:0 12px 30px rgba(84,103,210,.16);cursor:pointer;font-size:18px}
+    .palette{position:fixed;inset:0;z-index:200;display:none;place-items:start center;padding-top:14vh;background:rgba(231,238,255,.58);backdrop-filter:blur(14px)}
+    .palette.open{display:grid}.paletteBox{width:min(620px,calc(100% - 28px));border:1px solid rgba(255,255,255,.88);background:rgba(255,255,255,.94);border-radius:22px;box-shadow:0 24px 80px rgba(77,95,190,.22);overflow:hidden}
+    .paletteBox input{width:100%;border:0;outline:0;background:transparent;padding:18px 20px;font-size:17px;color:#26305e;border-bottom:1px solid rgba(91,108,255,.10)}
+    .cmdList{padding:10px}.cmdItem{padding:12px 14px;border-radius:12px;display:flex;justify-content:space-between;cursor:pointer}.cmdItem:hover{background:linear-gradient(90deg,rgba(255,95,207,.08),rgba(38,207,238,.10))}
+    .cmdItem small{color:#8a93b6}
+    .reveal{opacity:0;transform:translateY(18px);transition:.65s cubic-bezier(.2,.8,.2,1)}.reveal.on{opacity:1;transform:none}
+    .trail{position:fixed;width:8px;height:8px;border-radius:50%;pointer-events:none;z-index:998;background:radial-gradient(circle,#fff 0 25%,#7c6cff 35%,rgba(38,207,238,.55) 62%,transparent 72%);box-shadow:0 0 18px rgba(124,108,255,.38);animation:trailFade .75s linear forwards}
+    @keyframes trailFade{to{opacity:0;transform:scale(.2) translateY(12px)}}
+    body[data-theme="sakura"]{background:radial-gradient(circle at 12% 10%,rgba(255,118,181,.30),transparent 28%),radial-gradient(circle at 84% 16%,rgba(255,188,218,.30),transparent 30%),linear-gradient(135deg,#fff8fc,#fff1f7 52%,#f4efff)}
+    body[data-theme="ice"]{background:radial-gradient(circle at 14% 12%,rgba(66,211,255,.28),transparent 28%),radial-gradient(circle at 82% 18%,rgba(102,124,255,.24),transparent 30%),linear-gradient(135deg,#f8fdff,#eef8ff 50%,#f1f5ff)}
+    body[data-theme="aurora"]{background:radial-gradient(circle at 12% 12%,rgba(255,95,207,.26),transparent 26%),radial-gradient(circle at 84% 18%,rgba(38,207,238,.28),transparent 27%),radial-gradient(circle at 58% 78%,rgba(124,108,255,.23),transparent 30%),linear-gradient(135deg,#ffffff 0%,#eef5ff 34%,#f8efff 68%,#effdff 100%)}
+    @media(max-width:850px){.creativeStrip{grid-template-columns:1fr}.ideaGrid{grid-template-columns:1fr}.sat{display:none}}
+
     @media(max-width:850px){.navlinks{display:none}.hero{grid-template-columns:1fr;min-height:auto;padding-top:62px}.avatarCard{aspect-ratio:16/9}.stat{grid-column:span 6}.posts{grid-template-columns:1fr}.projects,.about{grid-template-columns:1fr}}
     @media(max-width:520px){.shell,.nav{width:min(100% - 20px,1180px)}.stat{grid-column:span 12}section{padding:48px 0}.hero{padding-top:50px}.pill{display:none}h1{font-size:54px}.footer{flex-direction:column}}
     @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
   </style>
 </head>
-<body>
+<body data-theme="aurora"><div class="progressBar" id="progressBar"></div>
   <canvas id="stars"></canvas><div class="aurora one"></div><div class="aurora two"></div><div class="aurora three"></div><div id="cursorGlow"></div><div class="orb a"></div><div class="orb b"></div>
   <nav class="nav">
     <a class="brand" href="#top"><i>LR</i> // SPACE</a>
@@ -80,14 +121,57 @@
         <div class="kicker"><span class="dot"></span> ONLINE · PERSONAL DATABASE</div>
         <h1>你好，我是<br><span class="grad">LR.</span></h1>
         <p class="lead">这里是我的个人数字基地。记录 <span class="type" id="typing">技术折腾</span>、学习过程、项目碎片、生活灵感，以及那些我不想忘掉的瞬间。</p>
-        <div class="actions"><a class="btn primary" href="#articles">进入我的世界 →</a><a class="btn" href="https://github.com/LLR6" target="_blank" rel="noreferrer">GitHub ↗</a></div>
+        <div class="actions"><a class="btn primary" href="#articles">进入我的世界 →</a><a class="btn" href="https://github.com/LLR6" target="_blank" rel="noreferrer">GitHub ↗</a><button class="btn" id="openPalette">⌘ 快速导航</button></div>
+        <div class="heroBadge"><span class="sig"></span><b>LR_OS / STATUS: ONLINE</b><small>一个会随着我一起生长的个人数字空间</small></div>
       </div>
       <div class="avatarCard"><div class="shine"></div>
+        <div class="orbit">
+          <div class="orbitRing r1"></div><div class="orbitRing r2"></div>
+          <div class="sat s1">CTF // ACTIVE</div>
+          <div class="sat s2">DEV // BUILD</div>
+          <div class="sat s3">STUDY // SYNC</div>
+        </div>
         <img class="avatar" src="https://github.com/LLR6.png" alt="LR avatar" onerror="this.style.display='none'" />
       </div>
     </section>
 
-    <section>
+
+    <section id="lab" class="reveal">
+      <div class="head"><div><div class="eyebrow">00 / CREATIVE LAB</div><h2>灵感实验室</h2></div><p>这里不是传统导航，而是一块会动、会回应你的“小型数字游乐场”。</p></div>
+      <div class="creativeStrip">
+        <div class="glass ideaPanel">
+          <div class="mono">IDEA REACTOR // CLICK TO SHUFFLE</div>
+          <h3 style="font-size:28px;margin:10px 0 0">今天想打开哪一扇门？</h3>
+          <div class="ideaGrid">
+            <button class="ideaNode" data-jump="#articles"><b>⚡ 技术火花</b><span>代码、折腾、CTF、踩坑记录。</span></button>
+            <button class="ideaNode" data-jump="#timeline"><b>🪐 时间切片</b><span>把某一刻保存成以后能回看的坐标。</span></button>
+            <button class="ideaNode" data-jump="#projects"><b>🧪 项目实验</b><span>未完成也没关系，过程本身就值得展示。</span></button>
+          </div>
+          <div class="reactor">
+            <div class="core"></div>
+            <div style="flex:1"><b id="ideaTitle">正在生成今日灵感…</b><div class="muted" id="ideaText" style="font-size:13px;margin-top:4px">点一下右边，让主页给你丢一个随机想法。</div></div>
+            <button id="shuffleIdea">换一个 ✦</button>
+          </div>
+        </div>
+        <div class="glass commandPanel">
+          <div class="mono">VISUAL MODE // LIVE</div>
+          <h3 style="font-size:28px;margin:10px 0">切换你的氛围</h3>
+          <div class="themeRow">
+            <button class="themeBtn active" data-theme="aurora">Aurora</button>
+            <button class="themeBtn" data-theme="sakura">Sakura</button>
+            <button class="themeBtn" data-theme="ice">Ice</button>
+          </div>
+          <div class="screen">
+            <div><span class="prompt">lr@space</span>:<span class="cyan">~</span>$ status</div>
+            <div>personality = <span class="pink">curious</span></div>
+            <div>mode = build → break → learn → rebuild</div>
+            <div>hint = 按 <b>/</b> 打开命令面板</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="reveal">
       <div class="grid">
         <div class="glass stat"><div class="ico">⚡</div><b>DEV</b><span>开发、折腾、自动化和各种奇怪想法。</span></div>
         <div class="glass stat"><div class="ico">🛡️</div><b>SEC</b><span>CTF、网络安全与真实环境下的学习记录。</span></div>
@@ -96,12 +180,12 @@
       </div>
     </section>
 
-    <section id="articles">
+    <section id="articles" class="reveal">
       <div class="head"><div><div class="eyebrow">01 / NOTES</div><h2>最近写了什么</h2></div><p>技术、学习和碎碎念都放在这里。点击卡片可以直接阅读。</p></div>
       <div class="filter" id="filters"></div><div class="posts" id="posts"></div>
     </section>
 
-    <section id="timeline">
+    <section id="timeline" class="reveal">
       <div class="head"><div><div class="eyebrow">02 / TIMELINE</div><h2>我的时间切片</h2></div><p>不追求每天都伟大，只想让重要的进度有迹可循。</p></div>
       <div class="glass" style="padding:28px">
         <div class="timeline">
@@ -112,7 +196,7 @@
       </div>
     </section>
 
-    <section id="projects">
+    <section id="projects" class="reveal">
       <div class="head"><div><div class="eyebrow">03 / PROJECTS</div><h2>正在折腾</h2></div><p>不是简历式罗列，而是我真正投入时间、不断迭代的东西。</p></div>
       <div class="projects">
         <div class="glass project"><div class="mono">PROJECT // 001</div><h3>LR 系列个人工具</h3><p>围绕学习、平板、阅读与效率做的一组自用软件。需求来自真实使用，功能也会跟着实际问题不断长出来。</p></div>
@@ -122,7 +206,7 @@
       </div>
     </section>
 
-    <section id="about">
+    <section id="about" class="reveal">
       <div class="head"><div><div class="eyebrow">04 / ABOUT</div><h2>关于这里</h2></div></div>
       <div class="about">
         <div class="glass"><div class="quote">“把自己走过的路，变成以后还能重新打开的页面。”</div></div>
@@ -132,6 +216,24 @@
   </main>
 
   <footer class="shell footer"><span>© 2026 LR · Built for curiosity.</span><span>Hosted on GitHub Pages · Always evolving.</span></footer>
+
+
+  <div class="portal">
+    <button id="randomJump" title="随机传送">✦</button>
+    <button id="toTop" title="回到顶部">↑</button>
+  </div>
+  <div class="palette" id="palette">
+    <div class="paletteBox">
+      <input id="paletteInput" placeholder="输入：文章 / 记录 / 项目 / 关于 / 实验室…" autocomplete="off" />
+      <div class="cmdList" id="cmdList">
+        <div class="cmdItem" data-target="#lab"><span>进入灵感实验室</span><small>00</small></div>
+        <div class="cmdItem" data-target="#articles"><span>阅读文章</span><small>01</small></div>
+        <div class="cmdItem" data-target="#timeline"><span>查看时间线</span><small>02</small></div>
+        <div class="cmdItem" data-target="#projects"><span>查看项目</span><small>03</small></div>
+        <div class="cmdItem" data-target="#about"><span>关于这里</span><small>04</small></div>
+      </div>
+    </div>
+  </div>
 
   <div class="modal" id="modal"><div class="paper"><button class="close" id="close">×</button><div id="article"></div></div></div>
 
@@ -164,6 +266,65 @@
 
     function tick(){document.getElementById("clock").textContent=new Date().toLocaleTimeString("zh-CN",{hour12:false})}tick();setInterval(tick,1000);
 
+
+
+    // Creative interactions
+    const ideas=[
+      ["做一个只有自己看得懂的彩蛋","比如连续点击头像 5 次，弹出隐藏页面。"],
+      ["把今天学到的一个知识点写成 100 字","短到足够开始，长到足够留下痕迹。"],
+      ["给一个旧项目加一个完全没必要但很酷的动效","个人主页允许有一点纯粹的浪漫。"],
+      ["记录一次失败","失败过程往往比成功截图更值得以后重看。"],
+      ["做一张“本月技能树”","不是打分，而是把正在成长的方向画出来。"]
+    ];
+    const ideaTitle=document.getElementById("ideaTitle"),ideaText=document.getElementById("ideaText");
+    function shuffleIdea(){const x=ideas[Math.floor(Math.random()*ideas.length)];ideaTitle.textContent=x[0];ideaText.textContent=x[1]}
+    document.getElementById("shuffleIdea").onclick=shuffleIdea;shuffleIdea();
+
+    document.querySelectorAll(".ideaNode").forEach(b=>b.onclick=()=>document.querySelector(b.dataset.jump).scrollIntoView({behavior:"smooth"}));
+    document.querySelectorAll(".themeBtn").forEach(b=>b.onclick=()=>{
+      document.body.dataset.theme=b.dataset.theme;
+      document.querySelectorAll(".themeBtn").forEach(x=>x.classList.toggle("active",x===b));
+      localStorage.setItem("lr-theme",b.dataset.theme);
+    });
+    const savedTheme=localStorage.getItem("lr-theme");if(savedTheme){const b=document.querySelector('.themeBtn[data-theme="'+savedTheme+'"]');if(b)b.click()}
+
+    const palette=document.getElementById("palette"),paletteInput=document.getElementById("paletteInput");
+    function openPalette(){palette.classList.add("open");setTimeout(()=>paletteInput.focus(),20)}
+    function closePalette(){palette.classList.remove("open");paletteInput.value="";filterCmd("")}
+    document.getElementById("openPalette").onclick=openPalette;
+    document.querySelectorAll(".cmdItem").forEach(i=>i.onclick=()=>{closePalette();document.querySelector(i.dataset.target).scrollIntoView({behavior:"smooth"})});
+    function filterCmd(q){document.querySelectorAll(".cmdItem").forEach(i=>i.style.display=i.textContent.toLowerCase().includes(q.toLowerCase())?"flex":"none")}
+    paletteInput.oninput=e=>filterCmd(e.target.value);
+    palette.onclick=e=>{if(e.target===palette)closePalette()};
+    document.addEventListener("keydown",e=>{if(e.key==="/"&&!palette.classList.contains("open")){e.preventDefault();openPalette()}else if(e.key==="Escape"&&palette.classList.contains("open"))closePalette()});
+
+    const jumpTargets=["#lab","#articles","#timeline","#projects","#about"];
+    document.getElementById("randomJump").onclick=()=>document.querySelector(jumpTargets[Math.floor(Math.random()*jumpTargets.length)]).scrollIntoView({behavior:"smooth"});
+    document.getElementById("toTop").onclick=()=>scrollTo({top:0,behavior:"smooth"});
+
+    const progress=document.getElementById("progressBar");
+    addEventListener("scroll",()=>{
+      const max=document.documentElement.scrollHeight-innerHeight;
+      progress.style.width=(max>0?(scrollY/max*100):0)+"%";
+    });
+
+    const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add("on")}),{threshold:.12});
+    document.querySelectorAll(".reveal").forEach(el=>obs.observe(el));
+
+    document.querySelectorAll(".glass").forEach(card=>{
+      card.addEventListener("pointermove",e=>{
+        if(innerWidth<850)return;
+        const r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+        card.style.transform="perspective(900px) rotateX("+(-y*3)+"deg) rotateY("+(x*3)+"deg) translateY(-2px)";
+      });
+      card.addEventListener("pointerleave",()=>card.style.transform="");
+    });
+
+    let lastTrail=0;
+    addEventListener("pointermove",e=>{
+      const now=performance.now();if(now-lastTrail<36)return;lastTrail=now;
+      const p=document.createElement("i");p.className="trail";p.style.left=e.clientX+"px";p.style.top=e.clientY+"px";document.body.appendChild(p);setTimeout(()=>p.remove(),760);
+    });
 
     const glow=document.getElementById("cursorGlow");
     addEventListener("pointermove",e=>{glow.style.left=e.clientX+"px";glow.style.top=e.clientY+"px"});
