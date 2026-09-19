@@ -183,6 +183,58 @@
     @keyframes statSweep{0%,65%{transform:translateX(-130%)}90%,100%{transform:translateX(130%)}}
     @media(max-width:850px){.systemDeck{grid-template-columns:1fr}.radarWrap{grid-template-columns:1fr;justify-items:center}.systemRail,.hudCorner{display:none}.techMetrics{display:none}}
 
+
+    /* === LR DESKTOP OS === */
+    .desktopDock{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:120;display:flex;gap:10px;padding:10px 12px;border:1px solid rgba(255,255,255,.82);background:rgba(255,255,255,.66);backdrop-filter:blur(20px) saturate(150%);border-radius:22px;box-shadow:0 16px 46px rgba(64,86,180,.18)}
+    .dockBtn{width:48px;height:48px;border:1px solid rgba(85,105,220,.14);border-radius:15px;background:linear-gradient(145deg,rgba(255,255,255,.96),rgba(236,244,255,.74));display:grid;place-items:center;font-size:20px;cursor:pointer;transition:.22s;box-shadow:inset 0 0 0 1px rgba(255,255,255,.7)}
+    .dockBtn:hover{transform:translateY(-7px) scale(1.08);box-shadow:0 12px 28px rgba(77,97,210,.20)}
+    .dockBtn.active{outline:2px solid rgba(55,213,241,.36);box-shadow:0 0 26px rgba(55,213,241,.22)}
+
+    .osWindow{position:fixed;z-index:160;width:min(720px,calc(100vw - 28px));max-height:min(74vh,720px);left:50%;top:50%;transform:translate(-50%,-50%) scale(.96);opacity:0;visibility:hidden;border:1px solid rgba(255,255,255,.86);background:rgba(247,250,255,.92);backdrop-filter:blur(24px) saturate(160%);border-radius:22px;box-shadow:0 28px 90px rgba(42,60,150,.28);overflow:hidden;transition:.22s ease}
+    .osWindow.open{opacity:1;visibility:visible;transform:translate(-50%,-50%) scale(1)}
+    .osWindow.dragging{transition:none;user-select:none}
+    .winBar{height:46px;display:flex;align-items:center;gap:9px;padding:0 14px;border-bottom:1px solid rgba(84,102,210,.10);background:linear-gradient(90deg,rgba(255,255,255,.9),rgba(239,246,255,.82));cursor:move}
+    .winDot{width:11px;height:11px;border-radius:50%}.wd1{background:#ff6b81}.wd2{background:#ffd166}.wd3{background:#5ee0a6}
+    .winTitle{margin-left:6px;font:800 11px ui-monospace,monospace;letter-spacing:.14em;color:#59679b}
+    .winActions{margin-left:auto;display:flex;gap:7px}.winActions button{border:0;width:28px;height:28px;border-radius:9px;background:rgba(93,112,220,.08);color:#57649a;cursor:pointer}
+    .winBody{padding:20px;overflow:auto;max-height:calc(74vh - 46px)}
+
+    .terminalBox{background:#09111f;border-radius:16px;padding:16px;color:#d7e5ff;font:13px/1.75 ui-monospace,SFMono-Regular,Consolas,monospace;min-height:280px;box-shadow:inset 0 0 0 1px rgba(117,162,255,.08)}
+    .terminalOut{white-space:pre-wrap}.termLine{display:flex;gap:8px;margin-top:10px}.termPrompt{color:#61f0c4}.termInput{flex:1;border:0;outline:0;background:transparent;color:#fff;font:inherit}
+    .tCyan{color:#54dff3}.tPink{color:#ff84d5}.tViolet{color:#a692ff}.tGreen{color:#6cf2b9}
+
+    .skillUniverse{position:relative;height:430px;border-radius:18px;overflow:hidden;background:
+      radial-gradient(circle at 50% 50%,rgba(77,116,255,.12),transparent 32%),
+      linear-gradient(145deg,#0b1430,#101b3e 55%,#0d1836);box-shadow:inset 0 0 0 1px rgba(255,255,255,.05)}
+    .skillUniverse:before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.55) 0 1px,transparent 1.4px);background-size:34px 34px;opacity:.18}
+    .skillCore{position:absolute;left:50%;top:50%;width:92px;height:92px;transform:translate(-50%,-50%);border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle,#ffffff 0 12%,#49dcf4 13% 31%,#7666ff 32% 56%,rgba(118,102,255,.12) 57%);box-shadow:0 0 36px rgba(73,220,244,.55),0 0 90px rgba(118,102,255,.24);color:white;font-weight:1000;letter-spacing:.08em}
+    .skillOrbit{position:absolute;left:50%;top:50%;border:1px solid rgba(105,142,255,.24);border-radius:50%;transform:translate(-50%,-50%)}
+    .so1{width:210px;height:210px}.so2{width:330px;height:330px}.so3{width:400px;height:400px}
+    .skillNode{position:absolute;padding:8px 11px;border-radius:999px;background:rgba(255,255,255,.90);border:1px solid rgba(255,255,255,.9);color:#4053be;font:800 10px ui-monospace,monospace;box-shadow:0 10px 24px rgba(32,59,150,.18);white-space:nowrap}
+    .sn1{left:50%;top:13%;transform:translateX(-50%)}.sn2{right:8%;top:35%}.sn3{right:18%;bottom:13%}.sn4{left:17%;bottom:14%}.sn5{left:7%;top:37%}.sn6{left:51%;bottom:4%;transform:translateX(-50%)}
+    .skillBeam{position:absolute;height:1px;transform-origin:left center;background:linear-gradient(90deg,rgba(63,220,243,.45),rgba(124,108,255,.12));opacity:.75}
+
+    .holoGlobeWrap{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center}
+    .globeStage{min-height:360px;display:grid;place-items:center;position:relative;border-radius:18px;background:radial-gradient(circle at center,rgba(52,215,242,.14),transparent 45%),linear-gradient(145deg,#0a1430,#111a40)}
+    .globe{width:230px;height:230px;border-radius:50%;position:relative;background:
+      radial-gradient(circle at 32% 28%,rgba(255,255,255,.35),transparent 17%),
+      repeating-radial-gradient(ellipse at center,transparent 0 24px,rgba(85,221,244,.18) 25px 26px),
+      repeating-linear-gradient(90deg,transparent 0 22px,rgba(103,111,255,.14) 23px 24px);
+      border:1px solid rgba(91,225,245,.38);box-shadow:0 0 40px rgba(63,220,243,.35),inset -24px -14px 36px rgba(48,55,160,.18);animation:globeFloat 5s ease-in-out infinite}
+    .globe:before{content:"";position:absolute;inset:-16px;border:1px solid rgba(104,119,255,.24);border-radius:50%;transform:rotateX(66deg)}
+    .globe:after{content:"";position:absolute;left:-24px;right:-24px;top:50%;height:1px;background:linear-gradient(90deg,transparent,#4de0f1,transparent);box-shadow:0 0 18px #4de0f1}
+    @keyframes globeFloat{50%{transform:translateY(-8px) rotate(2deg)}}
+    .globeRing{position:absolute;width:280px;height:280px;border:1px dashed rgba(95,120,255,.28);border-radius:50%;animation:spin 16s linear infinite}
+    .globeRing.r2{width:315px;height:145px;transform:rotateX(72deg);animation-duration:11s;animation-direction:reverse}
+    .globeInfo{font:12px/1.8 ui-monospace,monospace;color:#60709f}.globeInfo strong{color:#3f53bf}.globeInfo .big{font-size:34px;font-weight:1000;color:#22316e;margin:6px 0 12px}
+    .globeStat{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed rgba(82,105,215,.14)}
+
+    .miniStatus{position:fixed;right:18px;top:88px;z-index:26;width:180px;padding:12px 13px;border:1px solid rgba(255,255,255,.8);border-radius:16px;background:rgba(255,255,255,.66);backdrop-filter:blur(18px);box-shadow:0 14px 34px rgba(72,92,180,.14);font:10px/1.55 ui-monospace,monospace;color:#6b759b}
+    .miniStatus b{color:#4050b3}.miniStatus .row{display:flex;justify-content:space-between}.miniStatus .pulseDot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#57e9b2;box-shadow:0 0 12px #57e9b2;margin-right:6px}
+    .miniStatus .bar{height:4px;border-radius:999px;background:rgba(76,101,220,.08);overflow:hidden;margin:8px 0}.miniStatus .bar i{display:block;height:100%;width:74%;background:linear-gradient(90deg,#45daf0,#796bff);box-shadow:0 0 12px rgba(69,218,240,.35)}
+
+    @media(max-width:850px){.desktopDock{bottom:10px}.dockBtn{width:44px;height:44px}.miniStatus{display:none}.holoGlobeWrap{grid-template-columns:1fr}.skillUniverse{height:360px}.so3{width:330px;height:330px}.sn2{right:3%}.sn5{left:3%}}
+
     @media(max-width:520px){.shell,.nav{width:min(100% - 20px,1180px)}.stat{grid-column:span 12}section{padding:48px 0}.hero{padding-top:50px}.pill{display:none}h1{font-size:54px}.footer{flex-direction:column}}
     @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
   </style>
@@ -350,6 +402,85 @@
   <footer class="shell footer"><span>© 2026 LR · Built for curiosity.</span><span>Hosted on GitHub Pages · Always evolving.</span></footer>
 
 
+
+  <div class="miniStatus">
+    <div class="row"><span><i class="pulseDot"></i>CORE</span><b>ONLINE</b></div>
+    <div class="bar"><i></i></div>
+    <div class="row"><span>SESSION</span><b id="sessionTime">00:00</b></div>
+    <div class="row"><span>MODE</span><b>INTERACTIVE</b></div>
+  </div>
+
+  <div class="desktopDock" id="desktopDock">
+    <button class="dockBtn" data-win="terminalWin" title="终端">⌘</button>
+    <button class="dockBtn" data-win="skillsWin" title="技能星图">✦</button>
+    <button class="dockBtn" data-win="globeWin" title="全息地球">◉</button>
+    <button class="dockBtn" data-target="#projects" title="项目">◫</button>
+    <button class="dockBtn" data-target="#articles" title="文章">≡</button>
+  </div>
+
+  <div class="osWindow" id="terminalWin">
+    <div class="winBar">
+      <i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i>
+      <span class="winTitle">LR_TERMINAL.exe</span>
+      <div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div>
+    </div>
+    <div class="winBody">
+      <div class="terminalBox">
+        <div class="terminalOut" id="terminalOut">LR//OS TERMINAL v2.6
+<span class="tCyan">Type 'help' to discover commands.</span>
+
+<span class="tGreen">system:</span> personal-space online
+<span class="tViolet">node:</span> LR-01
+<span class="tPink">status:</span> ready</div>
+        <div class="termLine"><span class="termPrompt">lr@space:~$</span><input class="termInput" id="termInput" autocomplete="off" spellcheck="false" /></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="osWindow" id="skillsWin">
+    <div class="winBar">
+      <i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i>
+      <span class="winTitle">SKILL_UNIVERSE.map</span>
+      <div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div>
+    </div>
+    <div class="winBody">
+      <div class="skillUniverse">
+        <div class="skillOrbit so1"></div><div class="skillOrbit so2"></div><div class="skillOrbit so3"></div>
+        <div class="skillCore">LR</div>
+        <div class="skillNode sn1">NETWORK SECURITY</div>
+        <div class="skillNode sn2">CTF</div>
+        <div class="skillNode sn3">WEB / DEV</div>
+        <div class="skillNode sn4">AUTOMATION</div>
+        <div class="skillNode sn5">408 / CS</div>
+        <div class="skillNode sn6">CREATIVE BUILD</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="osWindow" id="globeWin">
+    <div class="winBar">
+      <i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i>
+      <span class="winTitle">HOLOGRAPHIC_WORLD.node</span>
+      <div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div>
+    </div>
+    <div class="winBody">
+      <div class="holoGlobeWrap">
+        <div class="globeStage">
+          <div class="globeRing"></div><div class="globeRing r2"></div><div class="globe"></div>
+        </div>
+        <div class="globeInfo">
+          <div>GLOBAL LINK / PERSONAL NODE</div>
+          <div class="big">LR-01</div>
+          <div class="globeStat"><span>CONNECTION</span><strong>STABLE</strong></div>
+          <div class="globeStat"><span>KNOWLEDGE NETWORK</span><strong>EXPANDING</strong></div>
+          <div class="globeStat"><span>PROJECT SIGNAL</span><strong>ACTIVE</strong></div>
+          <div class="globeStat"><span>CREATIVE CORE</span><strong>ONLINE</strong></div>
+          <div class="globeStat"><span>LAST SYNC</span><strong id="syncClock">NOW</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="portal">
     <button id="randomJump" title="随机传送">✦</button>
     <button id="toTop" title="回到顶部">↑</button>
@@ -400,6 +531,71 @@
 
 
 
+
+
+    // Desktop OS windows
+    const winMap={};
+    document.querySelectorAll(".osWindow").forEach(w=>winMap[w.id]=w);
+    function openWin(id){
+      const w=winMap[id];if(!w)return;
+      document.querySelectorAll(".osWindow.open").forEach(x=>{if(x!==w)x.style.zIndex=160});
+      w.classList.add("open");w.style.zIndex=180;
+      document.querySelectorAll('.dockBtn[data-win]').forEach(b=>b.classList.toggle("active",b.dataset.win===id));
+      if(id==="terminalWin")setTimeout(()=>document.getElementById("termInput").focus(),120);
+    }
+    function closeWin(w){w.classList.remove("open");document.querySelectorAll('.dockBtn[data-win]').forEach(b=>{if(b.dataset.win===w.id)b.classList.remove("active")})}
+    document.querySelectorAll(".dockBtn[data-win]").forEach(b=>b.onclick=()=>openWin(b.dataset.win));
+    document.querySelectorAll(".dockBtn[data-target]").forEach(b=>b.onclick=()=>document.querySelector(b.dataset.target)?.scrollIntoView({behavior:"smooth"}));
+    document.querySelectorAll(".closeWin,.minWin").forEach(b=>b.onclick=()=>closeWin(b.closest(".osWindow")));
+
+    // draggable windows
+    document.querySelectorAll(".osWindow").forEach(w=>{
+      const bar=w.querySelector(".winBar");let sx=0,sy=0,ox=0,oy=0,drag=false;
+      bar.addEventListener("pointerdown",e=>{
+        if(e.target.closest("button"))return;
+        const r=w.getBoundingClientRect();drag=true;sx=e.clientX;sy=e.clientY;ox=r.left;oy=r.top;
+        w.classList.add("dragging");w.style.transform="none";w.style.left=ox+"px";w.style.top=oy+"px";bar.setPointerCapture(e.pointerId);
+      });
+      bar.addEventListener("pointermove",e=>{if(!drag)return;w.style.left=Math.max(4,Math.min(innerWidth-w.offsetWidth-4,ox+e.clientX-sx))+"px";w.style.top=Math.max(4,Math.min(innerHeight-60,oy+e.clientY-sy))+"px"});
+      bar.addEventListener("pointerup",()=>{drag=false;w.classList.remove("dragging")});
+      w.addEventListener("pointerdown",()=>{document.querySelectorAll(".osWindow").forEach(x=>x.style.zIndex=160);w.style.zIndex=190});
+    });
+
+    // terminal commands
+    const termInput=document.getElementById("termInput"),terminalOut=document.getElementById("terminalOut");
+    const cmds={
+      help:"commands: help, about, projects, skills, globe, theme, clear, matrix, status",
+      about:"LR//OS is a personal digital base for code, security, study and ideas.",
+      projects:"opening PROJECTS module...",
+      skills:"opening SKILL_UNIVERSE...",
+      globe:"opening HOLOGRAPHIC_WORLD...",
+      theme:"themes: aurora / sakura / ice",
+      status:"CORE=ONLINE | NODE=LR-01 | CREATIVE=ACTIVE | SECURITY=NORMAL",
+      matrix:"01001100 01010010 // signal acquired."
+    };
+    function termPrint(txt,cls=""){terminalOut.innerHTML+="\n"+(cls?'<span class="'+cls+'">'+txt+"</span>":txt);terminalOut.parentElement.scrollTop=terminalOut.parentElement.scrollHeight}
+    termInput.addEventListener("keydown",e=>{
+      if(e.key!=="Enter")return;
+      const raw=termInput.value.trim(),c=raw.toLowerCase();termPrint("lr@space:~$ "+raw,"tGreen");termInput.value="";
+      if(!raw)return;
+      if(c==="clear"){terminalOut.innerHTML="";return}
+      if(c==="projects"){termPrint(cmds.projects,"tCyan");setTimeout(()=>{closeWin(document.getElementById("terminalWin"));document.querySelector("#projects")?.scrollIntoView({behavior:"smooth"})},300);return}
+      if(c==="skills"){termPrint(cmds.skills,"tViolet");openWin("skillsWin");return}
+      if(c==="globe"){termPrint(cmds.globe,"tCyan");openWin("globeWin");return}
+      if(c.startsWith("theme ")){const t=c.split(/\s+/)[1],btn=document.querySelector('.themeBtn[data-theme="'+t+'"]');if(btn){btn.click();termPrint("theme switched to "+t,"tPink")}else termPrint("unknown theme","tPink");return}
+      termPrint(cmds[c]||"command not found. type 'help'.",c==="matrix"?"tViolet":"");
+    });
+
+    // session telemetry
+    const sessionStart=Date.now(),sessionTime=document.getElementById("sessionTime"),syncClock=document.getElementById("syncClock");
+    setInterval(()=>{
+      const sec=Math.floor((Date.now()-sessionStart)/1000),m=String(Math.floor(sec/60)).padStart(2,"0"),s2=String(sec%60).padStart(2,"0");
+      if(sessionTime)sessionTime.textContent=m+":"+s2;
+      if(syncClock)syncClock.textContent=new Date().toLocaleTimeString("zh-CN",{hour:"2-digit",minute:"2-digit",second:"2-digit"});
+    },1000);
+
+    // secret shortcut: Ctrl/Cmd + K opens terminal
+    addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){e.preventDefault();openWin("terminalWin")}});
 
     // Future terminal boot
     const boot=document.getElementById("boot"),bootPct=document.getElementById("bootPct");
