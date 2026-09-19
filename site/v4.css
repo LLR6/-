@@ -314,3 +314,46 @@ img{display:block;max-width:100%}
 }
 .pswp__lr-caption b{display:block;font:800 9px ui-monospace,monospace;letter-spacing:.16em}
 .pswp__lr-caption span{display:block;margin-top:3px;color:#8ea2bf;font-size:10px}
+
+
+/* Bangumi-data seasonal schedule */
+.onairToolbar{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;margin:-4px 0 14px;
+  color:#7890b2;font:700 8px ui-monospace,monospace;letter-spacing:.16em
+}
+.onairToolbar button{
+  border:1px solid var(--line);background:#0a182c;color:#a9bedb;padding:8px 11px;
+  font:800 8px ui-monospace,monospace;letter-spacing:.14em;cursor:pointer;transition:.2s
+}
+.onairToolbar button:hover{color:white;border-color:rgba(195,220,255,.28);transform:translateY(-2px)}
+.onairGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.onairCard{
+  min-height:190px;border:1px solid var(--line);background:
+  radial-gradient(circle at 85% 12%,rgba(104,151,214,.10),transparent 30%),
+  linear-gradient(145deg,#0c1a2f,#081523);
+  padding:17px;position:relative;overflow:hidden;transition:.26s
+}
+.onairCard:before{
+  content:attr(data-day);position:absolute;right:-4px;top:-15px;
+  font:700 72px/1 Georgia,serif;color:rgba(220,234,255,.028);pointer-events:none
+}
+.onairCard:hover{transform:translateY(-5px);border-color:rgba(197,221,255,.26);box-shadow:0 16px 36px rgba(0,0,0,.20)}
+.onairTop{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.onairBadge{
+  font:800 8px ui-monospace,monospace;letter-spacing:.14em;color:#93caea;
+  border:1px solid rgba(140,195,230,.15);padding:5px 6px
+}
+.onairTime{font:700 8px ui-monospace,monospace;color:#7287a7}
+.onairCard h3{
+  font:23px/1.25 Georgia,"Noto Serif SC","Songti SC",serif;margin:30px 0 8px;
+  display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden
+}
+.onairJp{color:#7f91ac;font-size:11px;line-height:1.5;min-height:32px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.onairMeta{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:20px}
+.onairNext{font:800 9px ui-monospace,monospace;color:#b5c9e3}
+.onairLink{font:900 9px ui-monospace,monospace;color:#92c7e9}
+.onairLoading{grid-column:1/-1;padding:32px;border:1px dashed var(--line);color:#7187a6;text-align:center;font-size:12px}
+.dataCredit{margin-top:12px;color:#667c9b;font:700 8px ui-monospace,monospace;letter-spacing:.13em}
+.dataCredit a{color:#8cbad9}
+@media(max-width:1000px){.onairGrid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.onairGrid{grid-template-columns:1fr}.onairCard{min-height:170px}}
