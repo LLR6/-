@@ -286,6 +286,35 @@
     .universeTip{position:absolute;right:16px;bottom:14px;font:700 9px ui-monospace,monospace;color:#7188b9}
     @media(max-width:700px){.aiShell{grid-template-columns:1fr}.aiCorePanel{min-height:180px}.universe{height:430px}.uo3{width:400px}.projectPlanet{min-width:98px;font-size:9px}}
 
+
+    /* === LR OS IMMERSIVE SYSTEM === */
+    .identityScan{position:fixed;inset:0;z-index:990;display:none;place-items:center;background:rgba(5,12,30,.88);backdrop-filter:blur(18px);color:#bdf8ff}
+    .identityScan.show{display:grid}.scanCard{width:min(560px,calc(100% - 32px));padding:28px;border:1px solid rgba(86,225,247,.28);border-radius:26px;background:linear-gradient(145deg,rgba(9,19,48,.94),rgba(15,25,62,.92));box-shadow:0 0 80px rgba(53,210,239,.16);position:relative;overflow:hidden}
+    .scanCard:before{content:"";position:absolute;left:0;right:0;height:2px;top:10%;background:linear-gradient(90deg,transparent,#54e6f7,#8470ff,transparent);box-shadow:0 0 18px #54e6f7;animation:idScan 2.4s ease-in-out infinite}
+    @keyframes idScan{0%,100%{transform:translateY(0)}50%{transform:translateY(290px)}}
+    .scanHead{font:900 11px ui-monospace,monospace;letter-spacing:.18em;color:#73eaff}.scanName{font-size:44px;font-weight:1000;margin:12px 0 8px;background:linear-gradient(90deg,#fff,#63e8fa,#917cff);-webkit-background-clip:text;color:transparent}
+    .scanGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:18px 0}.scanCell{padding:12px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(100,153,255,.10);font:10px/1.6 ui-monospace,monospace;color:#8fa8c6}.scanCell b{display:block;color:#dffaff;font-size:13px}
+    .scanActions{display:flex;justify-content:flex-end;gap:8px}.scanActions button{border:1px solid rgba(83,215,239,.22);background:rgba(83,215,239,.08);color:#c5f8ff;padding:9px 13px;border-radius:11px;cursor:pointer;font-weight:800}
+
+    .notifyPanel{position:fixed;right:18px;bottom:90px;z-index:170;width:min(360px,calc(100vw - 28px));max-height:520px;opacity:0;visibility:hidden;transform:translateY(12px) scale(.98);transition:.2s;border:1px solid rgba(255,255,255,.86);background:rgba(248,251,255,.94);backdrop-filter:blur(22px) saturate(160%);border-radius:20px;box-shadow:0 24px 70px rgba(54,73,160,.22);overflow:hidden}
+    .notifyPanel.open{opacity:1;visibility:visible;transform:none}.notifyHead{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid rgba(70,100,210,.10);font:900 11px ui-monospace,monospace;letter-spacing:.12em;color:#5261a8}
+    .notifyHead button{border:0;background:transparent;cursor:pointer;color:#7782aa}.notifyList{padding:10px;overflow:auto;max-height:430px}.notice{padding:12px;border-radius:14px;margin-bottom:8px;background:linear-gradient(135deg,rgba(92,112,255,.07),rgba(45,213,240,.08));border:1px solid rgba(79,105,220,.10)}
+    .notice b{display:block;font-size:12px;color:#34439b}.notice span{display:block;margin-top:4px;font-size:11px;line-height:1.5;color:#7480a8}.notice time{font:700 9px ui-monospace,monospace;color:#9aa3bf}
+
+    .achievementGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.achievement{padding:14px;border-radius:16px;border:1px solid rgba(78,105,220,.12);background:rgba(255,255,255,.72);position:relative;overflow:hidden}.achievement.locked{filter:grayscale(.7);opacity:.48}.achievement .badge{font-size:24px}.achievement b{display:block;margin:8px 0 4px}.achievement small{color:#7d88ae;line-height:1.5}.achievement.unlocked:after{content:"UNLOCKED";position:absolute;right:8px;top:8px;font:800 8px ui-monospace,monospace;color:#3fc8a0}
+
+    .bios{background:#020914!important;color:#7df8c9!important}.bios .winBar{background:#06101d;border-color:rgba(70,255,187,.12)}.bios .winTitle,.bios .winActions button{color:#6ae7bd}.biosScreen{font:12px/1.8 ui-monospace,Consolas,monospace;color:#76eac1}.biosScreen h3{color:#a9ffe3;margin:0 0 12px}.biosRow{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed rgba(82,238,188,.12)}.biosRow b{color:#d8fff2}
+
+    .deviceGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.deviceCard{padding:14px;border-radius:15px;background:rgba(255,255,255,.72);border:1px solid rgba(82,105,220,.11)}.deviceCard span{font:800 9px ui-monospace,monospace;letter-spacing:.12em;color:#8c96ba}.deviceCard b{display:block;margin-top:6px;color:#324198;font-size:17px;word-break:break-word}
+
+    .powerOverlay{position:fixed;inset:0;z-index:1200;display:none;place-items:center;background:#030713;color:#bdf7ff}.powerOverlay.show{display:grid}.powerCore{text-align:center}.powerLogo{font-size:64px;font-weight:1000;letter-spacing:-.06em;background:linear-gradient(90deg,#fff,#58e1f5,#826dff);-webkit-background-clip:text;color:transparent}.powerMsg{margin-top:10px;font:800 11px ui-monospace,monospace;letter-spacing:.18em;color:#7d91b3}.powerOverlay button{margin-top:22px;border:1px solid rgba(91,226,247,.24);background:rgba(91,226,247,.08);color:#d9fbff;padding:10px 15px;border-radius:12px;cursor:pointer}
+
+    .toastStack{position:fixed;right:18px;top:150px;z-index:300;display:grid;gap:8px;pointer-events:none}.toast{width:min(320px,calc(100vw - 36px));padding:12px 14px;border-radius:14px;background:rgba(249,252,255,.95);border:1px solid rgba(255,255,255,.92);box-shadow:0 14px 38px rgba(59,79,170,.18);font-size:12px;color:#46527f;animation:toastIn .3s ease,toastOut .35s ease 3.2s forwards}.toast b{color:#3242a0}
+    @keyframes toastIn{from{opacity:0;transform:translateX(20px)}}@keyframes toastOut{to{opacity:0;transform:translateX(20px)}}
+
+    .taskInfo{display:flex;align-items:center;gap:7px;margin-left:2px;padding-left:10px;border-left:1px solid rgba(85,105,220,.12);font:800 9px ui-monospace,monospace;color:#6b76a1}.soundOn{color:#38caa2!important}
+    @media(max-width:700px){.achievementGrid,.deviceGrid,.scanGrid{grid-template-columns:1fr}.taskInfo{display:none}.notifyPanel{bottom:78px}}
+
     @media(max-width:520px){.shell,.nav{width:min(100% - 20px,1180px)}.stat{grid-column:span 12}section{padding:48px 0}.hero{padding-top:50px}.pill{display:none}h1{font-size:54px}.footer{flex-direction:column}}
     @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
   </style>
@@ -462,6 +491,9 @@
   </div>
 
   <div class="desktopDock" id="desktopDock">
+    <button class="dockBtn" id="notifyBtn" title="通知中心">♢</button>
+    <button class="dockBtn" data-win="achievementWin" title="成就">★</button>
+    <button class="dockBtn" data-win="deviceWin" title="设备状态">▣</button>
     <button class="dockBtn" data-win="aiWin" title="LR AI Core">◈</button>
     <button class="dockBtn" data-win="universeWin" title="项目宇宙">◎</button>
     <button class="dockBtn" data-win="terminalWin" title="终端">⌘</button>
@@ -590,6 +622,60 @@
     </div>
   </div>
 
+
+  <div class="osWindow" id="achievementWin">
+    <div class="winBar"><i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i><span class="winTitle">ACHIEVEMENTS.db</span><div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div></div>
+    <div class="winBody"><div class="achievementGrid" id="achievementGrid"></div></div>
+  </div>
+
+  <div class="osWindow" id="deviceWin">
+    <div class="winBar"><i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i><span class="winTitle">DEVICE_TELEMETRY.sys</span><div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div></div>
+    <div class="winBody">
+      <div class="deviceGrid">
+        <div class="deviceCard"><span>PLATFORM</span><b id="devPlatform">--</b></div>
+        <div class="deviceCard"><span>CPU THREADS</span><b id="devCpu">--</b></div>
+        <div class="deviceCard"><span>MEMORY HINT</span><b id="devMem">--</b></div>
+        <div class="deviceCard"><span>DISPLAY</span><b id="devScreen">--</b></div>
+        <div class="deviceCard"><span>LANGUAGE</span><b id="devLang">--</b></div>
+        <div class="deviceCard"><span>NETWORK</span><b id="devNet">ONLINE</b></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="osWindow bios" id="biosWin">
+    <div class="winBar"><i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i><span class="winTitle">LR_BIOS // HIDDEN</span><div class="winActions"><button class="closeWin">×</button></div></div>
+    <div class="winBody"><div class="biosScreen">
+      <h3>LR PERSONAL SYSTEM BIOS v26.09</h3>
+      <div class="biosRow"><span>IDENTITY NODE</span><b>LR-01</b></div>
+      <div class="biosRow"><span>CREATIVE CORE</span><b>ENABLED</b></div>
+      <div class="biosRow"><span>SECURITY LAB</span><b>ACTIVE</b></div>
+      <div class="biosRow"><span>KNOWLEDGE ENGINE</span><b>SYNCING</b></div>
+      <div class="biosRow"><span>HIDDEN MODE</span><b>DISCOVERED</b></div>
+      <p style="margin-top:16px;color:#5fc69f">提示：你找到了一个不会出现在普通导航里的系统层。</p>
+    </div></div>
+  </div>
+
+  <div class="notifyPanel" id="notifyPanel">
+    <div class="notifyHead"><span>NOTIFICATION CENTER</span><button id="clearNotices">CLEAR</button></div>
+    <div class="notifyList" id="notifyList"></div>
+  </div>
+
+  <div class="identityScan" id="identityScan">
+    <div class="scanCard">
+      <div class="scanHead">IDENTITY PROTOCOL // LR-OS</div>
+      <div class="scanName">ACCESS // LR</div>
+      <div style="color:#86a1c4;font:11px ui-monospace,monospace">正在建立个人节点连接与本地环境握手…</div>
+      <div class="scanGrid">
+        <div class="scanCell">IDENTITY<b>LR-01</b></div><div class="scanCell">CLEARANCE<b>OWNER / GUEST</b></div>
+        <div class="scanCell">SYSTEM<b>ONLINE</b></div><div class="scanCell">CHANNEL<b>SECURE</b></div>
+      </div>
+      <div class="scanActions"><button id="enterSystem">ENTER SYSTEM →</button></div>
+    </div>
+  </div>
+
+  <div class="powerOverlay" id="powerOverlay"><div class="powerCore"><div class="powerLogo">LR//OS</div><div class="powerMsg">SYSTEM SUSPENDED</div><button id="wakeSystem">WAKE SYSTEM</button></div></div>
+  <div class="toastStack" id="toastStack"></div>
+
   <div class="portal">
     <button id="randomJump" title="随机传送">✦</button>
     <button id="toTop" title="回到顶部">↑</button>
@@ -642,6 +728,70 @@
 
 
 
+
+
+    // Immersive system services
+    const identityScan=document.getElementById("identityScan"),enterSystem=document.getElementById("enterSystem");
+    if(!sessionStorage.getItem("lr-identity-seen"))setTimeout(()=>identityScan.classList.add("show"),1250);
+    enterSystem.onclick=()=>{identityScan.classList.remove("show");sessionStorage.setItem("lr-identity-seen","1");unlockAchievement("identity");beep(740,.08)};
+
+    const notices=[
+      {title:"LR//OS 已启动",text:"个人数字基地核心服务运行正常。"},
+      {title:"项目宇宙在线",text:"5 个项目节点已接入空间网络。"},
+      {title:"隐藏层存在",text:"终端里似乎还有一些没有写在 help 里的东西。"}
+    ];
+    const notifyPanel=document.getElementById("notifyPanel"),notifyList=document.getElementById("notifyList");
+    function renderNotices(){notifyList.innerHTML=notices.length?notices.map(n=>'<div class="notice"><b>'+n.title+'</b><span>'+n.text+'</span><time>NOW</time></div>').join(""):'<div class="notice"><span>没有新通知。</span></div>'}
+    renderNotices();
+    document.getElementById("notifyBtn").onclick=()=>{notifyPanel.classList.toggle("open");beep(520,.04)};
+    document.getElementById("clearNotices").onclick=()=>{notices.length=0;renderNotices()};
+    function pushNotice(title,text){notices.unshift({title,text});renderNotices();const stack=document.getElementById("toastStack"),t=document.createElement("div");t.className="toast";t.innerHTML="<b>"+title+"</b><br>"+text;stack.appendChild(t);setTimeout(()=>t.remove(),3700)}
+
+    let audioEnabled=false,audioCtx=null;
+    function beep(freq=620,dur=.05){if(!audioEnabled)return;try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type="sine";o.frequency.value=freq;g.gain.setValueAtTime(.028,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+dur);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+dur)}catch(e){}}
+    const soundToggle=document.getElementById("soundToggle");
+    soundToggle.onclick=()=>{audioEnabled=!audioEnabled;soundToggle.classList.toggle("soundOn",audioEnabled);if(audioEnabled){beep(880,.08);pushNotice("SYSTEM AUDIO","界面音效已开启。")}else pushNotice("SYSTEM AUDIO","界面音效已关闭。")};
+    document.querySelectorAll(".dockBtn").forEach(b=>b.addEventListener("click",()=>beep(600+Math.random()*140,.045)));
+
+    const achievements=[
+      {id:"identity",icon:"◉",title:"身份认证",desc:"完成 LR//OS 身份扫描。"},
+      {id:"terminal",icon:"⌘",title:"终端接入",desc:"第一次打开系统终端。"},
+      {id:"universe",icon:"◎",title:"空间漫游",desc:"进入 3D 项目宇宙。"},
+      {id:"ai",icon:"◈",title:"唤醒核心",desc:"第一次打开 LR AI Core。"},
+      {id:"theme",icon:"✦",title:"环境改写",desc:"切换一次视觉主题。"},
+      {id:"bios",icon:"⚙",title:"隐藏层",desc:"找到 LR BIOS。"},
+      {id:"deep",icon:"∞",title:"深度访问",desc:"浏览到页面底部。"}
+    ];
+    let unlocked=new Set(JSON.parse(localStorage.getItem("lr-achievements")||"[]"));
+    function renderAchievements(){const g=document.getElementById("achievementGrid");g.innerHTML=achievements.map(a=>'<div class="achievement '+(unlocked.has(a.id)?"unlocked":"locked")+'"><div class="badge">'+a.icon+'</div><b>'+a.title+'</b><small>'+a.desc+'</small></div>').join("")}
+    function unlockAchievement(id){if(unlocked.has(id))return;unlocked.add(id);localStorage.setItem("lr-achievements",JSON.stringify([...unlocked]));renderAchievements();const a=achievements.find(x=>x.id===id);if(a){pushNotice("ACHIEVEMENT UNLOCKED",a.title+" · "+a.desc);beep(940,.12)}}
+    renderAchievements();
+
+    const originalOpenWin=openWin;
+    openWin=function(id){originalOpenWin(id);if(id==="terminalWin")unlockAchievement("terminal");if(id==="universeWin")unlockAchievement("universe");if(id==="aiWin")unlockAchievement("ai")};
+
+    document.querySelectorAll(".themeBtn").forEach(b=>b.addEventListener("click",()=>unlockAchievement("theme")));
+    let deepDone=false;addEventListener("scroll",()=>{if(!deepDone&&scrollY+innerHeight>=document.documentElement.scrollHeight-80){deepDone=true;unlockAchievement("deep")}});
+
+    // Device telemetry
+    document.getElementById("devPlatform").textContent=navigator.userAgentData?.platform||navigator.platform||"WEB";
+    document.getElementById("devCpu").textContent=(navigator.hardwareConcurrency||"?")+" THREADS";
+    document.getElementById("devMem").textContent=navigator.deviceMemory?(navigator.deviceMemory+" GB"):"BROWSER HIDDEN";
+    document.getElementById("devScreen").textContent=screen.width+"×"+screen.height;
+    document.getElementById("devLang").textContent=navigator.language||"UNKNOWN";
+    function netState(){document.getElementById("devNet").textContent=navigator.onLine?"ONLINE":"OFFLINE"}netState();addEventListener("online",netState);addEventListener("offline",netState);
+
+    // Task clock and power controls
+    setInterval(()=>{document.getElementById("taskClock").textContent=new Date().toLocaleTimeString("zh-CN",{hour:"2-digit",minute:"2-digit"})},1000);
+    const powerOverlay=document.getElementById("powerOverlay");
+    document.getElementById("powerBtn").onclick=()=>{beep(220,.14);powerOverlay.classList.add("show")};
+    document.getElementById("wakeSystem").onclick=()=>{powerOverlay.classList.remove("show");beep(760,.10);pushNotice("SYSTEM RESUMED","欢迎回来，LR//OS 已恢复运行。")};
+
+    // BIOS shortcuts / secret
+    function openBios(){openWin("biosWin");unlockAchievement("bios");beep(430,.09)}
+    addEventListener("keydown",e=>{if(e.ctrlKey&&e.shiftKey&&e.key.toLowerCase()==="b"){e.preventDefault();openBios()}});
+
+    // enhance terminal hidden commands
 
     // LR Assistant Core (local, no network calls)
     const aiMessages=document.getElementById("aiMessages"),aiInput=document.getElementById("aiInput"),aiSend=document.getElementById("aiSend");
@@ -709,13 +859,15 @@
     // terminal commands
     const termInput=document.getElementById("termInput"),terminalOut=document.getElementById("terminalOut");
     const cmds={
-      help:"commands: help, about, projects, skills, globe, ai, universe, theme, clear, matrix, status",
+      help:"commands: help, about, projects, skills, globe, ai, universe, achievements, device, theme, clear, matrix, status",
       about:"LR//OS is a personal digital base for code, security, study and ideas.",
       projects:"opening PROJECTS module...",
       skills:"opening SKILL_UNIVERSE...",
       globe:"opening HOLOGRAPHIC_WORLD...",
       ai:"opening LR_AI_CORE...",
       universe:"opening PROJECT_UNIVERSE.3d...",
+      achievements:"opening ACHIEVEMENTS.db...",
+      device:"opening DEVICE_TELEMETRY.sys...",
       theme:"themes: aurora / sakura / ice",
       status:"CORE=ONLINE | NODE=LR-01 | CREATIVE=ACTIVE | SECURITY=NORMAL",
       matrix:"01001100 01010010 // signal acquired."
@@ -731,6 +883,10 @@
       if(c==="globe"){termPrint(cmds.globe,"tCyan");openWin("globeWin");return}
       if(c==="ai"){termPrint(cmds.ai,"tCyan");openWin("aiWin");return}
       if(c==="universe"){termPrint(cmds.universe,"tViolet");openWin("universeWin");return}
+      if(c==="achievements"){termPrint(cmds.achievements,"tCyan");openWin("achievementWin");return}
+      if(c==="device"){termPrint(cmds.device,"tCyan");openWin("deviceWin");return}
+      if(c==="bios"){termPrint("hidden firmware layer detected...","tGreen");openBios();return}
+      if(c==="shutdown"){termPrint("suspending LR//OS...","tPink");setTimeout(()=>powerOverlay.classList.add("show"),280);return}
       if(c.startsWith("theme ")){const t=c.split(/\s+/)[1],btn=document.querySelector('.themeBtn[data-theme="'+t+'"]');if(btn){btn.click();termPrint("theme switched to "+t,"tPink")}else termPrint("unknown theme","tPink");return}
       termPrint(cmds[c]||"command not found. type 'help'.",c==="matrix"?"tViolet":"");
     });
