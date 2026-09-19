@@ -635,6 +635,22 @@
     @media(max-width:900px){.appCard{grid-column:span 6}.suiteGrid{grid-template-columns:1fr}.suiteSide{display:flex;gap:5px;overflow:auto}.suiteSide button{width:auto;white-space:nowrap}.remoteGrid{grid-template-columns:1fr}}
     @media(max-width:560px){.appCard{grid-column:span 12}.shellModes{grid-template-columns:1fr}.pdfFrame{height:340px}}
 
+  
+    /* === LR//OS EXPANSION PACK === */
+    .expansionNote{padding:14px 16px;margin-bottom:14px;border-radius:11px;background:linear-gradient(90deg,rgba(72,105,216,.07),rgba(43,205,232,.07));border:1px solid rgba(74,104,205,.09);color:#66749d;font-size:12px;line-height:1.65}
+    .codeLayout{display:grid;grid-template-columns:1fr 1fr;gap:10px}.codeEditor,.codeOutput{min-height:340px;border-radius:11px;border:1px solid rgba(78,105,202,.14);padding:12px;font:12px/1.65 ui-monospace,Consolas,monospace}
+    .codeEditor{resize:vertical;background:#0c1430;color:#e4ecff;outline:none}.codeOutput{background:#07101f;color:#b8d2ff;white-space:pre-wrap;overflow:auto}
+    .modeTabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px}.modeTab{border:1px solid rgba(77,104,202,.14);background:rgba(255,255,255,.76);color:#4d61ad;border-radius:8px;padding:8px 10px;font-weight:900;cursor:pointer}.modeTab.active{background:linear-gradient(118deg,#5368df,#7169f4,#35bfdc);color:white;border-color:transparent}
+    .whiteboardWrap{background:#f9fbff;border:1px solid rgba(75,104,205,.11);border-radius:12px;overflow:hidden}.whiteboardCanvas{display:block;width:100%;height:460px;touch-action:none;background-image:radial-gradient(circle,rgba(81,107,207,.14) 1px,transparent 1px);background-size:22px 22px}
+    .workspaceCanvas{position:relative;height:470px;border-radius:14px;overflow:hidden;background:radial-gradient(circle at center,rgba(62,207,235,.08),transparent 28%),#09132b;border:1px solid rgba(96,128,230,.12)}
+    .workspaceNode{position:absolute;width:190px;min-height:105px;padding:12px;border-radius:12px;background:rgba(249,252,255,.93);box-shadow:0 12px 28px rgba(15,35,92,.28);cursor:grab;touch-action:none}.workspaceNode:active{cursor:grabbing}.workspaceNode b{display:block;color:#344999}.workspaceNode small{display:block;margin-top:5px;color:#7e89ad;line-height:1.45}.workspaceNode .nodeBar{font:900 8px ui-monospace,monospace;letter-spacing:.1em;color:#46bed8;margin-bottom:8px}
+    .agentGrid,.automationGrid,.gameGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.agentCard,.automationCard,.gameCard{padding:14px;border-radius:11px;background:rgba(255,255,255,.68);border:1px solid rgba(75,104,205,.10)}.agentCard h4,.automationCard h4,.gameCard h4{margin:0 0 6px;color:#354a99}.agentCard p,.automationCard p,.gameCard p{font-size:11px;color:#7b87aa;line-height:1.55}
+    .galleryGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-height:390px;overflow:auto}.galleryItem{position:relative;aspect-ratio:1;border-radius:10px;overflow:hidden;background:#0b1430;border:1px solid rgba(77,104,204,.1)}.galleryItem img{width:100%;height:100%;object-fit:cover}.galleryItem span{position:absolute;left:5px;right:5px;bottom:5px;padding:5px 6px;border-radius:6px;background:rgba(7,14,34,.70);color:white;font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.galleryItem button{position:absolute;right:5px;top:5px;border:0;border-radius:6px;background:rgba(7,14,34,.65);color:white;cursor:pointer}
+    .feedList{display:grid;gap:7px;max-height:350px;overflow:auto}.feedItem{padding:11px;border-radius:10px;background:rgba(255,255,255,.68);border:1px solid rgba(75,104,205,.09)}.feedItem a{font-weight:900;color:#354a99}.feedItem small{display:block;color:#7f8aae;margin-top:5px}.feedItem p{margin:6px 0 0;color:#65739d;font-size:11px;line-height:1.55}
+    .musicNow{padding:16px;border-radius:12px;background:linear-gradient(135deg,#0b1430,#151d49);color:white}.musicNow h3{margin:0 0 4px}.musicNow small{color:#9db3db}.musicPlayer{width:100%;margin-top:12px}.playlist{display:grid;gap:7px;margin-top:10px;max-height:260px;overflow:auto}.track{padding:10px;border-radius:9px;background:rgba(255,255,255,.67);border:1px solid rgba(75,104,205,.09);cursor:pointer}.track.active{outline:2px solid rgba(55,194,223,.26)}
+    .terminalHub{display:grid;grid-template-columns:1fr 1fr;gap:10px}.terminalService{padding:14px;border-radius:11px;background:#081222;color:#bcd7ff;border:1px solid rgba(89,151,245,.12)}.terminalService h4{margin:0 0 6px;color:#72e7f7}.terminalService p{font-size:11px;color:#90a6ca;line-height:1.55}
+    @media(max-width:800px){.codeLayout,.terminalHub,.agentGrid,.automationGrid,.gameGrid{grid-template-columns:1fr}.galleryGrid{grid-template-columns:repeat(2,1fr)}}
+
   </style>
 </head>
 <body data-theme="aurora">
@@ -843,6 +859,26 @@
         <div class="glass appCard"><div class="appCardTop"><span class="appGlyph">🎥</span><span class="appState">CONNECT</span></div><h3>Cap</h3><p>录屏服务节点；可配置你的自托管 Cap 地址。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="appStoreWin">CONFIGURE</button><a class="miniBtn" href="https://github.com/CapSoftware/Cap" target="_blank">REPO ↗</a></div></div>
         <div class="glass appCard"><div class="appCardTop"><span class="appGlyph">📄</span><span class="appState">PREVIEW + CONNECT</span></div><h3>Stirling PDF</h3><p>内置 PDF 本地预览；复杂处理可接自托管 Stirling PDF。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="pdfWin">PDF CENTER</button><a class="miniBtn" href="https://github.com/Stirling-Tools/Stirling-PDF" target="_blank">REPO ↗</a></div></div>
         <div class="glass appCard"><div class="appCardTop"><span class="appGlyph">🌌</span><span class="appState">REFERENCE</span></div><h3>NovaOS</h3><p>PWA、App Store 与 Web 桌面灵感节点，已融入 LR//OS 的安装和应用矩阵。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="appStoreWin">APP MATRIX</button><a class="miniBtn" href="https://github.com/runnova/NovaOS" target="_blank">REPO ↗</a></div></div>
+      
+        <div class="glass appCard" data-expansion-pack="1"><div class="appCardTop"><span class="appGlyph">🖥️</span><span class="appState">BUILT-IN CORE</span></div><h3>WebOS</h3><p>参考其纯浏览器桌面与虚拟文件系统思路，继续强化 LR//OS 的窗口和本地应用。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="shellWin">DESKTOP</button><a class="miniBtn" href="https://github.com/Martin-R-D/WebOS" target="_blank">REPO ↗</a></div></div>
+        <div class="glass appCard" data-expansion-pack="1"><div class="appCardTop"><span class="appGlyph">💻</span><span class="appState">BUILT-IN</span></div><h3>WasmForge</h3><p>LR Code Lab：JavaScript 本地沙箱 + Python/WASM 动态运行。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="codeLabWin">CODE LAB</button><a class="miniBtn" href="https://github.com/TaniyaTaragi/WasmForge" target="_blank">REPO ↗</a></div></div>
+        <div class="glass appCard" data-expansion-pack="1"><div class="appCardTop"><span class="appGlyph">🛸</span><span class="appState">CONNECT</span></div><h3>ciliterm</h3><p>真正 Shell / SSH / tmux 需要后端服务，LR//OS 提供 Cyber Terminal 服务节点。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="terminalHubWin">TERMINAL HUB</button><a class="miniBtn" href="https://github.com/ciliverse/ciliterm" target="_blank">REPO ↗</a></div></div>
+        <div class="glass appCard" data-expansion-pack="1"><div class="appCardTop"><span class="appGlyph">🎨</span><span class="appState">BUILT-IN LITE</span></div><h3>Skedra</h3><p>内置无限感白板基础版；完整版 Skedra 可作为自托管协作/MCP 节点。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="canvasWin">CANVAS</button><a class="miniBtn" href="https://github.com/moonriddim/skedra-community" target="_blank">REPO ↗</a></div></div>
+        <div class="glass appCard" data-expansion-pack="1"><div class="appCardTop"><span class="appGlyph">🧩</span><span class="appState">BUILT-IN LITE</span></div><h3>pad.local</h3><p>做成 LR Workspace：可拖动的 Code / Terminal / AI / Browser 概念节点。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="workspaceWin">WORKSPACE</button><a class="miniBtn" href="https://github.com/ymerej-noyorb/pad.local" target="_blank">REPO ↗</a></div></div>
+        <div class="glass appCard" data-expansion-pack="1"><div class="appCardTop"><span class="appGlyph">🎮</span><span class="appState">CONNECT</span></div><h3>RetroX</h3><p>自托管复古游戏库，接入后从 LR//OS Handheld 模式直接启动。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="gameWin">GAME MODE</button><a class="miniBtn" href="https://github.com/polius/RetroX" target="_blank">REPO ↗</a></div></div>
+        <div class="glass appCard" data-expansion-pack="1"><div class="appCardTop"><span class="appGlyph">🕹️</span><span class="appState">CONNECT</span></div><h3>VM/E</h3><p>浏览器多模拟器节点，与 Game Mode 共用服务入口。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="gameWin">GAME MODE</button><a class="miniBtn" href="https://github.com/gitGalu/vme" target="_blank">REPO ↗</a></div></div>
+        <div class="glass appCard" data-expansion-pack="1"><div class="appCardTop"><span class="appGlyph">🤖</span><span class="appState">AGENT NODE</span></div><h3>OpenLoaf</h3><p>项目化 AI Agent / 记忆 / Skills 节点。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="agentHubWin">AGENT HUB</button><a class="miniBtn" href="https://github.com/OpenLoaf/OpenLoaf" target="_blank">REPO ↗</a></div></div>
+        <div class="glass appCard" data-expansion-pack="1"><div class="appCardTop"><span class="appGlyph">🤖</span><span class="appState">AGENT NODE</span></div><h3>LiveAgent</h3><p>文件、命令、MCP、Skills 与远程 Gateway 统一接入 Agent Hub。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="agentHubWin">AGENT HUB</button><a class="miniBtn" href="https://github.com/Stack-Cairn/LiveAgent" target="_blank">REPO ↗</a></div></div>
+        <div class="glass appCard" data-expansion-pack="1"><div class="appCardTop"><span class="appGlyph">🧠</span><span class="appState">AGENT NODE</span></div><h3>LibrAgent</h3><p>本地优先、多 Agent、Shell、浏览器和 MCP 节点。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="agentHubWin">AGENT HUB</button><a class="miniBtn" href="https://github.com/fritzprix/libr-agent" target="_blank">REPO ↗</a></div></div>
+        <div class="glass appCard" data-expansion-pack="1"><div class="appCardTop"><span class="appGlyph">🌐</span><span class="appState">AUTOMATION NODE</span></div><h3>Catcher</h3><p>自然语言浏览器测试节点，统一放进 Browser Automation Hub。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="browserHubWin">BROWSER HUB</button><a class="miniBtn" href="https://github.com/Catcher2026/Catcher" target="_blank">REPO ↗</a></div></div>
+        <div class="glass appCard" data-expansion-pack="1"><div class="appCardTop"><span class="appGlyph">🌍</span><span class="appState">AUTOMATION NODE</span></div><h3>PinchTab</h3><p>多浏览器/持久化 Profile 自动化服务节点。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="browserHubWin">BROWSER HUB</button><a class="miniBtn" href="https://github.com/pinchtab/pinchtab" target="_blank">REPO ↗</a></div></div>
+        <div class="glass appCard" data-expansion-pack="1"><div class="appCardTop"><span class="appGlyph">🖼️</span><span class="appState">BUILT-IN LITE</span></div><h3>Lap</h3><p>内置本地 Gallery，支持图片导入、标签和文件名/标签搜索；完整 AI 搜图仍需 Lap 桌面端。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="galleryWin">GALLERY</button><a class="miniBtn" href="https://github.com/julyx10/lap" target="_blank">REPO ↗</a></div></div>
+        <div class="glass appCard" data-expansion-pack="1"><div class="appCardTop"><span class="appGlyph">🧠</span><span class="appState">BRAIN NODE</span></div><h3>Zettelgarden</h3><p>第二大脑节点，和现有 Memory Vault 并存。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="brainWin">LR BRAIN</button><a class="miniBtn" href="https://github.com/Zettelgarden/Zettelgarden" target="_blank">REPO ↗</a></div></div>
+        <div class="glass appCard" data-expansion-pack="1"><div class="appCardTop"><span class="appGlyph">📰</span><span class="appState">RSS NODE</span></div><h3>Cruxwire</h3><p>本地 LLM RSS 排序、摘要、去重节点。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="newsWin">NEWS HUB</button><a class="miniBtn" href="https://github.com/philoking/cruxwire" target="_blank">REPO ↗</a></div></div>
+        <div class="glass appCard" data-expansion-pack="1"><div class="appCardTop"><span class="appGlyph">📡</span><span class="appState">RSS NODE</span></div><h3>Papr</h3><p>RSS + Agent CLI 节点，和 LR News Hub 共用入口。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="newsWin">NEWS HUB</button><a class="miniBtn" href="https://github.com/l0ng-ai/papr" target="_blank">REPO ↗</a></div></div>
+        <div class="glass appCard" data-expansion-pack="1"><div class="appCardTop"><span class="appGlyph">🎧</span><span class="appState">BUILT-IN</span></div><h3>Parson</h3><p>内置本地 Music Player；完整自托管音乐库可配置 Parson 地址。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="musicWin">MUSIC</button><a class="miniBtn" href="https://github.com/ParsonLabs/parson" target="_blank">REPO ↗</a></div></div>
+        <div class="glass appCard" data-expansion-pack="1"><div class="appCardTop"><span class="appGlyph">✍️</span><span class="appState">BUILT-IN LITE</span></div><h3>KaiBoard</h3><p>与 Canvas 合并：手写/鼠标白板、自动本地保存和 PNG 导出。</p><div class="appActions"><button class="miniBtn primary" data-open-suite="canvasWin">CANVAS</button><a class="miniBtn" href="https://github.com/ChasenKai/KaiBoard" target="_blank">REPO ↗</a></div></div>
+
       </div>
     </section>
 
@@ -907,6 +943,15 @@
     <button class="dockBtn" data-win="clipboardWin" title="Clipboard Vault" data-label="CLIP">C</button>
     <button class="dockBtn" data-win="remoteWin" title="Remote Hub" data-label="REMOTE">R</button>
     <button class="dockBtn" data-win="shellWin" title="OS Modes" data-label="MODE">M</button>
+    <button class="dockBtn" data-win="codeLabWin" title="Code Lab" data-label="CODE">&lt;/&gt;</button>
+    <button class="dockBtn" data-win="canvasWin" title="LR Canvas" data-label="CANVAS">✎</button>
+    <button class="dockBtn" data-win="workspaceWin" title="Workspace" data-label="WORK">W</button>
+    <button class="dockBtn" data-win="agentHubWin" title="Agent Hub" data-label="AGENTS">A</button>
+    <button class="dockBtn" data-win="browserHubWin" title="Browser Automation" data-label="BROWSER">B</button>
+    <button class="dockBtn" data-win="galleryWin" title="Gallery" data-label="GALLERY">G</button>
+    <button class="dockBtn" data-win="newsWin" title="News Hub" data-label="NEWS">N</button>
+    <button class="dockBtn" data-win="musicWin" title="Music" data-label="MUSIC">♪</button>
+    <button class="dockBtn" data-win="gameWin" title="Game Mode" data-label="GAME">🎮</button>
     <button class="dockBtn" data-win="aiWin" title="LR AI Core" data-label="AI CORE">◈</button>
     <button class="dockBtn" data-win="universeWin" title="项目宇宙" data-label="UNIVERSE">◎</button>
     <button class="dockBtn" data-win="terminalWin" title="终端" data-label="TERMINAL">⌘</button>
@@ -1091,6 +1136,76 @@
       <button class="shellMode" data-shell-mode="focus"><b>FOCUS</b><small>关闭大部分装饰背景，学习/写作时更安静。</small></button>
       <button class="shellMode" data-shell-mode="handheld"><b>HANDHELD</b><small>放大 Dock 与窗口交互，适合平板触控。</small></button>
     </div></div>
+  </div>
+
+
+  <div class="osWindow" id="codeLabWin">
+    <div class="winBar"><i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i><span class="winTitle">LR_CODE_LAB.wasm</span><div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div></div>
+    <div class="winBody">
+      <div class="modeTabs"><button class="modeTab active" data-code-mode="js">JavaScript</button><button class="modeTab" data-code-mode="python">Python / Pyodide</button><a class="miniBtn" href="https://github.com/TaniyaTaragi/WasmForge" target="_blank">WasmForge ↗</a></div>
+      <div class="suiteToolbar"><button class="miniBtn primary" id="codeRun">RUN</button><button class="miniBtn" id="codeExample">EXAMPLE</button><button class="miniBtn" id="codeClear">CLEAR OUTPUT</button><span class="muted" id="pythonStatus" style="font-size:10px"></span></div>
+      <div class="codeLayout"><textarea class="codeEditor" id="codeEditor"></textarea><pre class="codeOutput" id="codeOutput">LR//CODE LAB READY_</pre></div>
+    </div>
+  </div>
+
+  <div class="osWindow" id="canvasWin">
+    <div class="winBar"><i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i><span class="winTitle">LR_CANVAS.board</span><div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div></div>
+    <div class="winBody"><div class="suiteToolbar"><button class="miniBtn primary" id="canvasPen">PEN</button><button class="miniBtn" id="canvasEraser">ERASER</button><input id="canvasColor" type="color" value="#5368df" /><input id="canvasWidth" type="range" min="1" max="24" value="4" /><button class="miniBtn" id="canvasClear">CLEAR</button><button class="miniBtn" id="canvasExport">EXPORT PNG</button><a class="miniBtn" href="https://github.com/moonriddim/skedra-community" target="_blank">Skedra ↗</a><a class="miniBtn" href="https://github.com/ChasenKai/KaiBoard" target="_blank">KaiBoard ↗</a></div><div class="whiteboardWrap"><canvas class="whiteboardCanvas" id="whiteboardCanvas"></canvas></div></div>
+  </div>
+
+  <div class="osWindow" id="workspaceWin">
+    <div class="winBar"><i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i><span class="winTitle">LR_WORKSPACE.canvas</span><div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div></div>
+    <div class="winBody"><div class="suiteToolbar"><button class="miniBtn" id="workspaceReset">RESET LAYOUT</button><a class="miniBtn" href="https://github.com/ymerej-noyorb/pad.local" target="_blank">pad.local ↗</a></div><div class="workspaceCanvas" id="workspaceCanvas"><div class="workspaceNode" data-node="code"><div class="nodeBar">NODE / CODE</div><b>Code Lab</b><small>双击打开 JavaScript / Python 工作台。</small></div><div class="workspaceNode" data-node="terminal"><div class="nodeBar">NODE / TERMINAL</div><b>Cyber Terminal</b><small>双击打开终端与 SSH 服务节点。</small></div><div class="workspaceNode" data-node="ai"><div class="nodeBar">NODE / AI</div><b>AI Core</b><small>双击打开 LR Assistant Core。</small></div><div class="workspaceNode" data-node="browser"><div class="nodeBar">NODE / BROWSER</div><b>Browser Hub</b><small>双击打开自动化服务中心。</small></div></div></div>
+  </div>
+
+  <div class="osWindow" id="agentHubWin">
+    <div class="winBar"><i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i><span class="winTitle">LR_AGENT_HUB.connect</span><div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div></div>
+    <div class="winBody"><div class="agentGrid">
+      <div class="agentCard"><h4>OpenLoaf</h4><p>项目化 Agent / Memory / Skills。</p><div class="endpointRow"><input class="endpointInput" data-endpoint="openloaf" placeholder="https://..." /><button class="miniBtn" data-launch-endpoint="openloaf">OPEN</button></div></div>
+      <div class="agentCard"><h4>LiveAgent</h4><p>本地工具、命令、MCP 与 Gateway。</p><div class="endpointRow"><input class="endpointInput" data-endpoint="liveagent" placeholder="http://localhost:..." /><button class="miniBtn" data-launch-endpoint="liveagent">OPEN</button></div></div>
+      <div class="agentCard"><h4>LibrAgent</h4><p>多 Agent / Shell / Browser / MCP。</p><div class="endpointRow"><input class="endpointInput" data-endpoint="libragent" placeholder="http://localhost:..." /><button class="miniBtn" data-launch-endpoint="libragent">OPEN</button></div></div>
+      <div class="agentCard"><h4>LR AI Core</h4><p>网页内置的轻量导航助手。</p><button class="miniBtn primary" onclick="openWin('aiWin')">OPEN LOCAL CORE</button></div>
+    </div><div class="suiteToolbar" style="margin-top:10px"><button class="miniBtn primary" id="saveAgentEndpoints">SAVE ENDPOINTS</button></div></div>
+  </div>
+
+  <div class="osWindow" id="browserHubWin">
+    <div class="winBar"><i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i><span class="winTitle">BROWSER_AUTOMATION_HUB.connect</span><div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div></div>
+    <div class="winBody"><div class="automationGrid">
+      <div class="automationCard"><h4>Catcher</h4><p>自然语言浏览器测试服务节点。</p><div class="endpointRow"><input class="endpointInput" data-endpoint="catcher" placeholder="http://localhost:..." /><button class="miniBtn" data-launch-endpoint="catcher">OPEN</button></div></div>
+      <div class="automationCard"><h4>PinchTab</h4><p>多实例浏览器自动化服务节点。</p><div class="endpointRow"><input class="endpointInput" data-endpoint="pinchtab" placeholder="http://localhost:..." /><button class="miniBtn" data-launch-endpoint="pinchtab">OPEN</button></div></div>
+      <div class="automationCard"><h4>Writ</h4><p>录制网页操作并重放的完整服务节点。</p><div class="endpointRow"><input class="endpointInput" data-endpoint="writ" placeholder="http://localhost:..." /><button class="miniBtn" data-launch-endpoint="writ">OPEN</button></div></div>
+      <div class="automationCard"><h4>LR Macro Hub</h4><p>仅编排 LR//OS 内部动作和安全外链。</p><button class="miniBtn primary" onclick="openWin('automationWin')">OPEN LOCAL MACRO</button></div>
+    </div><div class="suiteToolbar" style="margin-top:10px"><button class="miniBtn primary" id="saveBrowserEndpoints">SAVE ENDPOINTS</button></div></div>
+  </div>
+
+  <div class="osWindow" id="galleryWin">
+    <div class="winBar"><i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i><span class="winTitle">LR_GALLERY.idb</span><div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div></div>
+    <div class="winBody"><input type="file" accept="image/*" multiple id="galleryInput" hidden /><div class="suiteToolbar"><button class="miniBtn primary" id="galleryImport">IMPORT PHOTOS</button><input class="suiteInput" id="gallerySearch" placeholder="搜索文件名或标签…" /><a class="miniBtn" href="https://github.com/julyx10/lap" target="_blank">Lap AI Gallery ↗</a></div><div class="galleryGrid" id="galleryGrid"></div></div>
+  </div>
+
+  <div class="osWindow" id="brainWin">
+    <div class="winBar"><i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i><span class="winTitle">LR_BRAIN.connect</span><div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div></div>
+    <div class="winBody"><div class="expansionNote">LR Memory Vault 已经是本地轻量第二大脑；Zettelgarden 完整版通过服务节点接入。</div><div class="endpointRow"><input class="endpointInput" data-endpoint="zettelgarden" placeholder="Zettelgarden URL https://..." /><button class="miniBtn" data-launch-endpoint="zettelgarden">OPEN</button><button class="miniBtn primary" onclick="openWin('memoryWin')">LOCAL MEMORY</button></div><div class="suiteToolbar" style="margin-top:10px"><button class="miniBtn" id="saveBrainEndpoint">SAVE</button></div></div>
+  </div>
+
+  <div class="osWindow" id="newsWin">
+    <div class="winBar"><i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i><span class="winTitle">LR_NEWS_HUB.rss</span><div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div></div>
+    <div class="winBody"><div class="suiteToolbar"><input class="suiteInput" id="rssUrl" placeholder="RSS / Atom URL" /><button class="miniBtn primary" id="rssLoad">LOAD FEED</button><button class="miniBtn" id="rssSave">SAVE FEED</button></div><div class="feedList" id="feedList"><div class="muted">输入支持 CORS 的 RSS/Atom 地址。跨域受限的源建议通过 Cruxwire / Papr 自托管节点。</div></div><div class="remoteGrid" style="margin-top:12px"><div class="remoteCard"><h4>Cruxwire</h4><div class="endpointRow"><input class="endpointInput" data-endpoint="cruxwire" placeholder="https://..." /><button class="miniBtn" data-launch-endpoint="cruxwire">OPEN</button></div></div><div class="remoteCard"><h4>Papr</h4><div class="endpointRow"><input class="endpointInput" data-endpoint="papr" placeholder="https://..." /><button class="miniBtn" data-launch-endpoint="papr">OPEN</button></div></div></div><div class="suiteToolbar" style="margin-top:10px"><button class="miniBtn" id="saveNewsEndpoints">SAVE ENDPOINTS</button></div></div>
+  </div>
+
+  <div class="osWindow" id="musicWin">
+    <div class="winBar"><i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i><span class="winTitle">LR_MUSIC.local</span><div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div></div>
+    <div class="winBody"><input type="file" id="musicInput" accept="audio/*" multiple hidden /><div class="suiteToolbar"><button class="miniBtn primary" id="musicImport">ADD MUSIC</button><button class="miniBtn" id="openParson">OPEN PARSON</button></div><div class="musicNow"><h3 id="musicTitle">No track selected</h3><small id="musicMeta">Local files stay in this browser session.</small><audio class="musicPlayer" id="musicPlayer" controls></audio></div><div class="playlist" id="playlist"></div></div>
+  </div>
+
+  <div class="osWindow" id="gameWin">
+    <div class="winBar"><i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i><span class="winTitle">LR_GAME_MODE.launcher</span><div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div></div>
+    <div class="winBody"><div class="gameGrid"><div class="gameCard"><h4>RetroX</h4><p>自托管复古游戏库。请只使用你有权使用的游戏内容。</p><div class="endpointRow"><input class="endpointInput" data-endpoint="retrox" placeholder="http://localhost:8080" /><button class="miniBtn" data-launch-endpoint="retrox">PLAY</button></div></div><div class="gameCard"><h4>VM/E</h4><p>浏览器多模拟器服务节点。</p><div class="endpointRow"><input class="endpointInput" data-endpoint="vme" placeholder="https://..." /><button class="miniBtn" data-launch-endpoint="vme">PLAY</button></div></div></div><div class="suiteToolbar" style="margin-top:10px"><button class="miniBtn primary" id="gameHandheld">ENTER HANDHELD MODE</button><button class="miniBtn" id="saveGameEndpoints">SAVE ENDPOINTS</button></div></div>
+  </div>
+
+  <div class="osWindow" id="terminalHubWin">
+    <div class="winBar"><i class="winDot wd1"></i><i class="winDot wd2"></i><i class="winDot wd3"></i><span class="winTitle">CYBER_TERMINAL_HUB.connect</span><div class="winActions"><button class="minWin">—</button><button class="closeWin">×</button></div></div>
+    <div class="winBody"><div class="terminalHub"><div class="terminalService"><h4>LR Local Terminal</h4><p>当前网页内置命令终端，只控制 LR//OS 本身。</p><button class="miniBtn primary" onclick="openWin('terminalWin')">OPEN LOCAL</button></div><div class="terminalService"><h4>ciliterm</h4><p>部署后可获得真实 shell、SSH、tmux、文件浏览器与系统监控。</p><div class="endpointRow"><input class="endpointInput" data-endpoint="ciliterm" placeholder="http://localhost:..." /><button class="miniBtn" data-launch-endpoint="ciliterm">OPEN</button></div></div></div><div class="suiteToolbar" style="margin-top:10px"><button class="miniBtn" id="saveTerminalEndpoint">SAVE ENDPOINT</button></div></div>
   </div>
 
   <div class="osWindow" id="terminalWin">
