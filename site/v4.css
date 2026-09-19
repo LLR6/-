@@ -305,3 +305,12 @@ img{display:block;max-width:100%}
 @media(max-width:560px){
   .cgGallery{grid-template-columns:1fr;grid-auto-rows:220px}
 }
+
+.pswp__lr-caption{
+  position:absolute;left:50%;bottom:22px;transform:translateX(-50%);
+  max-width:min(680px,calc(100vw - 40px));padding:9px 13px;
+  background:rgba(5,14,28,.68);border:1px solid rgba(193,219,252,.14);
+  backdrop-filter:blur(12px);color:#dce9f8;text-align:center;pointer-events:none
+}
+.pswp__lr-caption b{display:block;font:800 9px ui-monospace,monospace;letter-spacing:.16em}
+.pswp__lr-caption span{display:block;margin-top:3px;color:#8ea2bf;font-size:10px}
