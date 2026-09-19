@@ -103,11 +103,108 @@
     @media(max-width:850px){.creativeStrip{grid-template-columns:1fr}.ideaGrid{grid-template-columns:1fr}.sat{display:none}}
 
     @media(max-width:850px){.navlinks{display:none}.hero{grid-template-columns:1fr;min-height:auto;padding-top:62px}.avatarCard{aspect-ratio:16/9}.stat{grid-column:span 6}.posts{grid-template-columns:1fr}.projects,.about{grid-template-columns:1fr}}
+
+    /* === LR FUTURE TERMINAL LAYER === */
+    .boot{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;background:
+      radial-gradient(circle at 50% 45%,rgba(61,219,255,.16),transparent 28%),
+      linear-gradient(135deg,#071120,#0b1530 48%,#10173c);color:#bff7ff;transition:opacity .6s ease,visibility .6s ease}
+    .boot.hide{opacity:0;visibility:hidden}.bootBox{width:min(620px,calc(100% - 34px));font:13px/1.85 ui-monospace,SFMono-Regular,Consolas,monospace}
+    .bootLogo{font-size:clamp(42px,8vw,86px);font-weight:1000;letter-spacing:-.06em;background:linear-gradient(90deg,#fff,#5ee7ff,#8b79ff);-webkit-background-clip:text;color:transparent;text-shadow:0 0 30px rgba(94,231,255,.18)}
+    .bootLine{height:1px;background:linear-gradient(90deg,transparent,#5ee7ff,#8b79ff,transparent);box-shadow:0 0 18px rgba(94,231,255,.7);margin:14px 0}
+    .bootRows{color:#8cb7c9}.bootRows b{color:#73ffd1}.bootPct{float:right;color:#fff}
+
+    .scanlines{position:fixed;inset:0;z-index:90;pointer-events:none;opacity:.055;background:repeating-linear-gradient(to bottom,rgba(20,39,85,.5) 0 1px,transparent 1px 4px);mix-blend-mode:multiply}
+    .hexGrid{position:fixed;inset:0;z-index:-2;pointer-events:none;opacity:.18;background-image:
+      linear-gradient(30deg,rgba(69,105,255,.12) 12%,transparent 12.5%,transparent 87%,rgba(69,105,255,.12) 87.5%,rgba(69,105,255,.12)),
+      linear-gradient(150deg,rgba(69,105,255,.12) 12%,transparent 12.5%,transparent 87%,rgba(69,105,255,.12) 87.5%,rgba(69,105,255,.12)),
+      linear-gradient(30deg,rgba(69,105,255,.12) 12%,transparent 12.5%,transparent 87%,rgba(69,105,255,.12) 87.5%,rgba(69,105,255,.12)),
+      linear-gradient(150deg,rgba(69,105,255,.12) 12%,transparent 12.5%,transparent 87%,rgba(69,105,255,.12) 87.5%,rgba(69,105,255,.12)),
+      linear-gradient(60deg,rgba(38,207,238,.08) 25%,transparent 25.5%,transparent 75%,rgba(38,207,238,.08) 75%);
+      background-size:56px 98px;background-position:0 0,0 0,28px 49px,28px 49px,0 0}
+    #netCanvas{position:fixed;inset:0;z-index:-2;pointer-events:none;opacity:.58}
+
+    .hudCorner{position:fixed;width:64px;height:64px;z-index:25;pointer-events:none;opacity:.35}
+    .hudCorner:before,.hudCorner:after{content:"";position:absolute;background:linear-gradient(90deg,#5d7fff,#38d8f5)}
+    .hudCorner:before{width:42px;height:1px}.hudCorner:after{width:1px;height:42px}
+    .hc1{left:14px;top:14px}.hc2{right:14px;top:14px;transform:scaleX(-1)}.hc3{left:14px;bottom:14px;transform:scaleY(-1)}.hc4{right:14px;bottom:14px;transform:scale(-1)}
+    .hudCorner span{position:absolute;top:8px;left:8px;font:700 8px ui-monospace,monospace;letter-spacing:.12em;color:#5d72be}
+
+    .nav:after{content:"SYS://LR-OS";font:700 9px ui-monospace,monospace;letter-spacing:.16em;color:#7480aa;padding-left:4px}
+    .systemRail{position:fixed;left:14px;top:50%;transform:translateY(-50%);z-index:24;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+    .railItem{writing-mode:vertical-rl;transform:rotate(180deg);font:700 8px ui-monospace,monospace;letter-spacing:.2em;color:#7784b4;opacity:.6}
+    .railPulse{width:3px;height:74px;border-radius:999px;background:linear-gradient(#32d8f7,#806eff,transparent);box-shadow:0 0 12px rgba(50,216,247,.35)}
+
+    .heroCopy{position:relative}
+    .heroCopy:before{content:"// IDENTITY NODE";position:absolute;left:-2px;top:-30px;font:700 9px ui-monospace,monospace;letter-spacing:.18em;color:#8b96bc}
+    .glitch{position:relative;display:inline-block}
+    .glitch:hover:before,.glitch:hover:after{content:attr(data-text);position:absolute;inset:0;pointer-events:none;-webkit-text-fill-color:transparent;-webkit-background-clip:text;background-image:linear-gradient(90deg,#ff4dc8,#42daf2)}
+    .glitch:hover:before{transform:translate(2px,-1px);clip-path:inset(0 0 55% 0);opacity:.55}.glitch:hover:after{transform:translate(-2px,1px);clip-path:inset(58% 0 0 0);opacity:.4}
+
+    .avatarCard.techFrame{border:1px solid rgba(70,120,255,.28);box-shadow:0 28px 80px rgba(64,97,220,.18),inset 0 0 0 1px rgba(255,255,255,.72)}
+    .avatarCard.techFrame .frameMarks{position:absolute;inset:12px;pointer-events:none}
+    .frameMarks:before,.frameMarks:after{content:"";position:absolute;inset:0;background:
+      linear-gradient(#4d7cff,#4d7cff) left top/32px 1px no-repeat,
+      linear-gradient(#4d7cff,#4d7cff) left top/1px 32px no-repeat,
+      linear-gradient(#31d7f1,#31d7f1) right bottom/32px 1px no-repeat,
+      linear-gradient(#31d7f1,#31d7f1) right bottom/1px 32px no-repeat;opacity:.42}
+    .frameMarks:after{transform:rotate(180deg)}
+    .scanBeam{position:absolute;left:9%;right:9%;height:2px;top:18%;background:linear-gradient(90deg,transparent,#48e3ff,#7e6cff,transparent);box-shadow:0 0 14px #48e3ff;opacity:.55;animation:scanBeam 4.8s ease-in-out infinite}
+    @keyframes scanBeam{0%,100%{transform:translateY(0);opacity:.25}50%{transform:translateY(300px);opacity:.7}}
+
+    .techMetrics{position:absolute;right:18px;top:18px;display:grid;gap:7px;z-index:3}
+    .metric{min-width:104px;padding:7px 9px;border:1px solid rgba(69,108,255,.14);border-radius:10px;background:rgba(255,255,255,.58);backdrop-filter:blur(12px);font:700 9px ui-monospace,monospace;color:#6370a4}
+    .metric strong{display:block;margin-top:3px;color:#4052bf;font-size:12px}
+    .signal{display:inline-flex;gap:2px;align-items:end;height:10px}.signal i{display:block;width:2px;background:#35cfe9;box-shadow:0 0 5px rgba(53,207,233,.5)}.signal i:nth-child(1){height:3px}.signal i:nth-child(2){height:5px}.signal i:nth-child(3){height:7px}.signal i:nth-child(4){height:10px}
+
+    .systemDeck{display:grid;grid-template-columns:1.15fr .85fr;gap:16px;margin-top:18px}
+    .radarPanel,.telemetryPanel{padding:22px;position:relative;overflow:hidden}
+    .radarWrap{display:grid;grid-template-columns:180px 1fr;gap:22px;align-items:center;margin-top:16px}
+    .radar{width:170px;aspect-ratio:1;border-radius:50%;position:relative;background:
+      radial-gradient(circle,rgba(48,219,245,.16) 0 2px,transparent 3px),
+      repeating-radial-gradient(circle,transparent 0 25px,rgba(75,108,255,.13) 26px 27px),
+      linear-gradient(rgba(71,109,255,.12) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(71,109,255,.12) 1px,transparent 1px);
+      background-size:auto,auto,100% 50%,50% 100%;border:1px solid rgba(68,110,255,.18)}
+    .radar:before{content:"";position:absolute;inset:5px;border-radius:50%;background:conic-gradient(from 0deg,rgba(48,219,245,.36),transparent 22%,transparent);animation:radarSpin 3.5s linear infinite}
+    .radar:after{content:"";position:absolute;width:8px;height:8px;left:65%;top:32%;border-radius:50%;background:#62f3d0;box-shadow:0 0 12px #62f3d0}
+    @keyframes radarSpin{to{transform:rotate(360deg)}}
+    .radarText{font:12px/1.8 ui-monospace,monospace;color:#65719d}.radarText b{color:#4154c1}
+    .telemetryGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:16px}.telemetry{padding:13px;border-radius:14px;background:rgba(255,255,255,.56);border:1px solid rgba(255,255,255,.8)}
+    .telemetry span{font:700 9px ui-monospace,monospace;letter-spacing:.12em;color:#8690b5}.telemetry b{display:block;margin-top:7px;font-size:22px}.telemetry small{color:#6b769d}
+    .wave{height:38px;margin-top:15px;background:
+      linear-gradient(135deg,transparent 0 12%,#5b83ff 13% 15%,transparent 16% 25%,#33d7ef 26% 28%,transparent 29% 38%,#806eff 39% 41%,transparent 42% 54%,#33d7ef 55% 57%,transparent 58%);
+      background-size:150px 38px;opacity:.45;animation:waveMove 4s linear infinite}
+    @keyframes waveMove{to{background-position:150px 0}}
+    .techLabel{font:700 9px ui-monospace,monospace;letter-spacing:.18em;color:#7180ad}
+
+    .glass{position:relative;overflow:hidden}
+    .glass:after{content:"";position:absolute;inset:auto 10% 0;height:1px;background:linear-gradient(90deg,transparent,rgba(45,215,241,.4),rgba(120,103,255,.4),transparent);opacity:.6;pointer-events:none}
+    .stat{overflow:hidden}.stat:before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 35%,rgba(255,255,255,.45) 48%,transparent 60%);transform:translateX(-130%);animation:statSweep 7s ease-in-out infinite}
+    @keyframes statSweep{0%,65%{transform:translateX(-130%)}90%,100%{transform:translateX(130%)}}
+    @media(max-width:850px){.systemDeck{grid-template-columns:1fr}.radarWrap{grid-template-columns:1fr;justify-items:center}.systemRail,.hudCorner{display:none}.techMetrics{display:none}}
+
     @media(max-width:520px){.shell,.nav{width:min(100% - 20px,1180px)}.stat{grid-column:span 12}section{padding:48px 0}.hero{padding-top:50px}.pill{display:none}h1{font-size:54px}.footer{flex-direction:column}}
     @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
   </style>
 </head>
-<body data-theme="aurora"><div class="progressBar" id="progressBar"></div>
+<body data-theme="aurora">
+  <div class="boot" id="boot">
+    <div class="bootBox">
+      <div class="bootLogo">LR//OS</div>
+      <div class="bootLine"></div>
+      <div class="bootRows">
+        <div>[ OK ] visual-core initialized <span class="bootPct" id="bootPct">12%</span></div>
+        <div>[ OK ] identity-node mounted</div>
+        <div>[ OK ] cyber-interface online</div>
+        <div>[ .. ] establishing personal-space link...</div>
+        <div><b>ACCESS GRANTED</b></div>
+      </div>
+    </div>
+  </div>
+  <div class="progressBar" id="progressBar"></div>
+  <div class="scanlines"></div><div class="hexGrid"></div><canvas id="netCanvas"></canvas>
+  <div class="hudCorner hc1"><span>01</span></div><div class="hudCorner hc2"><span>02</span></div><div class="hudCorner hc3"><span>03</span></div><div class="hudCorner hc4"><span>04</span></div>
+  <div class="systemRail"><div class="railItem">LR PERSONAL TERMINAL</div><div class="railPulse"></div><div class="railItem">SYSTEM ONLINE</div></div>
   <canvas id="stars"></canvas><div class="aurora one"></div><div class="aurora two"></div><div class="aurora three"></div><div id="cursorGlow"></div><div class="orb a"></div><div class="orb b"></div>
   <nav class="nav">
     <a class="brand" href="#top"><i>LR</i> // SPACE</a>
@@ -117,14 +214,19 @@
 
   <main id="top" class="shell">
     <section class="hero">
-      <div>
+      <div class="heroCopy">
         <div class="kicker"><span class="dot"></span> ONLINE · PERSONAL DATABASE</div>
-        <h1>你好，我是<br><span class="grad">LR.</span></h1>
+        <h1>你好，我是<br><span class="grad glitch" data-text="LR.">LR.</span></h1>
         <p class="lead">这里是我的个人数字基地。记录 <span class="type" id="typing">技术折腾</span>、学习过程、项目碎片、生活灵感，以及那些我不想忘掉的瞬间。</p>
         <div class="actions"><a class="btn primary" href="#articles">进入我的世界 →</a><a class="btn" href="https://github.com/LLR6" target="_blank" rel="noreferrer">GitHub ↗</a><button class="btn" id="openPalette">⌘ 快速导航</button></div>
         <div class="heroBadge"><span class="sig"></span><b>LR_OS / STATUS: ONLINE</b><small>一个会随着我一起生长的个人数字空间</small></div>
       </div>
-      <div class="avatarCard"><div class="shine"></div>
+      <div class="avatarCard techFrame"><div class="shine"></div><div class="frameMarks"></div><div class="scanBeam"></div>
+        <div class="techMetrics">
+          <div class="metric">UPLINK <strong>ONLINE <span class="signal"><i></i><i></i><i></i><i></i></span></strong></div>
+          <div class="metric">NODE ID <strong>LR-01</strong></div>
+          <div class="metric">LATENCY <strong id="latencyMetric">08ms</strong></div>
+        </div>
         <div class="orbit">
           <div class="orbitRing r1"></div><div class="orbitRing r2"></div>
           <div class="sat s1">CTF // ACTIVE</div>
@@ -135,6 +237,36 @@
       </div>
     </section>
 
+
+
+    <section id="system" class="reveal">
+      <div class="head"><div><div class="eyebrow">CORE / SYSTEM DECK</div><h2>个人终端状态</h2></div><p>不是装饰性的“科技感”，而是把整个主页包装成一个持续运行的个人系统。</p></div>
+      <div class="systemDeck">
+        <div class="glass radarPanel">
+          <div class="techLabel">NETWORK RADAR // LIVE</div>
+          <div class="radarWrap">
+            <div class="radar"></div>
+            <div class="radarText">
+              <div>NODE <b>LR-01</b> ........ ONLINE</div>
+              <div>SECURITY .............. NORMAL</div>
+              <div>CREATIVE CORE ......... ACTIVE</div>
+              <div>KNOWLEDGE SYNC ........ RUNNING</div>
+              <div>BUILD QUEUE ........... <b>READY</b></div>
+            </div>
+          </div>
+        </div>
+        <div class="glass telemetryPanel">
+          <div class="techLabel">TELEMETRY // PERSONAL OS</div>
+          <div class="telemetryGrid">
+            <div class="telemetry"><span>FOCUS</span><b>87%</b><small>learning channel</small></div>
+            <div class="telemetry"><span>IDEAS</span><b>∞</b><small>creative buffer</small></div>
+            <div class="telemetry"><span>PROJECTS</span><b>04</b><small>active modules</small></div>
+            <div class="telemetry"><span>STATUS</span><b>ON</b><small>system alive</small></div>
+          </div>
+          <div class="wave"></div>
+        </div>
+      </div>
+    </section>
 
     <section id="lab" class="reveal">
       <div class="head"><div><div class="eyebrow">00 / CREATIVE LAB</div><h2>灵感实验室</h2></div><p>这里不是传统导航，而是一块会动、会回应你的“小型数字游乐场”。</p></div>
@@ -267,6 +399,21 @@
     function tick(){document.getElementById("clock").textContent=new Date().toLocaleTimeString("zh-CN",{hour12:false})}tick();setInterval(tick,1000);
 
 
+
+
+    // Future terminal boot
+    const boot=document.getElementById("boot"),bootPct=document.getElementById("bootPct");
+    let bp=12;const bootTimer=setInterval(()=>{bp=Math.min(100,bp+Math.floor(Math.random()*16+7));bootPct.textContent=bp+"%";if(bp>=100){clearInterval(bootTimer);setTimeout(()=>boot.classList.add("hide"),320)}},120);
+
+    // Simulated telemetry
+    const latencyMetric=document.getElementById("latencyMetric");
+    setInterval(()=>{latencyMetric.textContent=String(Math.floor(5+Math.random()*12)).padStart(2,"0")+"ms"},1800);
+
+    // Background network constellation
+    const nc=document.getElementById("netCanvas"),nx=nc.getContext("2d");let nodes=[];
+    function sizeNet(){const d=devicePixelRatio||1;nc.width=innerWidth*d;nc.height=innerHeight*d;nc.style.width=innerWidth+"px";nc.style.height=innerHeight+"px";nx.setTransform(d,0,0,d,0,0);nodes=Array.from({length:Math.min(46,Math.floor(innerWidth/30)+16)},()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight,vx:(Math.random()-.5)*.12,vy:(Math.random()-.5)*.12}))}
+    function drawNet(){nx.clearRect(0,0,innerWidth,innerHeight);for(let i=0;i<nodes.length;i++){const a=nodes[i];a.x+=a.vx;a.y+=a.vy;if(a.x<0||a.x>innerWidth)a.vx*=-1;if(a.y<0||a.y>innerHeight)a.vy*=-1;for(let j=i+1;j<nodes.length;j++){const b=nodes[j],dx=a.x-b.x,dy=a.y-b.y,dist=Math.hypot(dx,dy);if(dist<145){nx.strokeStyle="rgba(76,112,255,"+(0.13*(1-dist/145))+")";nx.lineWidth=.7;nx.beginPath();nx.moveTo(a.x,a.y);nx.lineTo(b.x,b.y);nx.stroke()}}nx.fillStyle="rgba(48,205,235,.34)";nx.beginPath();nx.arc(a.x,a.y,1.3,0,Math.PI*2);nx.fill()}requestAnimationFrame(drawNet)}
+    addEventListener("resize",sizeNet);sizeNet();drawNet();
 
     // Creative interactions
     const ideas=[
