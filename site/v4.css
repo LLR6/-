@@ -1,0 +1,183 @@
+
+:root{
+  --bg:#07101d;
+  --panel:#0b1728;
+  --panel2:#0e1d31;
+  --text:#edf3fb;
+  --muted:#93a4bd;
+  --line:rgba(205,226,255,.14);
+  --blue:#9bd8ff;
+  --pink:#e7a8ca;
+  --violet:#a69cf0;
+  --max:1240px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{
+  margin:0;color:var(--text);background:
+  radial-gradient(circle at 82% 12%,rgba(79,116,180,.12),transparent 26%),
+  linear-gradient(180deg,#07101d,#081423 52%,#06101c);
+  font-family:Inter,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  overflow-x:hidden
+}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:99;opacity:.06;
+  background-image:radial-gradient(circle,#fff 0 .7px,transparent .9px);
+  background-size:5px 5px;mix-blend-mode:soft-light
+}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+.container{width:min(var(--max),calc(100% - 36px));margin:auto}
+
+.nav{
+  position:fixed;z-index:50;top:18px;left:50%;transform:translateX(-50%);
+  width:min(var(--max),calc(100% - 36px));height:58px;padding:0 18px;
+  display:flex;align-items:center;gap:22px;
+  background:rgba(5,14,28,.62);border:1px solid var(--line);
+  backdrop-filter:blur(18px);box-shadow:0 16px 42px rgba(0,0,0,.16)
+}
+.logo{
+  font-family:Georgia,"Times New Roman",serif;font-size:24px;letter-spacing:.04em;
+  margin-right:auto
+}
+.logo b{font-weight:400;color:#fff;text-shadow:0 0 18px rgba(133,199,255,.35)}
+.navlinks{display:flex;gap:2px}
+.navlinks a{
+  padding:8px 10px;color:#abbad0;font:14px Georgia,"Times New Roman",serif;
+  position:relative
+}
+.navlinks a:after{
+  content:"";position:absolute;left:10px;right:10px;bottom:4px;height:1px;
+  background:#e8f3ff;transform:scaleX(0);transform-origin:left;transition:.25s
+}
+.navlinks a:hover{color:white}.navlinks a:hover:after{transform:scaleX(1)}
+.navMark{font:9px ui-monospace,monospace;letter-spacing:.18em;color:#7388aa}
+
+.hero{
+  min-height:100svh;position:relative;display:flex;align-items:flex-end;
+  overflow:hidden;border-bottom:1px solid var(--line)
+}
+.heroBg{position:absolute;inset:0;background:url("./assets/anime-night.webp") 38% center/cover no-repeat;transform:scale(1.015);will-change:transform;transition:transform .18s ease-out}
+.heroShade{position:absolute;inset:0;background:
+  linear-gradient(90deg,rgba(3,10,22,.12) 0%,rgba(3,10,22,.20) 40%,rgba(3,10,22,.70) 72%,rgba(3,10,22,.94) 100%),
+  linear-gradient(180deg,rgba(3,10,22,.10),transparent 45%,rgba(3,10,22,.82) 100%)}
+.heroLine{position:absolute;left:4%;top:17%;height:210px;width:1px;background:linear-gradient(#dcecff,transparent);opacity:.46}
+.heroVertical{
+  position:absolute;left:5.5%;top:17%;writing-mode:vertical-rl;
+  font-family:"Yu Mincho","Hiragino Mincho ProN",serif;letter-spacing:.22em;line-height:2;
+  color:#dbe8fa;font-size:14px;text-shadow:0 4px 20px rgba(0,0,0,.55)
+}
+.heroCopy{
+  position:relative;z-index:2;width:min(600px,42vw);margin-left:auto;margin-right:6%;
+  padding-bottom:12vh
+}
+.eyebrow{font:800 9px ui-monospace,monospace;letter-spacing:.28em;color:#91a9cc}
+.hero h1{
+  margin:14px 0 4px;font:italic 500 clamp(72px,9vw,142px)/.82 Georgia,"Times New Roman",serif;
+  letter-spacing:-.075em;color:#f7fbff;text-shadow:0 0 30px rgba(104,172,255,.20)
+}
+.heroJp{font-family:"Yu Mincho","Hiragino Mincho ProN",serif;font-size:17px;letter-spacing:.12em;color:#d0def1;margin:25px 0 8px}
+.heroText{max-width:540px;color:#a9b8cd;font-size:13px;line-height:1.9}
+.heroActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.heroActions a{
+  padding:12px 16px;border:1px solid rgba(210,229,255,.22);
+  font:800 10px ui-monospace,monospace;letter-spacing:.16em;transition:.22s
+}
+.heroActions .primary{background:#edf5ff;color:#172540}
+.heroActions a:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,.25)}
+.heroFooter{
+  position:absolute;z-index:2;left:4%;right:4%;bottom:3.2%;display:flex;gap:18px;align-items:center;
+  color:#8395b2;font:700 8px ui-monospace,monospace;letter-spacing:.22em
+}
+.heroFooter i{height:1px;flex:1;background:linear-gradient(90deg,rgba(190,218,255,.32),transparent)}
+
+.gateway{padding:22px 0 86px}
+.gatewayTop{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:14px}
+.gatewayTop span{font:800 9px ui-monospace,monospace;letter-spacing:.24em;color:#8296b6}
+.gatewayTop p{margin:0;color:#7184a1;font-size:12px}
+.gatewayGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.gatewayCard{
+  height:230px;position:relative;overflow:hidden;border:1px solid var(--line);background:#0b1627;
+  padding:16px;display:flex;flex-direction:column;justify-content:flex-end;transition:.28s
+}
+.gatewayCard:before{content:"";position:absolute;inset:0;background-size:cover;background-position:center;filter:saturate(.60) brightness(.45);transform:scale(1.02);transition:.4s}
+.gatewayCard:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 10%,rgba(4,12,25,.92) 82%)}
+.gatewayCard>*{position:relative;z-index:2}
+.gatewayCard:nth-child(1):before{background-image:url("./assets/anime-boy.webp")}
+.gatewayCard:nth-child(2):before{background-image:url("./assets/anime-night.webp");background-position:78% center}
+.gatewayCard:nth-child(3):before{background-image:url("./assets/anime-boy.webp");background-position:68% center;filter:saturate(.25) brightness(.40)}
+.gatewayCard:nth-child(4):before{background-image:linear-gradient(140deg,#182944,#0b1526)}
+.gatewayCard:nth-child(5):before{background-image:url("./assets/anime-night.webp");background-position:90% center;filter:saturate(.35) brightness(.34)}
+.gatewayCard:hover{transform:translateY(-6px);border-color:rgba(205,227,255,.28)}.gatewayCard:hover:before{transform:scale(1.08)}
+.gatewayCard em{position:absolute;top:12px;left:13px;font-style:normal;font:700 9px ui-monospace,monospace;color:#8299bc}
+.gatewayCard strong{font:24px Georgia,"Times New Roman",serif}.gatewayCard small{color:#9fb1cc;margin-top:2px;font-family:"Yu Mincho",serif}.gatewayCard p{margin:10px 0 0;color:#8091ad;font-size:11px;line-height:1.6}.gatewayCard b{position:absolute;right:14px;bottom:14px;font-size:19px}
+
+.section{padding:82px 0;border-top:1px solid rgba(205,226,255,.08)}
+.sectionHead{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:end;margin-bottom:26px}
+.kicker{font:800 9px ui-monospace,monospace;letter-spacing:.24em;color:#8fccea}
+.section h2{font:500 clamp(36px,5vw,64px)/1 Georgia,"Noto Serif SC","Songti SC",serif;margin:7px 0 0;letter-spacing:-.03em}
+.sectionHead p{margin:0;max-width:430px;color:#7f91ad;line-height:1.7;font-size:12px}
+
+.episodes{display:grid;grid-template-columns:1.3fr .7fr;gap:14px}
+.episodeMain,.episodeSide{border:1px solid var(--line);background:#0a1627;position:relative;overflow:hidden;min-height:420px}
+.episodeMain:before{content:"";position:absolute;inset:0;background:url("./assets/anime-boy.webp") center/cover;filter:saturate(.42) brightness(.42)}
+.episodeMain:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(4,12,25,.90),rgba(4,12,25,.20)),linear-gradient(180deg,transparent,rgba(4,12,25,.78))}
+.episodeInner{position:absolute;z-index:2;left:24px;bottom:24px;max-width:480px}
+.episodeInner .n{font:700 9px ui-monospace,monospace;letter-spacing:.2em;color:#89a4cb}.episodeInner h3{font:34px Georgia,serif;margin:8px 0}.episodeInner p{color:#91a2bb;font-size:12px;line-height:1.7;margin:0}
+.episodeSide{display:grid;grid-template-rows:1fr 1fr;gap:1px;background:var(--line)}
+.miniEp{background:#0a1627;padding:22px;position:relative}
+.miniEp .n{font:700 9px ui-monospace,monospace;color:#7e96bb;letter-spacing:.18em}.miniEp h3{font:25px Georgia,serif;margin:12px 0 8px}.miniEp p{margin:0;color:#8293ae;font-size:12px;line-height:1.65}
+
+.moments{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.moment{border:1px solid var(--line);background:rgba(10,23,41,.76);padding:18px;min-height:130px;position:relative}
+.moment:before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(var(--blue),transparent)}
+.moment time{font:700 8px ui-monospace,monospace;letter-spacing:.16em;color:#7589aa}.moment b{display:block;margin:10px 0 5px;font-weight:700}.moment p{margin:0;color:#8798b2;font-size:12px;line-height:1.65}
+.composer{display:flex;gap:8px;margin-top:12px}.composer input{flex:1;min-width:0;background:#091628;color:#dce9f8;border:1px solid var(--line);padding:12px 13px;outline:0}.composer button{border:0;background:#dfeeff;color:#15223b;padding:0 16px;font-weight:800;cursor:pointer}
+
+.acg{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.acgCard{border:1px solid var(--line);background:#0a1627;min-height:220px;padding:18px;position:relative;overflow:hidden}
+.acgCard:after{content:attr(data-jp);position:absolute;right:-6px;bottom:-16px;font:700 70px "Yu Mincho",serif;color:rgba(220,235,255,.035)}
+.acgCard span{font:700 8px ui-monospace,monospace;letter-spacing:.15em;color:#84c8e9}.acgCard h3{font:27px Georgia,serif;margin:36px 0 10px}.acgCard p{margin:0;color:#8192ad;font-size:12px;line-height:1.65}
+
+.projectGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.project{border:1px solid var(--line);background:linear-gradient(145deg,#0d1c31,#091525);padding:20px;min-height:220px}
+.project .no{font:700 8px ui-monospace,monospace;color:#7489aa;letter-spacing:.18em}.project h3{font:25px Georgia,serif;margin:34px 0 8px}.project p{color:#8294af;font-size:12px;line-height:1.7;margin:0}.project .meta{display:flex;gap:7px;flex-wrap:wrap;margin-top:18px}.project .meta span{padding:5px 7px;border:1px solid var(--line);font:700 8px ui-monospace,monospace;color:#8da7ca}
+
+.articleList{border-top:1px solid var(--line)}
+.article{display:grid;grid-template-columns:110px 1fr auto;gap:18px;align-items:center;padding:22px 0;border-bottom:1px solid var(--line)}
+.article time{font:700 9px ui-monospace,monospace;color:#7084a4}.article h3{font:23px Georgia,"Noto Serif SC",serif;margin:0}.article p{margin:6px 0 0;color:#8394ad;font-size:12px}.article b{font-size:18px;color:#9ab6dc}
+
+.footer{padding:48px 0 80px;border-top:1px solid var(--line);color:#6e829f;font:700 8px ui-monospace,monospace;letter-spacing:.18em;display:flex;justify-content:space-between;gap:20px}
+
+.fade{opacity:0;transform:translateY(18px);transition:.7s cubic-bezier(.2,.8,.2,1)}.fade.on{opacity:1;transform:none}
+
+@media(max-width:1000px){
+  .gatewayGrid{grid-template-columns:repeat(3,1fr)}
+  .acg{grid-template-columns:1fr 1fr}
+  .projectGrid{grid-template-columns:1fr 1fr}
+  .heroCopy{width:48vw;margin-right:4%}
+}
+@media(max-width:760px){
+  .navlinks{display:none}.navMark{display:none}.nav{top:8px}
+  .hero{min-height:760px}
+  .heroBg{background-position:33% center}
+  .heroShade{background:linear-gradient(180deg,rgba(2,8,18,.05),rgba(2,8,18,.56) 46%,rgba(2,8,18,.94) 76%)}
+  .heroCopy{width:auto;left:6%;right:6%;margin:0;position:absolute;bottom:8%;padding:0}
+  .heroVertical,.heroLine{top:13%}.hero h1{font-size:clamp(64px,18vw,96px)}
+  .heroFooter{display:none}
+  .gatewayGrid{grid-template-columns:1fr 1fr}.gatewayCard{height:190px}
+  .sectionHead{grid-template-columns:1fr}.sectionHead p{max-width:none}
+  .episodes{grid-template-columns:1fr}.episodeSide{min-height:300px}
+  .moments{grid-template-columns:1fr}
+  .projectGrid{grid-template-columns:1fr}
+  .article{grid-template-columns:1fr auto}.article time{grid-column:1/-1}.article p{display:none}
+}
+@media(max-width:520px){
+  .container{width:calc(100% - 24px)}
+  .gatewayGrid,.acg{grid-template-columns:1fr}
+  .gatewayCard{height:175px}
+  .heroVertical,.heroLine{display:none}
+  .heroCopy{left:5%;right:5%;bottom:7%}
+  .heroJp{font-size:14px}.heroText{font-size:12px}
+  .heroActions a{width:100%;justify-content:space-between}
+}
