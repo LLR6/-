@@ -446,6 +446,99 @@
       .neoIdentity{width:auto}
     }
 
+
+    /* === LR AVATAR EDITION / refinement pass 02 === */
+    .heroChannels{
+      display:flex;gap:8px;flex-wrap:wrap;margin-top:18px
+    }
+    .heroChannels>span{
+      min-width:120px;display:grid;grid-template-columns:auto auto;grid-template-rows:auto auto;
+      gap:1px 8px;align-items:center;padding:9px 11px;
+      border-top:1px solid rgba(79,108,206,.16);border-bottom:1px solid rgba(79,108,206,.10);
+      background:linear-gradient(90deg,rgba(255,255,255,.55),rgba(238,245,255,.35));
+      clip-path:polygon(0 0,94% 0,100% 50%,94% 100%,0 100%,5px 50%)
+    }
+    .heroChannels i{
+      grid-row:1/3;font:900 9px ui-monospace,monospace;color:#43bfd9;font-style:normal;letter-spacing:.08em
+    }
+    .heroChannels b{font:900 10px ui-monospace,monospace;letter-spacing:.15em;color:#354b9c}
+    .heroChannels small{font:700 7px ui-monospace,monospace;letter-spacing:.12em;color:#8793b5}
+    .channelCard{
+      position:relative;overflow:hidden;isolation:isolate
+    }
+    .channelCard:before{
+      content:attr(data-code);position:absolute;right:-5px;top:-18px;z-index:-1;
+      font:900 92px/1 ui-monospace,monospace;letter-spacing:-.08em;color:rgba(55,75,151,.035)
+    }
+    .channelCard .ico{
+      font:900 9px ui-monospace,monospace;letter-spacing:.18em;color:#6e7da9;margin-bottom:24px
+    }
+    .channelCard b{font-size:34px;letter-spacing:-.04em;color:#263778}
+    .dossierProject{
+      min-height:220px;border-radius:12px!important
+    }
+    .dossierProject:before{
+      content:attr(data-index);position:absolute;right:13px;bottom:-16px;
+      font:900 78px/1 ui-monospace,monospace;color:rgba(48,66,132,.035);letter-spacing:-.08em
+    }
+    .dossierProject:after{
+      width:110px!important;height:110px!important;right:-24px!important;top:-32px!important;
+      background:radial-gradient(circle,rgba(54,191,221,.10),transparent 66%)!important
+    }
+    .dossierProject h3{position:relative;z-index:1}
+    .dossierProject .mono{letter-spacing:.13em;color:#5c72be}
+    .head{padding-bottom:14px;border-bottom:1px solid rgba(78,105,199,.10)}
+    .head:after{content:"";position:absolute}
+    .eyebrow{color:#5872c6}
+    .desktopDock{
+      max-width:calc(100vw - 18px);overflow-x:auto;overflow-y:visible;
+      scrollbar-width:none;padding:8px 10px!important
+    }
+    .desktopDock::-webkit-scrollbar{display:none}
+    .dockBtn{
+      position:relative;flex:0 0 auto;border-radius:9px!important;
+      border-color:rgba(78,104,199,.13)!important;
+      background:linear-gradient(145deg,rgba(255,255,255,.88),rgba(238,244,255,.78))!important;
+      color:#3e559f!important
+    }
+    .dockBtn:after{
+      content:attr(data-label);position:absolute;left:50%;bottom:calc(100% + 9px);
+      transform:translate(-50%,5px);padding:5px 7px;border-radius:5px;
+      background:#19234d;color:#eaf4ff;font:800 7px ui-monospace,monospace;letter-spacing:.11em;
+      opacity:0;visibility:hidden;transition:.18s;white-space:nowrap;pointer-events:none;
+      box-shadow:0 8px 20px rgba(38,49,101,.18)
+    }
+    .dockBtn[data-label]:hover:after{opacity:1;visibility:visible;transform:translate(-50%,0)}
+    .dockBtn.active{box-shadow:inset 0 -2px 0 #38c8e3,0 8px 20px rgba(71,91,177,.12)!important}
+    .taskInfo{flex:0 0 auto;border-left:1px solid rgba(77,103,199,.12)!important}
+    .osWindow{
+      border-radius:12px!important;border-color:rgba(67,94,188,.18)!important;
+      background:rgba(248,251,255,.96)!important;
+      box-shadow:0 30px 90px rgba(54,72,145,.23)!important;
+      overflow:hidden
+    }
+    .osWindow:before{
+      content:"";position:absolute;inset:0;pointer-events:none;opacity:.11;
+      background-image:linear-gradient(rgba(74,98,190,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(74,98,190,.08) 1px,transparent 1px);
+      background-size:24px 24px;mask-image:linear-gradient(to bottom,#000,transparent 55%)
+    }
+    .winBar{
+      min-height:40px!important;background:linear-gradient(90deg,#eef4ff,#f9fbff)!important;
+      border-bottom:1px solid rgba(70,98,190,.12)!important
+    }
+    .winTitle{font-weight:900!important;letter-spacing:.12em!important;color:#5266a7!important}
+    .winActions button{border-radius:5px!important}
+    .winBody{position:relative;z-index:1}
+    .miniStatus{
+      border-radius:10px!important;background:rgba(255,255,255,.70)!important;
+      border-color:rgba(72,99,192,.13)!important;box-shadow:0 12px 34px rgba(64,84,168,.10)!important
+    }
+    @media(max-width:700px){
+      .desktopDock{justify-content:flex-start}
+      .dockBtn:after{display:none}
+      .heroChannels>span{min-width:96px}
+    }
+
   </style>
 </head>
 <body data-theme="aurora">
@@ -485,6 +578,11 @@
           <span>LR / PROFILE 01</span>
           <b>記録 · 技術 · 生活</b>
           <small>BUILD WHAT I LIKE. KEEP WHAT I DON'T WANT TO FORGET.</small>
+        </div>
+        <div class="heroChannels">
+          <span><i>01</i><b>DEV</b><small>BUILDING</small></span>
+          <span><i>02</i><b>SEC</b><small>LEARNING</small></span>
+          <span><i>03</i><b>STUDY</b><small>SYNCING</small></span>
         </div>
       </div>
       <div class="avatarCard techFrame"><div class="shine"></div><div class="frameMarks"></div><div class="scanBeam"></div>
@@ -577,10 +675,10 @@
 
     <section class="reveal">
       <div class="grid">
-        <div class="glass stat"><div class="ico">⚡</div><b>DEV</b><span>开发、折腾、自动化和各种奇怪想法。</span></div>
-        <div class="glass stat"><div class="ico">🛡️</div><b>SEC</b><span>CTF、网络安全与真实环境下的学习记录。</span></div>
-        <div class="glass stat"><div class="ico">📚</div><b>LOG</b><span>把长期目标拆成今天真正做过的事情。</span></div>
-        <div class="glass stat"><div class="ico">🌙</div><b>ACG</b><span>一点二次元，一点赛博感，再加一点审美执念。</span></div>
+        <div class="glass stat channelCard" data-code="01"><div class="ico">DEV / BUILD</div><b>DEV</b><span>开发、折腾、自动化和各种奇怪想法。</span></div>
+        <div class="glass stat channelCard" data-code="02"><div class="ico">SEC / LAB</div><b>SEC</b><span>CTF、网络安全与真实环境下的学习记录。</span></div>
+        <div class="glass stat channelCard" data-code="03"><div class="ico">LOG / SYNC</div><b>LOG</b><span>把长期目标拆成今天真正做过的事情。</span></div>
+        <div class="glass stat channelCard" data-code="04"><div class="ico">ACG / MOOD</div><b>ACG</b><span>一点二次元，一点赛博感，再加一点审美执念。</span></div>
       </div>
     </section>
 
@@ -603,10 +701,10 @@
     <section id="projects" class="reveal">
       <div class="head"><div><div class="eyebrow">03 / PROJECTS</div><h2>正在折腾</h2></div><p>不是简历式罗列，而是我真正投入时间、不断迭代的东西。</p></div>
       <div class="projects">
-        <div class="glass project"><div class="mono">PROJECT // 001</div><h3>LR 系列个人工具</h3><p>围绕学习、平板、阅读与效率做的一组自用软件。需求来自真实使用，功能也会跟着实际问题不断长出来。</p></div>
-        <div class="glass project"><div class="mono">PROJECT // 002</div><h3>安全与 CTF 练习</h3><p>记录 PWN、Web、Reverse、Misc 的学习路径、踩坑过程与复盘，让每次失败都能留下可复用的经验。</p></div>
-        <div class="glass project"><div class="mono">PROJECT // 003</div><h3>考研学习系统</h3><p>把数学、408、英语、政治的计划、刷题与复盘做成可追踪的长期过程，而不是只剩一句“今天学了”。</p></div>
-        <div class="glass project"><div class="mono">PROJECT // 004</div><h3>更多奇怪想法</h3><p>网站、游戏、自动化、小程序、视觉设计……只要觉得有意思，就先做个能跑的版本再说。</p></div>
+        <div class="glass project dossierProject" data-index="001"><div class="mono">PROJECT // 001</div><h3>LR 系列个人工具</h3><p>围绕学习、平板、阅读与效率做的一组自用软件。需求来自真实使用，功能也会跟着实际问题不断长出来。</p></div>
+        <div class="glass project dossierProject" data-index="002"><div class="mono">PROJECT // 002</div><h3>安全与 CTF 练习</h3><p>记录 PWN、Web、Reverse、Misc 的学习路径、踩坑过程与复盘，让每次失败都能留下可复用的经验。</p></div>
+        <div class="glass project dossierProject" data-index="003"><div class="mono">PROJECT // 003</div><h3>考研学习系统</h3><p>把数学、408、英语、政治的计划、刷题与复盘做成可追踪的长期过程，而不是只剩一句“今天学了”。</p></div>
+        <div class="glass project dossierProject" data-index="004"><div class="mono">PROJECT // 004</div><h3>更多奇怪想法</h3><p>网站、游戏、自动化、小程序、视觉设计……只要觉得有意思，就先做个能跑的版本再说。</p></div>
       </div>
     </section>
 
@@ -631,16 +729,16 @@
   </div>
 
   <div class="desktopDock" id="desktopDock">
-    <button class="dockBtn" id="notifyBtn" title="通知中心">♢</button>
-    <button class="dockBtn" data-win="achievementWin" title="成就">★</button>
-    <button class="dockBtn" data-win="deviceWin" title="设备状态">▣</button>
-    <button class="dockBtn" data-win="aiWin" title="LR AI Core">◈</button>
-    <button class="dockBtn" data-win="universeWin" title="项目宇宙">◎</button>
-    <button class="dockBtn" data-win="terminalWin" title="终端">⌘</button>
-    <button class="dockBtn" data-win="skillsWin" title="技能星图">✦</button>
-    <button class="dockBtn" data-win="globeWin" title="全息地球">◉</button>
-    <button class="dockBtn" data-target="#projects" title="项目">◫</button>
-    <button class="dockBtn" data-target="#articles" title="文章">≡</button>
+    <button class="dockBtn" id="notifyBtn" title="通知中心" data-label="NOTIFY">♢</button>
+    <button class="dockBtn" data-win="achievementWin" title="成就" data-label="ACHIEVE">★</button>
+    <button class="dockBtn" data-win="deviceWin" title="设备状态" data-label="DEVICE">▣</button>
+    <button class="dockBtn" data-win="aiWin" title="LR AI Core" data-label="AI CORE">◈</button>
+    <button class="dockBtn" data-win="universeWin" title="项目宇宙" data-label="UNIVERSE">◎</button>
+    <button class="dockBtn" data-win="terminalWin" title="终端" data-label="TERMINAL">⌘</button>
+    <button class="dockBtn" data-win="skillsWin" title="技能星图" data-label="SKILLS">✦</button>
+    <button class="dockBtn" data-win="globeWin" title="全息地球" data-label="WORLD">◉</button>
+    <button class="dockBtn" data-target="#projects" title="项目" data-label="PROJECTS">◫</button>
+    <button class="dockBtn" data-target="#articles" title="文章" data-label="NOTES">≡</button>
     <div class="taskInfo"><span id="taskClock">--:--</span><span id="soundToggle" title="音效开关" style="cursor:pointer">♪</span><span id="powerBtn" title="电源" style="cursor:pointer">⏻</span></div>
   </div>
 
@@ -936,7 +1034,7 @@
 
     // LR Assistant Core (local, no network calls)
     const aiMessages=document.getElementById("aiMessages"),aiInput=document.getElementById("aiInput"),aiSend=document.getElementById("aiSend");
-    function aiAdd(text,who="bot"){const d=document.createElement("div");d.className="msg "+who;d.innerHTML=text;aiMessages.appendChild(d);aiMessages.scrollTop=aiMessages.scrollHeight}
+    function aiAdd(text,who="bot"){const d=document.createElement("div");d.className="msg "+who;if(who==="user")d.textContent=text;else d.innerHTML=text;aiMessages.appendChild(d);aiMessages.scrollTop=aiMessages.scrollHeight}
     function aiReply(q){
       const t=q.trim().toLowerCase();if(!t)return;
       aiAdd(q,"user");
@@ -995,6 +1093,21 @@
       bar.addEventListener("pointermove",e=>{if(!drag)return;w.style.left=Math.max(4,Math.min(innerWidth-w.offsetWidth-4,ox+e.clientX-sx))+"px";w.style.top=Math.max(4,Math.min(innerHeight-60,oy+e.clientY-sy))+"px"});
       bar.addEventListener("pointerup",()=>{drag=false;w.classList.remove("dragging")});
       w.addEventListener("pointerdown",()=>{document.querySelectorAll(".osWindow").forEach(x=>x.style.zIndex=160);w.style.zIndex=190});
+      bar.addEventListener("dblclick",e=>{
+        if(e.target.closest("button"))return;
+        if(w.dataset.maximized==="1"){
+          w.dataset.maximized="0";
+          w.style.left=w.dataset.prevLeft||"50%";w.style.top=w.dataset.prevTop||"50%";
+          w.style.width=w.dataset.prevWidth||"";w.style.height=w.dataset.prevHeight||"";
+          w.style.maxHeight="";w.style.transform=w.dataset.prevTransform||"translate(-50%,-50%)";
+        }else{
+          const r=w.getBoundingClientRect();
+          w.dataset.maximized="1";w.dataset.prevLeft=w.style.left||"50%";w.dataset.prevTop=w.style.top||"50%";
+          w.dataset.prevWidth=w.style.width||"";w.dataset.prevHeight=w.style.height||"";w.dataset.prevTransform=w.style.transform||"translate(-50%,-50%)";
+          w.style.left="12px";w.style.top="12px";w.style.width="calc(100vw - 24px)";w.style.height="calc(100vh - 86px)";
+          w.style.maxHeight="none";w.style.transform="none";
+        }
+      });
     });
 
     // terminal commands
@@ -1013,7 +1126,7 @@
       status:"CORE=ONLINE | NODE=LR-01 | CREATIVE=ACTIVE | SECURITY=NORMAL",
       matrix:"01001100 01010010 // signal acquired."
     };
-    function termPrint(txt,cls=""){terminalOut.innerHTML+="\n"+(cls?'<span class="'+cls+'">'+txt+"</span>":txt);terminalOut.parentElement.scrollTop=terminalOut.parentElement.scrollHeight}
+    function termPrint(txt,cls=""){terminalOut.appendChild(document.createTextNode("\n"));if(cls){const sp=document.createElement("span");sp.className=cls;sp.textContent=txt;terminalOut.appendChild(sp)}else terminalOut.appendChild(document.createTextNode(txt));terminalOut.parentElement.scrollTop=terminalOut.parentElement.scrollHeight}
     termInput.addEventListener("keydown",e=>{
       if(e.key!=="Enter")return;
       const raw=termInput.value.trim(),c=raw.toLowerCase();termPrint("lr@space:~$ "+raw,"tGreen");termInput.value="";
