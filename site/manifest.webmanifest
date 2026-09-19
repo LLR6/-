@@ -1,0 +1,18 @@
+{
+  "name": "LR CyberSpace",
+  "short_name": "LR//OS",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eef4ff",
+  "theme_color": "#5368df",
+  "description": "LR 的个人数字基地、工具中心与本地优先 Web OS。",
+  "icons": [
+    {
+      "src": "./lr-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
