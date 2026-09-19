@@ -411,6 +411,98 @@
       </div>
     </section>
 
+
+    <section id="chapters" class="reveal">
+      <div class="head">
+        <div><div class="eyebrow">WORLD / EPISODE ROUTE</div><h2>LR//NEO 连载地图</h2></div>
+        <p>不把人生切成菜单，而是切成篇章。技术、学习、CTF、生活都只是这个世界的不同章节。</p>
+      </div>
+      <div class="neoChapterMap">
+        <div class="chapterRail">
+          <article class="chapterCard c1" data-target="#memories" data-vn="EP.01 是起点。不是某个伟大时刻，而是决定把自己的世界认真留下来。">
+            <span class="ep">EP.01 / ORIGIN</span><div class="orbital"></div><h3>起点篇</h3><p>个人空间、记录欲、奇怪灵感，以及第一块真正属于自己的网页。</p><span class="jp">始</span>
+          </article>
+          <article class="chapterCard c2" data-target="#projects" data-vn="EP.02 是创造篇。项目不需要一开始就伟大，只要它真的被做出来。">
+            <span class="ep">EP.02 / BUILD</span><div class="orbital"></div><h3>创造篇</h3><p>软件、工具、网页、自动化。把脑内设定变成能运行的东西。</p><span class="jp">創</span>
+          </article>
+          <article class="chapterCard c3" data-target="#articles" data-vn="EP.03 是挑战篇。CTF、学习和难题都属于同一种东西：在未知里找路。">
+            <span class="ep">EP.03 / CHALLENGE</span><div class="orbital"></div><h3>挑战篇</h3><p>CTF、408、数学、英语，以及一次次从不会到会的升级。</p><span class="jp">挑</span>
+          </article>
+          <article class="chapterCard c4" data-target="#about" data-vn="EP.04 还没有完结。未来篇的内容，要靠以后真正发生的事情来填写。">
+            <span class="ep">EP.04 / NEXT</span><div class="orbital"></div><h3>未来篇</h3><p>没有结局。这个站会随着新的项目、兴趣和经历继续长。</p><span class="jp">未</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="otaku" class="reveal">
+      <div class="head">
+        <div><div class="eyebrow">OTAKU / PERSONAL SAVE</div><h2>宅系个人存档</h2></div>
+        <p>这一层不是装饰，而是“可玩”的个人档案：抽卡、角色同步率、收藏、Moments，都会存在浏览器里。</p>
+      </div>
+      <div class="otakuDeck">
+        <div class="neoModule">
+          <div class="moduleTop">
+            <div><span class="jp">記憶召喚</span><h3>Memory Gacha</h3></div><span class="sub">LOCAL SAVE / COLLECTION</span>
+          </div>
+          <div class="gachaStage">
+            <div class="gachaCard" id="gachaCard">
+              <div class="gachaFace gachaBack"></div>
+              <div class="gachaFace gachaFront" id="gachaFront"></div>
+            </div>
+          </div>
+          <div class="gachaControls">
+            <button id="gachaDraw">召唤一张记忆 ✦</button>
+            <button class="secondary" id="gachaReset">重置图鉴</button>
+          </div>
+          <div class="collectionStrip" id="collectionStrip"></div>
+        </div>
+
+        <div class="neoModule">
+          <div class="moduleTop">
+            <div><span class="jp">同期率</span><h3>LUMI Bond</h3></div><span class="sub">INTERACTION / SYNC</span>
+          </div>
+          <div class="lumiBond">
+            <img src="./assets/lumi-01.svg" alt="LUMI-01" />
+            <div class="bondMeta">
+              <b id="bondLevel">Lv.1 初次连接</b><small>与 LUMI 的互动会提高同步率，并解锁不同台词。</small>
+              <div class="bondBar"><i id="bondFill" style="--bond:8%"></i></div>
+              <div class="bondText" id="bondText">SYNC 8 / 100</div>
+            </div>
+          </div>
+          <div class="worldStatus">
+            <span class="worldChip">CHARACTER // LUMI-01</span><span class="worldChip">SAVE // LOCAL</span><span class="worldChip" id="collectionCount">CARDS // 0</span>
+          </div>
+          <p class="muted" style="font-size:12px;margin:18px 0 0">提示：点击 LUMI、抽卡、发现彩蛋、浏览章节，都会增加同步率。达到新的阶段后，她的台词会发生变化。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="moments" class="reveal">
+      <div class="head">
+        <div><div class="eyebrow">MOMENTS / 碎碎念</div><h2>短到不值得写博客，也值得留下</h2></div>
+        <p>公开博客常见的 Moments 很适合个人站：一句话、一个念头、一点进度，不必每次都写成长文章。</p>
+      </div>
+      <div class="momentsBoard" id="momentsBoard"></div>
+      <div class="momentComposer">
+        <input id="momentInput" maxlength="100" placeholder="在这台设备上留一句话（仅保存在本机浏览器）…" />
+        <button id="momentAdd">保存 Moment</button>
+      </div>
+    </section>
+
+    <section id="acg" class="reveal">
+      <div class="head">
+        <div><div class="eyebrow">ACG / COLLECTION SHELF</div><h2>兴趣收藏架</h2></div>
+        <p>这里先把结构做好，不擅自替你填写喜好。以后可以把真实看过的番、玩的游戏、漫画和音乐一点点录进去。</p>
+      </div>
+      <div class="acgShelf">
+        <article class="acgCard" data-kana="番"><div class="icon">📺</div><span>ANIME / 番組</span><h3>番剧档案</h3><p>追番、补番、年度最喜欢、看完后的短评。当前等待你以后录入真实内容。</p></article>
+        <article class="acgCard" data-kana="遊"><div class="icon">🎮</div><span>GAME / ゲーム</span><h3>游戏记录</h3><p>正在玩、通关、最喜欢的世界、难忘 Boss、游玩时长，都可以在这里形成自己的存档。</p></article>
+        <article class="acgCard" data-kana="漫"><div class="icon">📚</div><span>MANGA / NOVEL</span><h3>漫画与小说</h3><p>不是做排行榜，而是收藏那些真正留下印象的作品与片段。</p></article>
+        <article class="acgCard" data-kana="音"><div class="icon">🎧</div><span>MUSIC / PLAYLIST</span><h3>音乐舱</h3><p>以后可以接你自己的歌单、OP/ED 收藏或学习时循环的音乐。</p></article>
+      </div>
+    </section>
+
     <section id="system" class="reveal">
       <div class="head"><div><div class="eyebrow">CORE / SYSTEM DECK</div><h2>个人终端状态</h2></div><p>不是装饰性的“科技感”，而是把整个主页包装成一个持续运行的个人系统。</p></div>
       <div class="systemDeck">
@@ -532,6 +624,9 @@
 
   <div class="desktopDock" id="desktopDock">
     <button class="dockBtn animeModeBtn" id="animeModeToggle" title="Anime Mode">ア</button>
+    <button class="dockBtn" data-target="#otaku" title="记忆抽卡">✧</button>
+    <button class="dockBtn" data-target="#moments" title="Moments">☄</button>
+    <button class="dockBtn" data-target="#acg" title="ACG 收藏">♬</button>
     <button class="dockBtn" id="notifyBtn" title="通知中心">♢</button>
     <button class="dockBtn" data-win="achievementWin" title="成就">★</button>
     <button class="dockBtn" data-win="deviceWin" title="设备状态">▣</button>
