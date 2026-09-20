@@ -46,7 +46,7 @@ HEADERS = {
 RISK_EXCLUDE = re.compile(
     r"(?:^|[.\-_])(?:childporn|child-porn|preteen|pre-teen|underage|pedo|paedo|pthc|"
     r"zoophil|bestial|animalporn|rape|raped|snuff|gore|torture|revengeporn|revenge-porn|"
-    r"spycam|hidden-cam|hiddencam|upskirt|leaked|leakporn|stolenpics|incest|"
+    r"spycam|hidden-cam|hiddencam|upskirt|leak|leaks|leaked|leakporn|stolenpics|incest|"
     r"teen|teens|teenage|youngteen|schoolgirl|schoolboy|lolita|barelylegal)(?:[.\-_]|$)",
     re.I,
 )
@@ -70,7 +70,9 @@ PARKING_TERMS = [
     "domain for sale","this domain is for sale","buy this domain","domain parking","parked domain",
     "sedo domain parking","afternic","hugedomains","dan.com","undeveloped.com",
     "godaddy auctions","namecheap marketplace","domain has expired","website is for sale",
-    "coming soon - domain","this website is parked"
+    "coming soon - domain","this website is parked","coming soon","website coming soon",
+    "this domain has been seized","domain has been seized","website suspended","account suspended",
+    "default web site page","under construction","parkingcrew","bodis","domainmarket"
 ]
 ADULT_TERMS = [
     "adult","porn","porno","xxx","sex video","adult video","18+","18 +","nsfw",
@@ -78,7 +80,12 @@ ADULT_TERMS = [
     "jav","av video","adult movies","sex movies","free porn","gay porn","lesbian porn",
     "成人视频","成人影片","成人内容","色情","成人视频","无码","有码","エロ","アダルト","ポルノ",
     "성인","야동","người lớn","phim sex","phim 18","ảnh nóng","sexe","porno gratuit",
-    "pornografía","vídeos porno","filmes pornô","porno gratis"
+    "pornografía","vídeos porno","filmes pornô","porno gratis",
+    "erotik","erotische","erotikportal","nackt","sexe","érotique","erotique",
+    "порно","секс","эротик","секс видео","секс видео",
+    "سكس","اباحي","إباحي","جنس","افلام سكس",
+    "pornó","szex","erotika","erotyka","sexo","acompanhantes","garotas de programa",
+    "porno izle","escort ilan","成人向","情色","AV片","야동","성인방송"
 ]
 STRONG_DOMAIN_TERMS = [
     "porn","porno","xxx","sex","hentai","doujin","jav","adult","erotic","nude",
@@ -397,10 +404,10 @@ def check_domain(item):
 
             direct_content_confirm = bool(adult_terms) and code < 400
             protected_confirm = code in (401,403,429,451) and (source_count>=3 or (source_count>=2 and strong_terms))
-            multi_source_confirm = source_count>=3 and code<400
-            strong_source_confirm = source_count>=2 and code<400 and bool(strong_terms)
+            four_source_confirm = source_count>=4 and code<400
+            strong_source_confirm = source_count>=3 and code<400 and bool(strong_terms)
 
-            if not (direct_content_confirm or protected_confirm or multi_source_confirm or strong_source_confirm):
+            if not (direct_content_confirm or protected_confirm or four_source_confirm or strong_source_confirm):
                 return {
                     "domain":domain,"decision":"EXCLUDE","reason":"reachable but adult content not confirmed from homepage",
                     "http_status":code,"final_url":final_url,"title":title,"sources":sources
@@ -416,7 +423,7 @@ def check_domain(item):
             elif protected_confirm:
                 tier="B — endpoint responds; multi-source adult classification"
             else:
-                tier="B — multi-source current adult classification + live endpoint"
+                tier="B — strong multi-source adult classification + live endpoint"
 
             return {
                 "domain":domain,
