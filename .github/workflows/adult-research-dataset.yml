@@ -1,0 +1,38 @@
+name: Build adult research dataset
+
+on:
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  research-dataset:
+    if: github.head_ref == 'adult-research-dataset' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install research dependencies
+        run: pip install --disable-pip-version-check requests beautifulsoup4 tldextract langdetect
+
+      - name: Collect and verify domains
+        run: python research/adult_dataset.py
+
+      - name: Package research outputs
+        run: |
+          mkdir -p dist
+          cp verified_adult_sites.csv excluded_or_unconfirmed.csv stats.json README_DATASET.md dist/
+
+      - name: Upload research artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: adult-research-dataset
+          path: dist/
+          if-no-files-found: error
