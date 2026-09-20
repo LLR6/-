@@ -46,7 +46,17 @@ HEADERS = {
 RISK_EXCLUDE = re.compile(
     r"(?:^|[.\-_])(?:childporn|child-porn|preteen|pre-teen|underage|pedo|paedo|pthc|"
     r"zoophil|bestial|animalporn|rape|raped|snuff|gore|torture|revengeporn|revenge-porn|"
-    r"spycam|hidden-cam|hiddencam|upskirt|leaked|leakporn|stolenpics|incest)(?:[.\-_]|$)",
+    r"spycam|hidden-cam|hiddencam|upskirt|leaked|leakporn|stolenpics|incest|"
+    r"teen|teens|teenage|youngteen|schoolgirl|schoolboy|lolita|barelylegal)(?:[.\-_]|$)",
+    re.I,
+)
+
+RISK_PAGE = re.compile(
+    r"\b(?:child\s*porn|pre[- ]?teen|underage|pedo(?:phile)?|paedo(?:phile)?|pthc|"
+    r"teen(?:age|s)?|young\s+(?:girl|boy|teen)|school\s*(?:girl|boy)|schoolgirl|schoolboy|"
+    r"barely\s*legal|lolita|zoophil\w*|bestial\w*|animal\s*porn|rape\w*|incest\w*|"
+    r"snuff|gore|torture\w*|revenge\s*porn|hidden\s*cam|spy\s*cam|upskirt|"
+    r"leak(?:ed|s|ing)?\s+(?:porn|nude|nudes|video|videos|photo|photos)|stolen\s+(?:pics|photos|nudes))\b",
     re.I,
 )
 
@@ -369,7 +379,7 @@ def check_domain(item):
                     "domain":domain,"decision":"EXCLUDE","reason":"parking/domain-sale page",
                     "http_status":code,"final_url":final_url,"title":title,"sources":sources
                 }
-            if RISK_EXCLUDE.search((domain+" "+title+" "+text[:2500]).lower()):
+            if RISK_EXCLUDE.search(domain) or RISK_PAGE.search((title+" "+text[:4500]).lower()):
                 return {
                     "domain":domain,"decision":"EXCLUDE","reason":"risk/exploitative-theme signal",
                     "http_status":code,"final_url":final_url,"title":title,"sources":sources
