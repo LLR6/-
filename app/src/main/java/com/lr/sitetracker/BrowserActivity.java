@@ -2,12 +2,12 @@ package com.lr.sitetracker;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -17,6 +17,8 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class BrowserActivity extends Activity {
     private WebView web;
@@ -74,7 +76,7 @@ public class BrowserActivity extends Activity {
         s.setSupportZoom(true);
         s.setBuiltInZoomControls(true);
         s.setDisplayZoomControls(false);
-        s.setUserAgentString(s.getUserAgentString() + " LR-Site-Tracker/1.0");
+        s.setUserAgentString(s.getUserAgentString() + " LR-Site-Tracker/2.0");
 
         web.setWebViewClient(new WebViewClient() {
             @Override public boolean shouldOverrideUrlLoading(WebView view, String target) {
@@ -82,8 +84,11 @@ public class BrowserActivity extends Activity {
                 try { startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(target))); } catch (Exception ignored) {}
                 return true;
             }
+
             @Override public void onPageFinished(WebView view, String target) {
-                title.setText(Uri.parse(target).getHost());
+                String host = Uri.parse(target).getHost();
+                title.setText(host == null ? target : host);
+                recordHistory(target, view.getTitle());
             }
         });
 
@@ -92,12 +97,14 @@ public class BrowserActivity extends Activity {
                 progress.setProgress(newProgress);
                 progress.setVisibility(newProgress >= 100 ? View.GONE : View.VISIBLE);
             }
+
             @Override public void onShowCustomView(View view, CustomViewCallback callback) {
                 if (customView != null) { callback.onCustomViewHidden(); return; }
                 customView = view;
                 customCallback = callback;
                 root.addView(view, new FrameLayout.LayoutParams(-1,-1));
             }
+
             @Override public void onHideCustomView() {
                 if (customView == null) return;
                 root.removeView(customView);
@@ -115,6 +122,28 @@ public class BrowserActivity extends Activity {
             catch (Exception ignored) {}
         });
         web.loadUrl(url);
+    }
+
+    private void recordHistory(String url, String pageTitle) {
+        if (url == null || !(url.startsWith("http://") || url.startsWith("https://"))) return;
+        try {
+            SharedPreferences p = getSharedPreferences("lr_tracker", MODE_PRIVATE);
+            JSONArray old = new JSONArray(p.getString("history_json", "[]"));
+            JSONArray fresh = new JSONArray();
+            JSONObject now = new JSONObject();
+            now.put("url", url);
+            now.put("title", pageTitle == null ? "" : pageTitle);
+            now.put("time", System.currentTimeMillis());
+            fresh.put(now);
+
+            for (int i = 0; i < old.length() && fresh.length() < 200; i++) {
+                JSONObject item = old.optJSONObject(i);
+                if (item == null) continue;
+                if (url.equals(item.optString("url"))) continue;
+                fresh.put(item);
+            }
+            p.edit().putString("history_json", fresh.toString()).apply();
+        } catch (Exception ignored) {}
     }
 
     private Button button(String text) {
