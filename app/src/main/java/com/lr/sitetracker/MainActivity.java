@@ -5,9 +5,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.webkit.JavascriptInterface;
+import android.webkit.JsResult;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.app.AlertDialog;
+import android.net.Uri;
 import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -39,6 +43,19 @@ public class MainActivity extends Activity {
 
         webView.addJavascriptInterface(new Bridge(), "Android");
         webView.setWebViewClient(new WebViewClient());
+        webView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public boolean onJsConfirm(WebView view, String url, String message, JsResult result) {
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("访问提示")
+                        .setMessage(message)
+                        .setCancelable(false)
+                        .setPositiveButton("继续打开", (dialog, which) -> result.confirm())
+                        .setNegativeButton("取消", (dialog, which) -> result.cancel())
+                        .show();
+                return true;
+            }
+        });
         webView.loadUrl("file:///android_asset/index.html");
     }
 
@@ -93,9 +110,15 @@ public class MainActivity extends Activity {
 
     private void openBrowser(String url) {
         runOnUiThread(() -> {
-            Intent i = new Intent(MainActivity.this, BrowserActivity.class);
-            i.putExtra("url", url);
-            startActivity(i);
+            try {
+                Intent i = new Intent(MainActivity.this, BrowserActivity.class);
+                i.putExtra("url", url);
+                startActivity(i);
+            } catch (Exception e) {
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                } catch (Exception ignored) {}
+            }
         });
     }
 
