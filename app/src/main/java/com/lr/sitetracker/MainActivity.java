@@ -2,14 +2,18 @@ package com.lr.sitetracker;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import org.json.JSONObject;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -31,7 +35,7 @@ public class MainActivity extends Activity {
         s.setAllowContentAccess(true);
         s.setMixedContentMode(WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
         s.setMediaPlaybackRequiresUserGesture(false);
-        s.setUserAgentString(s.getUserAgentString() + " LR-Site-Tracker/1.0");
+        s.setUserAgentString(s.getUserAgentString() + " LR-Site-Tracker/2.0");
 
         webView.addJavascriptInterface(new Bridge(), "Android");
         webView.setWebViewClient(new WebViewClient());
@@ -43,11 +47,15 @@ public class MainActivity extends Activity {
         public void openSite(String domain) {
             final String safe = normalizeDomain(domain);
             if (safe == null) return;
-            runOnUiThread(() -> {
-                Intent i = new Intent(MainActivity.this, BrowserActivity.class);
-                i.putExtra("url", "https://" + safe);
-                startActivity(i);
-            });
+            openBrowser("https://" + safe);
+        }
+
+        @JavascriptInterface
+        public void openUrl(String rawUrl) {
+            if (rawUrl == null) return;
+            final String u = rawUrl.trim();
+            if (!u.matches("^https?://[^\\s]+$")) return;
+            openBrowser(u);
         }
 
         @JavascriptInterface
@@ -56,6 +64,39 @@ public class MainActivity extends Activity {
             if (safe == null) return;
             executor.submit(() -> checkOne(safe, requestId));
         }
+
+        @JavascriptInterface
+        public String readAsset(String name) {
+            if (name == null || !name.matches("^[a-zA-Z0-9._-]+$")) return "";
+            try (InputStream in = getAssets().open(name);
+                 ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+                byte[] buf = new byte[8192];
+                int n;
+                while ((n = in.read(buf)) > 0) out.write(buf, 0, n);
+                return out.toString(StandardCharsets.UTF_8.name());
+            } catch (Exception e) {
+                return "";
+            }
+        }
+
+        @JavascriptInterface
+        public String getHistory() {
+            SharedPreferences p = getSharedPreferences("lr_tracker", MODE_PRIVATE);
+            return p.getString("history_json", "[]");
+        }
+
+        @JavascriptInterface
+        public void clearHistory() {
+            getSharedPreferences("lr_tracker", MODE_PRIVATE).edit().putString("history_json", "[]").apply();
+        }
+    }
+
+    private void openBrowser(String url) {
+        runOnUiThread(() -> {
+            Intent i = new Intent(MainActivity.this, BrowserActivity.class);
+            i.putExtra("url", url);
+            startActivity(i);
+        });
     }
 
     private String normalizeDomain(String raw) {
@@ -101,7 +142,7 @@ public class MainActivity extends Activity {
         c.setConnectTimeout(5000);
         c.setReadTimeout(5000);
         c.setInstanceFollowRedirects(true);
-        c.setRequestProperty("User-Agent", "Mozilla/5.0 LR-Site-Tracker/1.0");
+        c.setRequestProperty("User-Agent", "Mozilla/5.0 LR-Site-Tracker/2.0");
         c.setRequestProperty("Range", "bytes=0-0");
         int code = c.getResponseCode();
         c.disconnect();
