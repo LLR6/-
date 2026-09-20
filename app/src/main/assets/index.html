@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>LR Site Tracker</title>
+<style>
+:root{--bg:#07111f;--panel:#0c1c2f;--panel2:#102942;--text:#edf7ff;--muted:#8ea8bb;--cyan:#6de7ff;--violet:#b69cff;--green:#83f1b3;--red:#ff8597;--amber:#ffd479;--line:rgba(255,255,255,.08)}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% -10%,rgba(109,231,255,.14),transparent 32%),radial-gradient(circle at 8% 18%,rgba(182,156,255,.12),transparent 28%),var(--bg);color:var(--text);font-family:Inter,"PingFang SC","Microsoft YaHei",sans-serif;min-height:100vh}
+.wrap{max-width:980px;margin:auto;padding:18px 14px 90px}.hero{padding:18px;border:1px solid var(--line);background:linear-gradient(145deg,rgba(16,41,66,.94),rgba(9,24,41,.94));border-radius:24px;box-shadow:0 24px 80px rgba(0,0,0,.25)}
+.brand{display:flex;align-items:center;gap:13px}.logo{width:48px;height:48px;border-radius:16px;background:linear-gradient(145deg,var(--cyan),var(--violet));display:grid;place-items:center;color:#07111f;font-weight:900;font-size:18px;box-shadow:0 8px 30px rgba(109,231,255,.2)}
+h1{font-size:21px;margin:0}.sub{color:var(--muted);font-size:12px;margin-top:4px}.notice{margin-top:14px;color:#b9cddd;font-size:12px;line-height:1.65;background:rgba(0,0,0,.16);padding:11px 12px;border-radius:14px;border:1px solid var(--line)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:14px}.stat{background:rgba(255,255,255,.035);border:1px solid var(--line);border-radius:16px;padding:11px}.stat b{display:block;font-size:20px}.stat span{font-size:11px;color:var(--muted)}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.search{flex:1;min-width:220px;background:#071522;border:1px solid var(--line);color:white;border-radius:15px;padding:12px 14px;outline:none}.search:focus{border-color:rgba(109,231,255,.55)}
+button{border:0;cursor:pointer}.btn{padding:11px 14px;border-radius:14px;background:var(--panel2);color:white;border:1px solid var(--line);font-weight:700}.btn.primary{background:linear-gradient(135deg,var(--cyan),#79b8ff);color:#06111e}.btn:active{transform:translateY(1px)}
+.chips{display:flex;gap:8px;overflow:auto;padding:14px 1px 6px;scrollbar-width:none}.chip{white-space:nowrap;background:rgba(255,255,255,.04);color:#b8cede;border:1px solid var(--line);padding:9px 12px;border-radius:999px}.chip.on{background:rgba(109,231,255,.14);color:var(--cyan);border-color:rgba(109,231,255,.35)}
+.meta{display:flex;justify-content:space-between;align-items:center;margin:14px 2px 8px;color:var(--muted);font-size:12px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.card{position:relative;background:linear-gradient(145deg,rgba(14,32,52,.95),rgba(8,23,39,.95));border:1px solid var(--line);border-radius:19px;padding:14px;min-width:0}.row{display:flex;align-items:flex-start;gap:10px}.orb{width:38px;height:38px;border-radius:13px;display:grid;place-items:center;background:rgba(109,231,255,.10);color:var(--cyan);font-weight:900;flex:none}.domain{font-size:14px;font-weight:800;word-break:break-all;line-height:1.35}.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}.tag{font-size:10px;color:#aec2d0;background:rgba(255,255,255,.05);border:1px solid var(--line);padding:3px 7px;border-radius:99px}.tag.risk{color:#ffd1d8;background:rgba(255,133,151,.08)}.status{margin-left:auto;font-size:11px;color:var(--muted);white-space:nowrap}.status.online{color:var(--green)}.status.offline{color:var(--red)}.status.checking{color:var(--amber)}
+.actions{display:flex;gap:7px;margin-top:12px}.small{flex:1;padding:9px 10px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid var(--line);color:#ddebfa}.small.open{background:rgba(109,231,255,.12);color:var(--cyan)}.star{position:absolute;right:12px;bottom:58px;color:#9db0bf;background:none;font-size:18px}.star.on{color:#ffd479}
+.pager{display:flex;justify-content:center;align-items:center;gap:10px;margin-top:16px}.pager span{font-size:12px;color:var(--muted)}.empty{text-align:center;color:var(--muted);padding:48px 10px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(40px);opacity:0;background:#eaf8ff;color:#07111f;padding:10px 14px;border-radius:12px;font-weight:700;font-size:12px;transition:.25s;z-index:9;max-width:84%;text-align:center}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}.wrap{padding-left:10px;padding-right:10px}.hero{border-radius:20px}.tools .btn{flex:1}.search{flex-basis:100%}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero">
+    <div class="brand"><div class="logo">LR</div><div><h1>站点追踪</h1><div class="sub">SITE DIRECTORY · STATUS TRACKER · LOCAL BROWSER</div></div></div>
+    <div class="notice">数据来自公开 GitHub 封锁站点清单。分类由域名关键词自动判断，可能存在误分；“检测”只测试当前网络连通性，不提供代理、VPN、DNS 绕过或其他规避地区/运营商限制的能力。部分条目可能包含成人、博彩或高风险内容，打开前会提示。</div>
+    <div class="stats">
+      <div class="stat"><b id="total">0</b><span>去重站点</span></div>
+      <div class="stat"><b id="favCount">0</b><span>收藏</span></div>
+      <div class="stat"><b id="onlineCount">0</b><span>本次可达</span></div>
+      <div class="stat"><b id="sourceCount">2</b><span>数据源</span></div>
+    </div>
+    <div class="tools">
+      <input id="search" class="search" placeholder="搜索域名，例如 example.com">
+      <button class="btn primary" id="refresh">刷新清单</button>
+      <button class="btn" id="checkPage">检测本页</button>
+    </div>
+    <div class="chips" id="chips"></div>
+  </section>
+  <div class="meta"><span id="resultText">加载中…</span><span id="sourceText">本地内置清单</span></div>
+  <main class="grid" id="grid"></main>
+  <div class="pager"><button class="btn" id="prev">上一页</button><span id="pageInfo">1 / 1</span><button class="btn" id="next">下一页</button></div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+(function(){
+  var categories=["全部","收藏","成人内容","博彩竞猜","金融交易","BT下载","漫画视频","论坛社区","新闻政治","其他"];
+  var state={sites:[],query:"",cat:"全部",page:1,pageSize:50,status:{},remote:false};
+  var fav=new Set(JSON.parse(localStorage.getItem("lr_favs")||"[]"));
+  var cached=JSON.parse(localStorage.getItem("lr_lists_cache")||"null");
+
+  function toast(t){var el=document.getElementById("toast");el.textContent=t;el.classList.add("show");setTimeout(function(){el.classList.remove("show")},1800)}
+  function cleanLines(t){return t.split(/\r?\n/).map(function(x){return x.trim().toLowerCase().replace(/^https?:\/\//,"").replace(/\/.*$/,"")}).filter(function(x){return /^[a-z0-9.-]+(:\d{1,5})?$/.test(x)})}
+  function category(d){
+    var a=["porn","xxx","sex","hentai","jav","nude","naked","erotic","boob","milf","camgirl","camsoda","cam4","gay","lesbian","fuck","slut","adult","bdsm","fetish","brazzers","playboy","jizz","pussy","teen"];
+    var g=["bet","casino","poker","sportsbook","1xbet","bwin","sbobet","lotto","toto","gambl","slot"];
+    var f=["forex","exness","iqoption","binaryoption","trading","broker","fxpro"];
+    var b=["torrent","magnet","tracker","thepirate","nyaa","bt.","bt-","javtorrent"];
+    var m=["manga","webtoon","anime","comic","video","movie","stream","tube","tv","doujin","toon","av"];
+    var c=["forum","community","board","bbs","gallery"];
+    var n=["news","dprk","korea-dpr","uriminzokkiri","rodong"];
+    if(a.some(function(k){return d.indexOf(k)>=0}))return "成人内容";
+    if(g.some(function(k){return d.indexOf(k)>=0}))return "博彩竞猜";
+    if(f.some(function(k){return d.indexOf(k)>=0}))return "金融交易";
+    if(b.some(function(k){return d.indexOf(k)>=0}))return "BT下载";
+    if(n.some(function(k){return d.indexOf(k)>=0}))return "新闻政治";
+    if(c.some(function(k){return d.indexOf(k)>=0}))return "论坛社区";
+    if(m.some(function(k){return d.indexOf(k)>=0}))return "漫画视频";
+    return "其他";
+  }
+  function merge(a,b){
+    var map=new Map();
+    a.forEach(function(d){map.set(d,{domain:d,sources:["list.txt"],cat:category(d)})});
+    b.forEach(function(d){if(map.has(d))map.get(d).sources.push("kr.list");else map.set(d,{domain:d,sources:["kr.list"],cat:category(d)})});
+    state.sites=Array.from(map.values()).sort(function(x,y){return x.domain.localeCompare(y.domain)});
+    state.page=1;render();
+  }
+  async function loadLocal(){
+    if(cached && cached.list && cached.kr){state.remote=!!cached.remote;merge(cached.list,cached.kr);document.getElementById("sourceText").textContent=state.remote?"已缓存上游清单":"本地内置清单";return}
+    var r=await Promise.all([fetch("list.txt"),fetch("kr.list")]);
+    var t=await Promise.all([r[0].text(),r[1].text()]);
+    merge(cleanLines(t[0]),cleanLines(t[1]));
+  }
+  async function refreshRemote(){
+    var btn=document.getElementById("refresh");btn.disabled=true;btn.textContent="同步中…";
+    try{
+      var urls=[
+        "https://raw.githubusercontent.com/wpzzz/blocked-sites-in-south-korea/main/list.txt",
+        "https://raw.githubusercontent.com/wpzzz/blocked-sites-in-south-korea/main/kr.list"
+      ];
+      var r=await Promise.all(urls.map(function(u){return fetch(u+"?t="+Date.now(),{cache:"no-store"})}));
+      if(!r[0].ok||!r[1].ok)throw new Error("HTTP");
+      var t=await Promise.all([r[0].text(),r[1].text()]);
+      var data={list:cleanLines(t[0]),kr:cleanLines(t[1]),remote:true,time:Date.now()};
+      localStorage.setItem("lr_lists_cache",JSON.stringify(data));cached=data;state.remote=true;merge(data.list,data.kr);
+      document.getElementById("sourceText").textContent="上游清单已同步";toast("清单已更新");
+    }catch(e){toast("同步失败，继续使用本地清单")}
+    btn.disabled=false;btn.textContent="刷新清单";
+  }
+  function filtered(){
+    return state.sites.filter(function(s){
+      if(state.cat==="收藏"&&!fav.has(s.domain))return false;
+      if(state.cat!=="全部"&&state.cat!=="收藏"&&s.cat!==state.cat)return false;
+      if(state.query&&s.domain.indexOf(state.query)<0)return false;
+      return true;
+    });
+  }
+  function risky(s){return s.cat==="成人内容"||s.cat==="博彩竞猜"}
+  function openSite(s){
+    if(risky(s) && !confirm("该条目可能包含"+s.cat+"或其他高风险内容。\n\n仍要打开 "+s.domain+" 吗？"))return;
+    if(window.Android&&Android.openSite)Android.openSite(s.domain);else window.open("https://"+s.domain,"_blank");
+  }
+  function toggleFav(d){if(fav.has(d))fav.delete(d);else fav.add(d);localStorage.setItem("lr_favs",JSON.stringify(Array.from(fav)));render()}
+  function checkSite(s){
+    var id="r"+Date.now()+Math.random().toString(16).slice(2);
+    state.status[s.domain]={state:"checking",text:"检测中"};
+    render();
+    if(window.Android&&Android.checkSite)Android.checkSite(s.domain,id);else {state.status[s.domain]={state:"offline",text:"仅 APK 支持"};render()}
+  }
+  window.onSiteCheckResult=function(id,domain,st,code,ms,proto){
+    state.status[domain]={state:st,text:st==="online"?(code+" · "+ms+"ms"):"不可达"};
+    render();
+  }
+  function render(){
+    var list=filtered(),pages=Math.max(1,Math.ceil(list.length/state.pageSize));if(state.page>pages)state.page=pages;
+    var start=(state.page-1)*state.pageSize,chunk=list.slice(start,start+state.pageSize),grid=document.getElementById("grid");
+    document.getElementById("total").textContent=state.sites.length;
+    document.getElementById("favCount").textContent=fav.size;
+    document.getElementById("onlineCount").textContent=Object.values(state.status).filter(function(x){return x.state==="online"}).length;
+    document.getElementById("resultText").textContent="匹配 "+list.length+" 个 · 第 "+state.page+" 页";
+    document.getElementById("pageInfo").textContent=state.page+" / "+pages;
+    grid.innerHTML="";
+    if(!chunk.length){grid.innerHTML='<div class="empty">没有匹配结果</div>';return}
+    chunk.forEach(function(s){
+      var c=document.createElement("article");c.className="card";
+      var st=state.status[s.domain]||{state:"idle",text:"未检测"};
+      c.innerHTML='<div class="row"><div class="orb">'+s.domain.charAt(0).toUpperCase()+'</div><div style="min-width:0"><div class="domain">'+s.domain+'</div><div class="tags"><span class="tag '+(risky(s)?"risk":"")+'">'+s.cat+'</span><span class="tag">'+s.sources.join(" + ")+'</span></div></div><div class="status '+st.state+'">'+st.text+'</div></div><button class="star '+(fav.has(s.domain)?"on":"")+'">★</button><div class="actions"><button class="small check">检测</button><button class="small open">打开站点</button></div>';
+      c.querySelector(".star").onclick=function(){toggleFav(s.domain)};
+      c.querySelector(".check").onclick=function(){checkSite(s)};
+      c.querySelector(".open").onclick=function(){openSite(s)};
+      grid.appendChild(c);
+    })
+  }
+  var chips=document.getElementById("chips");
+  categories.forEach(function(cat){var b=document.createElement("button");b.className="chip"+(cat==="全部"?" on":"");b.textContent=cat;b.onclick=function(){state.cat=cat;state.page=1;Array.from(chips.children).forEach(function(x){x.classList.remove("on")});b.classList.add("on");render()};chips.appendChild(b)});
+  document.getElementById("search").oninput=function(e){state.query=e.target.value.trim().toLowerCase();state.page=1;render()};
+  document.getElementById("refresh").onclick=refreshRemote;
+  document.getElementById("checkPage").onclick=function(){var list=filtered(),start=(state.page-1)*state.pageSize;list.slice(start,start+Math.min(state.pageSize,20)).forEach(function(s,i){setTimeout(function(){checkSite(s)},i*120)});toast("开始检测本页前 20 个站点")};
+  document.getElementById("prev").onclick=function(){if(state.page>1){state.page--;render();window.scrollTo(0,0)}};
+  document.getElementById("next").onclick=function(){var p=Math.ceil(filtered().length/state.pageSize);if(state.page<p){state.page++;render();window.scrollTo(0,0)}};
+  loadLocal().catch(function(){document.getElementById("grid").innerHTML='<div class="empty">本地清单加载失败</div>'});
+})();
+</script>
+</body></html>
