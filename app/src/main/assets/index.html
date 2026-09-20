@@ -3,59 +3,68 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>LR Site Tracker</title>
+<title>LR Site Tracker 2.0</title>
 <style>
 :root{--bg:#07111f;--panel:#0c1c2f;--panel2:#102942;--text:#edf7ff;--muted:#8ea8bb;--cyan:#6de7ff;--violet:#b69cff;--green:#83f1b3;--red:#ff8597;--amber:#ffd479;--line:rgba(255,255,255,.08)}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% -10%,rgba(109,231,255,.14),transparent 32%),radial-gradient(circle at 8% 18%,rgba(182,156,255,.12),transparent 28%),var(--bg);color:var(--text);font-family:Inter,"PingFang SC","Microsoft YaHei",sans-serif;min-height:100vh}
-.wrap{max-width:980px;margin:auto;padding:18px 14px 90px}.hero{padding:18px;border:1px solid var(--line);background:linear-gradient(145deg,rgba(16,41,66,.94),rgba(9,24,41,.94));border-radius:24px;box-shadow:0 24px 80px rgba(0,0,0,.25)}
-.brand{display:flex;align-items:center;gap:13px}.logo{width:48px;height:48px;border-radius:16px;background:linear-gradient(145deg,var(--cyan),var(--violet));display:grid;place-items:center;color:#07111f;font-weight:900;font-size:18px;box-shadow:0 8px 30px rgba(109,231,255,.2)}
+.wrap{max-width:1080px;margin:auto;padding:18px 14px 100px}.hero{padding:18px;border:1px solid var(--line);background:linear-gradient(145deg,rgba(16,41,66,.96),rgba(9,24,41,.96));border-radius:24px;box-shadow:0 24px 80px rgba(0,0,0,.25)}
+.brand{display:flex;align-items:center;gap:13px}.logo{width:50px;height:50px;border-radius:16px;background:linear-gradient(145deg,var(--cyan),var(--violet));display:grid;place-items:center;color:#07111f;font-weight:900;font-size:18px;box-shadow:0 8px 30px rgba(109,231,255,.2)}
 h1{font-size:21px;margin:0}.sub{color:var(--muted);font-size:12px;margin-top:4px}.notice{margin-top:14px;color:#b9cddd;font-size:12px;line-height:1.65;background:rgba(0,0,0,.16);padding:11px 12px;border-radius:14px;border:1px solid var(--line)}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:14px}.stat{background:rgba(255,255,255,.035);border:1px solid var(--line);border-radius:16px;padding:11px}.stat b{display:block;font-size:20px}.stat span{font-size:11px;color:var(--muted)}
-.tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.search{flex:1;min-width:220px;background:#071522;border:1px solid var(--line);color:white;border-radius:15px;padding:12px 14px;outline:none}.search:focus{border-color:rgba(109,231,255,.55)}
-button{border:0;cursor:pointer}.btn{padding:11px 14px;border-radius:14px;background:var(--panel2);color:white;border:1px solid var(--line);font-weight:700}.btn.primary{background:linear-gradient(135deg,var(--cyan),#79b8ff);color:#06111e}.btn:active{transform:translateY(1px)}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.search,.select{background:#071522;border:1px solid var(--line);color:white;border-radius:15px;padding:12px 14px;outline:none}.search{flex:1;min-width:220px}.select{min-width:165px}.search:focus,.select:focus{border-color:rgba(109,231,255,.55)}
+button{border:0;cursor:pointer}.btn{padding:11px 14px;border-radius:14px;background:var(--panel2);color:white;border:1px solid var(--line);font-weight:700}.btn.primary{background:linear-gradient(135deg,var(--cyan),#79b8ff);color:#06111e}.btn.danger{color:#ffd1d8;background:rgba(255,133,151,.08)}.btn:active{transform:translateY(1px)}
 .chips{display:flex;gap:8px;overflow:auto;padding:14px 1px 6px;scrollbar-width:none}.chip{white-space:nowrap;background:rgba(255,255,255,.04);color:#b8cede;border:1px solid var(--line);padding:9px 12px;border-radius:999px}.chip.on{background:rgba(109,231,255,.14);color:var(--cyan);border-color:rgba(109,231,255,.35)}
-.meta{display:flex;justify-content:space-between;align-items:center;margin:14px 2px 8px;color:var(--muted);font-size:12px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.card{position:relative;background:linear-gradient(145deg,rgba(14,32,52,.95),rgba(8,23,39,.95));border:1px solid var(--line);border-radius:19px;padding:14px;min-width:0}.row{display:flex;align-items:flex-start;gap:10px}.orb{width:38px;height:38px;border-radius:13px;display:grid;place-items:center;background:rgba(109,231,255,.10);color:var(--cyan);font-weight:900;flex:none}.domain{font-size:14px;font-weight:800;word-break:break-all;line-height:1.35}.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}.tag{font-size:10px;color:#aec2d0;background:rgba(255,255,255,.05);border:1px solid var(--line);padding:3px 7px;border-radius:99px}.tag.risk{color:#ffd1d8;background:rgba(255,133,151,.08)}.status{margin-left:auto;font-size:11px;color:var(--muted);white-space:nowrap}.status.online{color:var(--green)}.status.offline{color:var(--red)}.status.checking{color:var(--amber)}
-.actions{display:flex;gap:7px;margin-top:12px}.small{flex:1;padding:9px 10px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid var(--line);color:#ddebfa}.small.open{background:rgba(109,231,255,.12);color:var(--cyan)}.star{position:absolute;right:12px;bottom:58px;color:#9db0bf;background:none;font-size:18px}.star.on{color:#ffd479}
-.pager{display:flex;justify-content:center;align-items:center;gap:10px;margin-top:16px}.pager span{font-size:12px;color:var(--muted)}.empty{text-align:center;color:var(--muted);padding:48px 10px}
-.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(40px);opacity:0;background:#eaf8ff;color:#07111f;padding:10px 14px;border-radius:12px;font-weight:700;font-size:12px;transition:.25s;z-index:9;max-width:84%;text-align:center}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-@media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}.wrap{padding-left:10px;padding-right:10px}.hero{border-radius:20px}.tools .btn{flex:1}.search{flex-basis:100%}}
+.meta{display:flex;justify-content:space-between;align-items:center;margin:14px 2px 8px;color:var(--muted);font-size:12px;gap:12px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.card{position:relative;background:linear-gradient(145deg,rgba(14,32,52,.96),rgba(8,23,39,.96));border:1px solid var(--line);border-radius:19px;padding:14px;min-width:0}.row{display:flex;align-items:flex-start;gap:10px}.orb{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;background:rgba(109,231,255,.10);color:var(--cyan);font-weight:900;flex:none}.domain{font-size:14px;font-weight:800;word-break:break-all;line-height:1.35}.path{font-size:10px;color:var(--muted);margin-top:3px;word-break:break-all;max-height:28px;overflow:hidden}.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}.tag{font-size:10px;color:#aec2d0;background:rgba(255,255,255,.05);border:1px solid var(--line);padding:3px 7px;border-radius:99px}.tag.market{color:#bfefff;background:rgba(109,231,255,.08)}.tag.content{color:#ded1ff;background:rgba(182,156,255,.08)}.tag.risk{color:#ffd1d8;background:rgba(255,133,151,.08)}.status{margin-left:auto;font-size:11px;color:var(--muted);white-space:nowrap}.status.online{color:var(--green)}.status.offline{color:var(--red)}.status.checking{color:var(--amber)}
+.detail{font-size:11px;color:#9eb4c5;line-height:1.5;margin-top:9px}.actions{display:flex;gap:7px;margin-top:12px}.small{flex:1;padding:9px 10px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid var(--line);color:#ddebfa}.small.open{background:rgba(109,231,255,.12);color:var(--cyan)}.star{position:absolute;right:12px;bottom:58px;color:#9db0bf;background:none;font-size:18px}.star.on{color:#ffd479}
+.pager{display:flex;justify-content:center;align-items:center;gap:10px;margin-top:16px}.pager span{font-size:12px;color:var(--muted)}.empty{text-align:center;color:var(--muted);padding:48px 10px;grid-column:1/-1}.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(40px);opacity:0;background:#eaf8ff;color:#07111f;padding:10px 14px;border-radius:12px;font-weight:700;font-size:12px;transition:.25s;z-index:9;max-width:84%;text-align:center}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}.wrap{padding-left:10px;padding-right:10px}.hero{border-radius:20px}.tools .btn{flex:1}.search{flex-basis:100%}.select{flex:1;min-width:145px}.meta{align-items:flex-start;flex-direction:column}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <section class="hero">
-    <div class="brand"><div class="logo">LR</div><div><h1>站点追踪</h1><div class="sub">SITE DIRECTORY · STATUS TRACKER · LOCAL BROWSER</div></div></div>
-    <div class="notice">数据来自公开 GitHub 封锁站点清单。分类由域名关键词自动判断，可能存在误分；“检测”只测试当前网络连通性，不提供代理、VPN、DNS 绕过或其他规避地区/运营商限制的能力。部分条目可能包含成人、博彩或高风险内容，打开前会提示。</div>
-    <div class="stats">
-      <div class="stat"><b id="total">0</b><span>去重站点</span></div>
-      <div class="stat"><b id="favCount">0</b><span>收藏</span></div>
-      <div class="stat"><b id="onlineCount">0</b><span>本次可达</span></div>
-      <div class="stat"><b id="sourceCount">2</b><span>数据源</span></div>
-    </div>
-    <div class="tools">
-      <input id="search" class="search" placeholder="搜索域名，例如 example.com">
-      <button class="btn primary" id="refresh">刷新清单</button>
-      <button class="btn" id="checkPage">检测本页</button>
-    </div>
-    <div class="chips" id="chips"></div>
-  </section>
-  <div class="meta"><span id="resultText">加载中…</span><span id="sourceText">本地内置清单</span></div>
-  <main class="grid" id="grid"></main>
-  <div class="pager"><button class="btn" id="prev">上一页</button><span id="pageInfo">1 / 1</span><button class="btn" id="next">下一页</button></div>
+<section class="hero">
+  <div class="brand"><div class="logo">LR</div><div><h1>站点追踪 2.0</h1><div class="sub">DIRECTORY · RESEARCH DATA · BOOKMARKS · HISTORY · LOCAL BROWSER</div></div></div>
+  <div class="notice">已合并原版韩国公开清单与 1000 条研究样本。研究样本包含华语/JAV中文受众、美国/英语、越南、日韩及其他市场分类。分类属于研究标签，不代表网站运营主体所在地。“检测”只测试当前网络连通性，不提供代理、VPN、DNS 绕过或其他规避网络限制的能力。</div>
+  <div class="stats">
+    <div class="stat"><b id="total">0</b><span>合并去重站点</span></div>
+    <div class="stat"><b id="favCount">0</b><span>书签</span></div>
+    <div class="stat"><b id="historyCount">0</b><span>浏览历史</span></div>
+    <div class="stat"><b id="onlineCount">0</b><span>本次可达</span></div>
+  </div>
+  <div class="tools">
+    <input id="search" class="search" placeholder="搜索域名 / 市场 / 内容分类">
+    <select id="marketFilter" class="select"><option value="">全部市场</option></select>
+    <select id="contentFilter" class="select"><option value="">全部内容</option></select>
+    <button class="btn primary" id="refresh">刷新原清单</button>
+    <button class="btn" id="checkPage">检测本页</button>
+    <button class="btn danger" id="clearHistory" style="display:none">清空历史</button>
+  </div>
+  <div class="chips" id="chips"></div>
+</section>
+<div class="meta"><span id="resultText">加载中…</span><span id="sourceText">3 个内置数据源</span></div>
+<main class="grid" id="grid"></main>
+<div class="pager"><button class="btn" id="prev">上一页</button><span id="pageInfo">1 / 1</span><button class="btn" id="next">下一页</button></div>
 </div>
 <div class="toast" id="toast"></div>
 <script>
 (function(){
-  var categories=["全部","收藏","成人内容","博彩竞猜","金融交易","BT下载","漫画视频","论坛社区","新闻政治","其他"];
-  var state={sites:[],query:"",cat:"全部",page:1,pageSize:50,status:{},remote:false};
+  var views=["全部","书签","浏览历史","华语","美国/英语","越南","日韩","成人内容","博彩竞猜","其他"];
+  var state={sites:[],query:"",view:"全部",page:1,pageSize:40,status:{},market:"",content:"",remote:false};
   var fav=new Set(JSON.parse(localStorage.getItem("lr_favs")||"[]"));
   var cached=JSON.parse(localStorage.getItem("lr_lists_cache")||"null");
+  var historyCache=[];
+  var siteMap=new Map();
 
   function toast(t){var el=document.getElementById("toast");el.textContent=t;el.classList.add("show");setTimeout(function(){el.classList.remove("show")},1800)}
-  function cleanLines(t){return t.split(/\r?\n/).map(function(x){return x.trim().toLowerCase().replace(/^https?:\/\//,"").replace(/\/.*$/,"")}).filter(function(x){return /^[a-z0-9.-]+(:\d{1,5})?$/.test(x)})}
-  function category(d){
-    var a=["porn","xxx","sex","hentai","jav","nude","naked","erotic","boob","milf","camgirl","camsoda","cam4","gay","lesbian","fuck","slut","adult","bdsm","fetish","brazzers","playboy","jizz","pussy","teen"];
+  function esc(t){return String(t==null?"":t).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+  function cleanLines(t){return String(t||"").split(/\r?\n/).map(function(x){return x.trim().toLowerCase().replace(/^https?:\/\//,"").replace(/\/.*$/,"")}).filter(function(x){return /^[a-z0-9.-]+(:\d{1,5})?$/.test(x)})}
+  function readAsset(name){
+    try{if(window.Android&&Android.readAsset){var s=Android.readAsset(name);if(s)return Promise.resolve(s)}}catch(e){}
+    return fetch(name).then(function(r){if(!r.ok)throw new Error("asset");return r.text()});
+  }
+  function generalCategory(d){
+    var a=["porn","xxx","sex","hentai","jav","nude","naked","erotic","boob","milf","camgirl","camsoda","cam4","gay","lesbian","fuck","slut","adult","bdsm","fetish","brazzers","playboy","jizz","pussy"];
     var g=["bet","casino","poker","sportsbook","1xbet","bwin","sbobet","lotto","toto","gambl","slot"];
     var f=["forex","exness","iqoption","binaryoption","trading","broker","fxpro"];
     var b=["torrent","magnet","tracker","thepirate","nyaa","bt.","bt-","javtorrent"];
@@ -71,73 +80,136 @@ button{border:0;cursor:pointer}.btn{padding:11px 14px;border-radius:14px;backgro
     if(m.some(function(k){return d.indexOf(k)>=0}))return "漫画视频";
     return "其他";
   }
-  function merge(a,b){
+  function parseResearch(t){
+    var lines=String(t||"").split(/\r?\n/),out=[];
+    for(var i=1;i<lines.length;i++){
+      if(!lines[i].trim())continue;
+      var p=lines[i].split("\t");
+      if(p.length<6)continue;
+      out.push({domain:p[0],market:p[1],content:p[2],purpose:p[3],behavior:p[4],sources:[p[5]+"研究样本"],cat:"成人内容",research:true});
+    }
+    return out;
+  }
+  function addSite(map,s){
+    var old=map.get(s.domain);
+    if(!old){map.set(s.domain,s);return}
+    (s.sources||[]).forEach(function(x){if(old.sources.indexOf(x)<0)old.sources.push(x)});
+    if(s.research){old.market=s.market;old.content=s.content;old.purpose=s.purpose;old.behavior=s.behavior;old.research=true;old.cat="成人内容"}
+  }
+  function mergeAll(a,b,research){
     var map=new Map();
-    a.forEach(function(d){map.set(d,{domain:d,sources:["list.txt"],cat:category(d)})});
-    b.forEach(function(d){if(map.has(d))map.get(d).sources.push("kr.list");else map.set(d,{domain:d,sources:["kr.list"],cat:category(d)})});
+    a.forEach(function(d){addSite(map,{domain:d,sources:["list.txt"],cat:generalCategory(d),market:"",content:"",purpose:"",behavior:""})});
+    b.forEach(function(d){addSite(map,{domain:d,sources:["kr.list"],cat:generalCategory(d),market:"",content:"",purpose:"",behavior:""})});
+    research.forEach(function(s){addSite(map,s)});
     state.sites=Array.from(map.values()).sort(function(x,y){return x.domain.localeCompare(y.domain)});
-    state.page=1;render();
+    siteMap=map;state.page=1;populateFilters();loadHistory();render();
+  }
+  function populateFilters(){
+    var markets=[],contents=[];
+    state.sites.forEach(function(s){if(s.market&&markets.indexOf(s.market)<0)markets.push(s.market);if(s.content&&contents.indexOf(s.content)<0)contents.push(s.content)});
+    var mf=document.getElementById("marketFilter"),cf=document.getElementById("contentFilter");
+    mf.innerHTML='<option value="">全部市场</option>'+markets.sort().map(function(x){return '<option>'+esc(x)+'</option>'}).join("");
+    cf.innerHTML='<option value="">全部内容</option>'+contents.sort().map(function(x){return '<option>'+esc(x)+'</option>'}).join("");
+  }
+  function getHistory(){
+    try{if(window.Android&&Android.getHistory)return JSON.parse(Android.getHistory()||"[]")}catch(e){}
+    return JSON.parse(localStorage.getItem("lr_history_fallback")||"[]");
+  }
+  function loadHistory(){historyCache=getHistory();document.getElementById("historyCount").textContent=historyCache.length}
+  function historySites(){
+    loadHistory();
+    return historyCache.map(function(h){
+      var domain="";
+      try{domain=(new URL(h.url)).host.toLowerCase()}catch(e){}
+      var base=siteMap.get(domain)||{domain:domain||h.url,sources:["浏览历史"],cat:generalCategory(domain||""),market:"",content:"",purpose:"",behavior:""};
+      var s=Object.assign({},base);
+      s.historyUrl=h.url;s.historyTitle=h.title||"";s.historyTime=h.time||0;s.fromHistory=true;return s;
+    }).filter(function(s){return s.domain});
   }
   async function loadLocal(){
-    if(cached && cached.list && cached.kr){state.remote=!!cached.remote;merge(cached.list,cached.kr);document.getElementById("sourceText").textContent=state.remote?"已缓存上游清单":"本地内置清单";return}
-    var r=await Promise.all([fetch("list.txt"),fetch("kr.list")]);
-    var t=await Promise.all([r[0].text(),r[1].text()]);
-    merge(cleanLines(t[0]),cleanLines(t[1]));
+    var base;
+    if(cached&&cached.list&&cached.kr)base=Promise.resolve([cached.list,cached.kr]);
+    else base=Promise.all([readAsset("list.txt"),readAsset("kr.list")]).then(function(t){return [cleanLines(t[0]),cleanLines(t[1])]});
+    var r=await Promise.all([base,readAsset("research1000.tsv")]);
+    mergeAll(r[0][0],r[0][1],parseResearch(r[1]));
+    document.getElementById("sourceText").textContent=(cached&&cached.remote?"已缓存上游原清单 + ":"")+"1000研究样本";
   }
   async function refreshRemote(){
     var btn=document.getElementById("refresh");btn.disabled=true;btn.textContent="同步中…";
     try{
-      var urls=[
-        "https://raw.githubusercontent.com/wpzzz/blocked-sites-in-south-korea/main/list.txt",
-        "https://raw.githubusercontent.com/wpzzz/blocked-sites-in-south-korea/main/kr.list"
-      ];
+      var urls=["https://raw.githubusercontent.com/wpzzz/blocked-sites-in-south-korea/main/list.txt","https://raw.githubusercontent.com/wpzzz/blocked-sites-in-south-korea/main/kr.list"];
       var r=await Promise.all(urls.map(function(u){return fetch(u+"?t="+Date.now(),{cache:"no-store"})}));
       if(!r[0].ok||!r[1].ok)throw new Error("HTTP");
       var t=await Promise.all([r[0].text(),r[1].text()]);
       var data={list:cleanLines(t[0]),kr:cleanLines(t[1]),remote:true,time:Date.now()};
-      localStorage.setItem("lr_lists_cache",JSON.stringify(data));cached=data;state.remote=true;merge(data.list,data.kr);
-      document.getElementById("sourceText").textContent="上游清单已同步";toast("清单已更新");
-    }catch(e){toast("同步失败，继续使用本地清单")}
-    btn.disabled=false;btn.textContent="刷新清单";
+      localStorage.setItem("lr_lists_cache",JSON.stringify(data));cached=data;state.remote=true;
+      var research=parseResearch(await readAsset("research1000.tsv"));mergeAll(data.list,data.kr,research);
+      document.getElementById("sourceText").textContent="上游原清单已同步 + 1000研究样本";toast("原清单已更新");
+    }catch(e){toast("同步失败，继续使用本地数据")}
+    btn.disabled=false;btn.textContent="刷新原清单";
+  }
+  function viewMatch(s){
+    if(state.view==="书签")return fav.has(s.domain);
+    if(state.view==="华语")return s.market&&s.market.indexOf("华语")>=0;
+    if(state.view==="美国/英语")return s.market&&s.market.indexOf("美国/英语")>=0;
+    if(state.view==="越南")return s.market&&s.market.indexOf("越南")>=0;
+    if(state.view==="日韩")return s.market&&s.market.indexOf("日韩")>=0;
+    if(state.view==="成人内容")return s.cat==="成人内容";
+    if(state.view==="博彩竞猜")return s.cat==="博彩竞猜";
+    if(state.view==="其他")return s.cat!=="成人内容"&&s.cat!=="博彩竞猜";
+    return true;
   }
   function filtered(){
-    return state.sites.filter(function(s){
-      if(state.cat==="收藏"&&!fav.has(s.domain))return false;
-      if(state.cat!=="全部"&&state.cat!=="收藏"&&s.cat!==state.cat)return false;
-      if(state.query&&s.domain.indexOf(state.query)<0)return false;
+    var list=state.view==="浏览历史"?historySites():state.sites.slice();
+    var q=state.query;
+    return list.filter(function(s){
+      if(state.view!=="浏览历史"&&!viewMatch(s))return false;
+      if(state.market&&s.market!==state.market)return false;
+      if(state.content&&s.content!==state.content)return false;
+      if(q){
+        var hay=[s.domain,s.market,s.content,s.purpose,s.behavior,s.historyTitle,s.historyUrl].join(" ").toLowerCase();
+        if(hay.indexOf(q)<0)return false;
+      }
       return true;
     });
   }
   function risky(s){return s.cat==="成人内容"||s.cat==="博彩竞猜"}
   function openSite(s){
-    if(risky(s) && !confirm("该条目可能包含"+s.cat+"或其他高风险内容。\n\n仍要打开 "+s.domain+" 吗？"))return;
-    if(window.Android&&Android.openSite)Android.openSite(s.domain);else window.open("https://"+s.domain,"_blank");
+    if(risky(s)&&!confirm("该条目可能包含"+s.cat+"或其他高风险内容。\n\n仍要打开 "+s.domain+" 吗？"))return;
+    if(s.fromHistory&&s.historyUrl&&window.Android&&Android.openUrl)Android.openUrl(s.historyUrl);
+    else if(window.Android&&Android.openSite)Android.openSite(s.domain);
+    else window.open(s.historyUrl||("https://"+s.domain),"_blank");
   }
   function toggleFav(d){if(fav.has(d))fav.delete(d);else fav.add(d);localStorage.setItem("lr_favs",JSON.stringify(Array.from(fav)));render()}
   function checkSite(s){
-    var id="r"+Date.now()+Math.random().toString(16).slice(2);
-    state.status[s.domain]={state:"checking",text:"检测中"};
-    render();
-    if(window.Android&&Android.checkSite)Android.checkSite(s.domain,id);else {state.status[s.domain]={state:"offline",text:"仅 APK 支持"};render()}
+    var id="r"+Date.now()+Math.random().toString(16).slice(2);state.status[s.domain]={state:"checking",text:"检测中"};render();
+    if(window.Android&&Android.checkSite)Android.checkSite(s.domain,id);else{state.status[s.domain]={state:"offline",text:"仅 APK 支持"};render()}
   }
-  window.onSiteCheckResult=function(id,domain,st,code,ms,proto){
-    state.status[domain]={state:st,text:st==="online"?(code+" · "+ms+"ms"):"不可达"};
-    render();
-  }
+  window.onSiteCheckResult=function(id,domain,st,code,ms,proto){state.status[domain]={state:st,text:st==="online"?(code+" · "+ms+"ms"):"不可达"};render()}
+  function fmtTime(ms){if(!ms)return "";try{return new Date(ms).toLocaleString("zh-CN",{hour12:false})}catch(e){return ""}}
   function render(){
+    loadHistory();
     var list=filtered(),pages=Math.max(1,Math.ceil(list.length/state.pageSize));if(state.page>pages)state.page=pages;
     var start=(state.page-1)*state.pageSize,chunk=list.slice(start,start+state.pageSize),grid=document.getElementById("grid");
     document.getElementById("total").textContent=state.sites.length;
     document.getElementById("favCount").textContent=fav.size;
     document.getElementById("onlineCount").textContent=Object.values(state.status).filter(function(x){return x.state==="online"}).length;
-    document.getElementById("resultText").textContent="匹配 "+list.length+" 个 · 第 "+state.page+" 页";
+    document.getElementById("resultText").textContent=(state.view==="浏览历史"?"历史 ":"匹配 ")+list.length+" 个 · 第 "+state.page+" 页";
     document.getElementById("pageInfo").textContent=state.page+" / "+pages;
+    document.getElementById("clearHistory").style.display=state.view==="浏览历史"?"inline-block":"none";
     grid.innerHTML="";
     if(!chunk.length){grid.innerHTML='<div class="empty">没有匹配结果</div>';return}
     chunk.forEach(function(s){
       var c=document.createElement("article");c.className="card";
       var st=state.status[s.domain]||{state:"idle",text:"未检测"};
-      c.innerHTML='<div class="row"><div class="orb">'+s.domain.charAt(0).toUpperCase()+'</div><div style="min-width:0"><div class="domain">'+s.domain+'</div><div class="tags"><span class="tag '+(risky(s)?"risk":"")+'">'+s.cat+'</span><span class="tag">'+s.sources.join(" + ")+'</span></div></div><div class="status '+st.state+'">'+st.text+'</div></div><button class="star '+(fav.has(s.domain)?"on":"")+'">★</button><div class="actions"><button class="small check">检测</button><button class="small open">打开站点</button></div>';
+      var tags='<span class="tag '+(risky(s)?"risk":"")+'">'+esc(s.cat)+'</span>';
+      if(s.market)tags+='<span class="tag market">'+esc(s.market)+'</span>';
+      if(s.content)tags+='<span class="tag content">'+esc(s.content)+'</span>';
+      if(s.sources&&s.sources.length)tags+='<span class="tag">'+esc(s.sources.join(" + "))+'</span>';
+      var detail="";
+      if(s.purpose||s.behavior)detail='<div class="detail">'+esc(s.purpose||"")+(s.behavior?" · "+esc(s.behavior):"")+'</div>';
+      if(s.fromHistory)detail='<div class="detail">'+esc(fmtTime(s.historyTime))+(s.historyTitle?" · "+esc(s.historyTitle):"")+'</div>';
+      c.innerHTML='<div class="row"><div class="orb">'+esc(s.domain.charAt(0).toUpperCase())+'</div><div style="min-width:0"><div class="domain">'+esc(s.domain)+'</div>'+(s.fromHistory&&s.historyUrl?'<div class="path">'+esc(s.historyUrl)+'</div>':'')+'<div class="tags">'+tags+'</div></div><div class="status '+st.state+'">'+esc(st.text)+'</div></div>'+detail+'<button class="star '+(fav.has(s.domain)?"on":"")+'" title="书签">★</button><div class="actions"><button class="small check">检测</button><button class="small open">'+(s.fromHistory?"再次打开":"打开站点")+'</button></div>';
       c.querySelector(".star").onclick=function(){toggleFav(s.domain)};
       c.querySelector(".check").onclick=function(){checkSite(s)};
       c.querySelector(".open").onclick=function(){openSite(s)};
@@ -145,13 +217,18 @@ button{border:0;cursor:pointer}.btn{padding:11px 14px;border-radius:14px;backgro
     })
   }
   var chips=document.getElementById("chips");
-  categories.forEach(function(cat){var b=document.createElement("button");b.className="chip"+(cat==="全部"?" on":"");b.textContent=cat;b.onclick=function(){state.cat=cat;state.page=1;Array.from(chips.children).forEach(function(x){x.classList.remove("on")});b.classList.add("on");render()};chips.appendChild(b)});
+  views.forEach(function(v){var b=document.createElement("button");b.className="chip"+(v==="全部"?" on":"");b.textContent=v;b.onclick=function(){state.view=v;state.page=1;Array.from(chips.children).forEach(function(x){x.classList.remove("on")});b.classList.add("on");render()};chips.appendChild(b)});
   document.getElementById("search").oninput=function(e){state.query=e.target.value.trim().toLowerCase();state.page=1;render()};
+  document.getElementById("marketFilter").onchange=function(e){state.market=e.target.value;state.page=1;render()};
+  document.getElementById("contentFilter").onchange=function(e){state.content=e.target.value;state.page=1;render()};
   document.getElementById("refresh").onclick=refreshRemote;
   document.getElementById("checkPage").onclick=function(){var list=filtered(),start=(state.page-1)*state.pageSize;list.slice(start,start+Math.min(state.pageSize,20)).forEach(function(s,i){setTimeout(function(){checkSite(s)},i*120)});toast("开始检测本页前 20 个站点")};
+  document.getElementById("clearHistory").onclick=function(){if(!confirm("确定清空全部浏览历史吗？"))return;try{if(window.Android&&Android.clearHistory)Android.clearHistory();else localStorage.removeItem("lr_history_fallback")}catch(e){}historyCache=[];state.page=1;render();toast("浏览历史已清空")};
   document.getElementById("prev").onclick=function(){if(state.page>1){state.page--;render();window.scrollTo(0,0)}};
   document.getElementById("next").onclick=function(){var p=Math.ceil(filtered().length/state.pageSize);if(state.page<p){state.page++;render();window.scrollTo(0,0)}};
-  loadLocal().catch(function(){document.getElementById("grid").innerHTML='<div class="empty">本地清单加载失败</div>'});
+  window.addEventListener("focus",function(){loadHistory();if(state.view==="浏览历史")render()});
+  document.addEventListener("visibilitychange",function(){if(!document.hidden){loadHistory();if(state.view==="浏览历史")render()}});
+  loadLocal().catch(function(e){document.getElementById("grid").innerHTML='<div class="empty">本地清单加载失败</div>';document.getElementById("resultText").textContent="加载失败"});
 })();
 </script>
 </body></html>
