@@ -8,7 +8,8 @@
 
 | Project | Focus | What it demonstrates |
 | --- | --- | --- |
-| [LR-Sentinel](security-lab/lr-sentinel/) | Defensive Security | 日志/网络事件检测、可解释规则、风险评分、HTML/JSON 报告、单元测试 |
+| [LR-Sentinel](security-lab/lr-sentinel/) | Detection Engineering | 日志/网络事件检测、可解释规则、风险评分、HTML/JSON 报告、单元测试 |
+| [LR-RepoGuard](security-lab/lr-repoguard/) | DevSecOps / Supply Chain | 签名材料、密钥/token、危险 shell、GitHub Actions 权限与依赖链安全检查 |
 | LR-沉浸式有声小说 | Android / TTS | Room、本地文件解析、MediaSession、前台服务、WorkManager、Compose |
 | [LR Personal Space](site/) | Web / GitHub Pages | 静态站点、PWA、自动部署 |
 | [LR-考研英语真题特训](https://github.com/LLR6/LR-Tablet) | Learning Engineering | 平板双栏训练、多格式导入、本地优先、Capacitor、Android CI |

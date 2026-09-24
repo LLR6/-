@@ -1,0 +1,31 @@
+name: Test LR-RepoGuard
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "security-lab/lr-repoguard/**"
+      - ".github/workflows/lr-repoguard.yml"
+  pull_request:
+    paths:
+      - "security-lab/lr-repoguard/**"
+      - ".github/workflows/lr-repoguard.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Unit tests
+        working-directory: security-lab/lr-repoguard
+        run: PYTHONPATH=src python -m unittest discover -s tests -v
+      - name: Scan repository
+        working-directory: security-lab/lr-repoguard
+        run: PYTHONPATH=src python -m lr_repoguard.cli ../.. --json repoguard.json --markdown repoguard.md --fail-on high
