@@ -24,7 +24,7 @@ def write_markdown(findings: list[Finding], path: str | Path) -> None:
     ]
     for f in findings:
         message = f.message.replace("|", "\\|")
-        lines.append(f"| {f.severity.upper()} | \`{f.rule_id}\` | \`{f.path}\` | {f.line or '-'} | {message} |")
+        lines.append(f"| {f.severity.upper()} | `{f.rule_id}` | `{f.path}` | {f.line or '-'} | {message} |")
     if not findings:
         lines.append("| — | — | — | — | No findings |")
     Path(path).write_text("\n".join(lines) + "\n", encoding="utf-8")
