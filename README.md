@@ -1,3 +1,38 @@
+# LR Lab
+
+> Android / Learning Tools / Defensive Security / Automation
+
+这是我的个人工程实验仓库，用来把学习中的想法做成**可运行、可复现、可继续迭代**的小型项目。相比只展示界面，我更关注数据流、异常处理、自动化构建、安全边界和技术复盘。
+
+## Featured Projects
+
+| Project | Focus | What it demonstrates |
+| --- | --- | --- |
+| [LR-Sentinel](security-lab/lr-sentinel/) | Defensive Security | 日志/网络事件检测、可解释规则、风险评分、HTML/JSON 报告、单元测试 |
+| LR-沉浸式有声小说 | Android / TTS | Room、本地文件解析、MediaSession、前台服务、WorkManager、Compose |
+| [LR Personal Space](site/) | Web / GitHub Pages | 静态站点、PWA、自动部署 |
+| [LR-考研英语真题特训](https://github.com/LLR6/LR-Tablet) | Learning Engineering | 平板双栏训练、多格式导入、本地优先、Capacitor、Android CI |
+
+## Engineering Principles
+
+- **Local-first when possible**：个人数据优先保留在本地。
+- **Reproducible builds**：重要项目保留 GitHub Actions 构建流程。
+- **Security by default**：不把密钥、口令和签名材料写进公开代码。
+- **Explain the trade-offs**：README 不只写“实现了什么”，也记录为什么这样设计、有什么限制。
+- **Small but complete**：优先完成一个完整闭环，而不是堆很多无法复现的 Demo。
+
+## Current Security Focus
+
+正在持续练习：
+
+- 网络流量与安全事件分析
+- Detection Engineering / SOC 风格告警
+- CTF 题目复盘与方法论
+- Android / Web 工程中的安全边界
+- 自动化与可复现环境
+
+---
+
 # LR-沉浸式有声小说
 
 一款面向 Android 手机和平板的本地优先有声小说播放器。项目不是界面空壳：TXT/ZIP 导入、编码检测、章节/句子/对白/情绪分析、Room 书架、系统 TTS、断点进度、前台播放服务、MediaSession 控制和睡眠定时均有真实实现。

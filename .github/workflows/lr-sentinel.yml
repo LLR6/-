@@ -1,0 +1,32 @@
+name: Test LR-Sentinel
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "security-lab/lr-sentinel/**"
+      - ".github/workflows/lr-sentinel.yml"
+  pull_request:
+    paths:
+      - "security-lab/lr-sentinel/**"
+      - ".github/workflows/lr-sentinel.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: security-lab/lr-sentinel
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Unit tests
+        run: PYTHONPATH=src python -m unittest discover -s tests -v
+      - name: Smoke test
+        run: PYTHONPATH=src python -m lr_sentinel.cli samples/demo.jsonl --json alerts.json --html report.html
