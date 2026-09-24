@@ -3,13 +3,17 @@ name: Build Android APK
 on:
   push:
     branches: ["main", "codex/**", "feature/**"]
-    paths-ignore:
-      - "site/**"
-      - ".github/workflows/pages.yml"
+    paths:
+      - "app/**"
+      - "build.gradle.kts"
+      - "settings.gradle.kts"
+      - "gradle.properties"
   pull_request:
-    paths-ignore:
-      - "site/**"
-      - ".github/workflows/pages.yml"
+    paths:
+      - "app/**"
+      - "build.gradle.kts"
+      - "settings.gradle.kts"
+      - "gradle.properties"
   workflow_dispatch:
 
 permissions:
