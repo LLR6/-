@@ -38,6 +38,21 @@ class ScannerTests(unittest.TestCase):
             )
             self.assertNotIn("GHA-UNPINNED-ACTION", {f.rule_id for f in scan(tmp)})
 
+    def test_markdown_shell_example_is_not_flagged(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            Path(tmp, "README.md").write_text("Example: curl https://example.test/x | bash\n", encoding="utf-8")
+            self.assertNotIn("CI-CURL-PIPE-SHELL", {f.rule_id for f in scan(tmp)})
+
+    def test_workflow_shell_pipe_is_flagged(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            wf = Path(tmp, ".github", "workflows")
+            wf.mkdir(parents=True)
+            Path(wf, "ci.yml").write_text(
+                "steps:\n  - run: curl https://example.test/x | bash\n",
+                encoding="utf-8",
+            )
+            self.assertIn("CI-CURL-PIPE-SHELL", {f.rule_id for f in scan(tmp)})
+
 
 if __name__ == "__main__":
     unittest.main()
