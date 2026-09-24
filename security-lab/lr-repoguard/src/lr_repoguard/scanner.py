@@ -94,13 +94,18 @@ def scan(root: str | Path) -> list[Finding]:
                     match.group(0)[:32] + ("..." if len(match.group(0)) > 32 else ""),
                 ))
 
-        for rule_id, severity, pattern in DANGEROUS_SHELL:
-            for match in pattern.finditer(text):
-                findings.append(Finding(
-                    rule_id, severity, rel, _line_number(text, match.start()),
-                    "Potentially unsafe shell pattern found.",
-                    match.group(0).strip()[:120],
-                ))
+        shell_context = (
+            path.suffix.lower() in {".sh", ".bash", ".zsh", ".ps1", ".yml", ".yaml"}
+            or path.name in {"Dockerfile", "Makefile"}
+        )
+        if shell_context:
+            for rule_id, severity, pattern in DANGEROUS_SHELL:
+                for match in pattern.finditer(text):
+                    findings.append(Finding(
+                        rule_id, severity, rel, _line_number(text, match.start()),
+                        "Potentially unsafe shell pattern found.",
+                        match.group(0).strip()[:120],
+                    ))
 
         if path.name.endswith((".yml", ".yaml")) and ".github/workflows/" in f"/{rel}":
             write_all = re.search(r"^\s*permissions:\s*write-all\s*$", text, re.MULTILINE)
