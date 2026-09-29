@@ -5,24 +5,10 @@
   <a href="https://github.com/LLR6"><img alt="LR Lab" src="https://img.shields.io/badge/LR_LAB-0x4C52-0D1117?style=for-the-badge&logo=github&logoColor=white"></a>
   <img alt="ENGINEERING LAB" src="https://img.shields.io/badge/ENGINEERING_LAB-0EA5E9?style=for-the-badge">
 </p>
-
-<p align="center">
-  <strong>Build small. Learn deeply. Keep it reproducible.</strong><br>
-  <sub>Android · learning tools · defensive security · automation</sub>
-</p>
-
-<p align="center">
-  <a href="https://github.com/LLR6/-/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/LLR6/-?style=flat-square&logo=github&label=stars"></a>
-  <img alt="Last commit" src="https://img.shields.io/github/last-commit/LLR6/-?style=flat-square">
-  <img alt="Maintained" src="https://img.shields.io/badge/status-active-success?style=flat-square">
-</p>
-
-<p align="center">
-  <a href="https://github.com/LLR6">Profile</a> ·
-  <a href="https://github.com/LLR6?tab=repositories">All projects</a> ·
-  <a href="https://github.com/LLR6/-/issues">Issues</a>
-</p>
-
+<p align="center"><strong>Build small. Learn deeply. Keep it reproducible.</strong><br><sub>Android · learning tools · defensive security · automation</sub></p>
+<p align="center"><a href="https://github.com/LLR6/-/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/LLR6/-?style=flat-square&logo=github&label=stars"></a>
+  <img alt="Last commit" src="https://img.shields.io/github/last-commit/LLR6/-?style=flat-square"> <img alt="Maintained" src="https://img.shields.io/badge/status-active-success?style=flat-square"></p>
+<p align="center"><a href="https://github.com/LLR6">Profile</a> · <a href="https://github.com/LLR6?tab=repositories">All projects</a> · <a href="https://github.com/LLR6/-/issues">Issues</a></p>
 <!-- LR-LAB-CHROME:END -->
 
 
@@ -139,12 +125,9 @@ keytool -genkeypair -v -keystore lr-release.jks -alias lr-audiobook \
 
 代码采用 Apache-2.0 许可证。隐私规则见 [PRIVACY.md](PRIVACY.md)，声音和文本版权提示见 [COPYRIGHT_NOTICE.md](COPYRIGHT_NOTICE.md)。
 
+
 <!-- LR-LAB-FOOTER:START -->
 ---
-
-<p align="center">
-  <sub>Part of <a href="https://github.com/LLR6">LR Lab</a> · Security × AI × Android × Automation</sub><br>
-  <sub>Build things that are useful, inspectable, and reproducible.</sub>
-</p>
+<p align="center"><sub>Part of <a href="https://github.com/LLR6">LR Lab</a> · Security × AI × Android × Automation</sub><br><sub>Build things that are useful, inspectable, and reproducible.</sub></p>
 <!-- LR-LAB-FOOTER:END -->
 
