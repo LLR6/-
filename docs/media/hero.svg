@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#05070d"/><stop offset=".5" stop-color="#0b1320"/><stop offset="1" stop-color="#150b22"/></linearGradient><linearGradient id="a"><stop stop-color="#22d3ee"/><stop offset=".45" stop-color="#8b5cf6"/><stop offset="1" stop-color="#ec4899"/></linearGradient></defs>
+<rect width="1200" height="630" rx="32" fill="url(#bg)"/>
+<g opacity=".08" stroke="#94a3b8"><path d="M0 90H1200M0 180H1200M0 270H1200M0 360H1200M0 450H1200M0 540H1200"/><path d="M120 0V630M240 0V630M360 0V630M480 0V630M600 0V630M720 0V630M840 0V630M960 0V630M1080 0V630"/></g>
+<circle cx="1020" cy="100" r="230" fill="#8b5cf6" opacity=".08"/><circle cx="920" cy="560" r="260" fill="#22d3ee" opacity=".05"/>
+<g font-family="Inter,Segoe UI,Arial,sans-serif">
+<text x="72" y="94" fill="#94a3b8" font-size="18" font-weight="700">LR LAB / 0x4C52 · ENGINEERING NOTEBOOK</text>
+<text x="72" y="166" fill="#f8fafc" font-size="62" font-weight="800">Build small. Learn deeply.</text>
+<rect x="72" y="192" width="600" height="5" rx="3" fill="url(#a)"/>
+<text x="72" y="246" fill="#e2e8f0" font-size="28" font-weight="700">Keep it useful, inspectable, reproducible.</text>
+<text x="72" y="286" fill="#94a3b8" font-size="20">Android · Defensive Security · Automation · Local-first tools</text>
+<g transform="translate(72 345)"><rect width="245" height="135" rx="18" fill="#0b1220" stroke="#22d3ee" stroke-opacity=".35"/><text x="22" y="38" fill="#67e8f9" font-size="16" font-weight="700">BUILD</text><text x="22" y="76" fill="#f8fafc" font-size="20" font-weight="700">real tools</text><text x="22" y="107" fill="#64748b" font-size="14">not screenshot demos</text></g>
+<g transform="translate(337 345)"><rect width="245" height="135" rx="18" fill="#0b1220" stroke="#8b5cf6" stroke-opacity=".35"/><text x="22" y="38" fill="#c4b5fd" font-size="16" font-weight="700">TEST</text><text x="22" y="76" fill="#f8fafc" font-size="20" font-weight="700">the assumptions</text><text x="22" y="107" fill="#64748b" font-size="14">CI · evidence · trade-offs</text></g>
+<g transform="translate(602 345)"><rect width="245" height="135" rx="18" fill="#0b1220" stroke="#ec4899" stroke-opacity=".35"/><text x="22" y="38" fill="#f9a8d4" font-size="16" font-weight="700">LEARN</text><text x="22" y="76" fill="#f8fafc" font-size="20" font-weight="700">from failure</text><text x="22" y="107" fill="#64748b" font-size="14">notes · postmortems</text></g>
+<g transform="translate(867 345)"><rect width="261" height="135" rx="18" fill="#0b1220" stroke="#14b8a6" stroke-opacity=".35"/><text x="22" y="38" fill="#5eead4" font-size="16" font-weight="700">REPEAT</text><text x="22" y="76" fill="#f8fafc" font-size="20" font-weight="700">ship another idea</text><text x="22" y="107" fill="#64748b" font-size="14">small but complete</text></g>
+<text x="72" y="558" fill="#f8fafc" font-size="18" font-weight="700">github.com/LLR6</text><text x="1128" y="558" text-anchor="end" fill="#64748b" font-size="16">Security × AI × Android × Automation</text>
+</g></svg>
