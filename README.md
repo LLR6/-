@@ -11,6 +11,15 @@
 <p align="center"><a href="https://github.com/LLR6">Profile</a> · <a href="https://github.com/LLR6?tab=repositories">All projects</a> · <a href="https://github.com/LLR6/-/issues">Issues</a></p>
 <!-- LR-LAB-CHROME:END -->
 
+<!-- LR-HERO-V2:START -->
+<p align="center"><img src="./docs/media/hero.svg" alt="LR Lab engineering notebook" width="100%"></p>
+<p align="center">
+  <a href="#featured-projects">Featured</a> ·
+  <a href="#engineering-principles">Principles</a> ·
+  <a href="https://github.com/LLR6?tab=repositories">All repositories</a>
+</p>
+<!-- LR-HERO-V2:END -->
+
 
 > Android / Learning Tools / Defensive Security / Automation
 
