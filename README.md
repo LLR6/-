@@ -60,6 +60,52 @@
 | [LR Personal Space](site/) | Web / GitHub Pages | 静态站点、PWA、自动部署 |
 | [LR-考研英语真题特训](https://github.com/LLR6/LR-Tablet) | Learning Engineering | 平板双栏训练、多格式导入、本地优先、Capacitor、Android CI |
 
+<!-- LR-STANDARDS:START -->
+
+## Shared Engineering Standards
+
+这些仓库不是必须长得一样，但核心项目尽量遵守同一套工程习惯：
+
+| Standard | Practical meaning |
+|---|---|
+| **Runnable from a clean checkout** | README 中的最短路径应该能在新环境里复现 |
+| **Tests before claims** | 先证明代码路径工作，再讨论效果或研究结论 |
+| **Labeled fixtures** | 检测/解析工具保留固定样本和 ground truth，防回归 |
+| **Schema as contract** | JSON 报告不只“长得像”，而是 CI 真正校验 Schema |
+| **Artifacts over screenshots** | CI 尽量产出 wheel、报告、APK、benchmark JSON 等可检查结果 |
+| **Isolated package smoke test** | Python wheel 在独立 venv 重新安装并执行 CLI |
+| **Security automation** | CodeQL + Dependabot + 最小权限 GitHub Actions |
+| **Version discipline** | 版本号、CHANGELOG、tag 必须一致 |
+| **Reproducibility** | seed、输入、Manifest、SHA-256、实验配置尽量进入结果 |
+| **Explicit boundaries** | 安全实验明确写出允许行为、非目标和限制 |
+
+### What “done” should mean
+
+```text
+idea
+  ↓
+working implementation
+  ↓
+tests
+  ↓
+example / labeled fixture
+  ↓
+machine-readable artifact
+  ↓
+schema / benchmark validation
+  ↓
+CI
+  ↓
+documented limitation
+  ↓
+versioned release
+```
+
+不是每个小项目都需要全部步骤，但越接近“研究结果”或“可复用工具”，越应该接近这条链路。
+
+<!-- LR-STANDARDS:END -->
+
+
 ## Engineering Principles
 
 - **Local-first when possible**：个人数据优先保留在本地。
