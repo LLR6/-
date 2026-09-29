@@ -1,5 +1,31 @@
 # LR Lab
 
+<!-- LR-LAB-CHROME:START -->
+<p align="center">
+  <a href="https://github.com/LLR6"><img alt="LR Lab" src="https://img.shields.io/badge/LR_LAB-0x4C52-0D1117?style=for-the-badge&logo=github&logoColor=white"></a>
+  <img alt="ENGINEERING LAB" src="https://img.shields.io/badge/ENGINEERING_LAB-0EA5E9?style=for-the-badge">
+</p>
+
+<p align="center">
+  <strong>Build small. Learn deeply. Keep it reproducible.</strong><br>
+  <sub>Android · learning tools · defensive security · automation</sub>
+</p>
+
+<p align="center">
+  <a href="https://github.com/LLR6/-/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/LLR6/-?style=flat-square&logo=github&label=stars"></a>
+  <img alt="Last commit" src="https://img.shields.io/github/last-commit/LLR6/-?style=flat-square">
+  <img alt="Maintained" src="https://img.shields.io/badge/status-active-success?style=flat-square">
+</p>
+
+<p align="center">
+  <a href="https://github.com/LLR6">Profile</a> ·
+  <a href="https://github.com/LLR6?tab=repositories">All projects</a> ·
+  <a href="https://github.com/LLR6/-/issues">Issues</a>
+</p>
+
+<!-- LR-LAB-CHROME:END -->
+
+
 > Android / Learning Tools / Defensive Security / Automation
 
 这是我的个人工程实验仓库，用来把学习中的想法做成**可运行、可复现、可继续迭代**的小型项目。相比只展示界面，我更关注数据流、异常处理、自动化构建、安全边界和技术复盘。
@@ -112,3 +138,13 @@ keytool -genkeypair -v -keystore lr-release.jks -alias lr-audiobook \
 ## 许可与合规
 
 代码采用 Apache-2.0 许可证。隐私规则见 [PRIVACY.md](PRIVACY.md)，声音和文本版权提示见 [COPYRIGHT_NOTICE.md](COPYRIGHT_NOTICE.md)。
+
+<!-- LR-LAB-FOOTER:START -->
+---
+
+<p align="center">
+  <sub>Part of <a href="https://github.com/LLR6">LR Lab</a> · Security × AI × Android × Automation</sub><br>
+  <sub>Build things that are useful, inspectable, and reproducible.</sub>
+</p>
+<!-- LR-LAB-FOOTER:END -->
+
