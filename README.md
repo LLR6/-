@@ -25,6 +25,31 @@
 
 这是我的个人工程实验仓库，用来把学习中的想法做成**可运行、可复现、可继续迭代**的小型项目。相比只展示界面，我更关注数据流、异常处理、自动化构建、安全边界和技术复盘。
 
+<!-- LR-PUBLIC-INDEX:START -->
+
+## ◇ Public Project Index
+
+| Track | Project | What it is |
+|---|---|---|
+| **AI Agent** | [LR-Agent](https://github.com/LLR6/LR-agent) | Counterfactual patches, causal evidence and repository-aging experiments |
+| **Detection Engineering** | [NightWatch](https://github.com/LLR6/Cybersecurity-Detection-Engineering-Android-Automation-Learning-by-Building) | Event correlation, explainable rules and evidence-backed alerts |
+| **Blue Team** | [Detection Threshold Lab](https://github.com/LLR6/lr-detection-lab) | Reproducible threshold sweeps and false-positive / false-negative trade-offs |
+| **SOC / IR** | [LR-SOC-Copilot](https://github.com/LLR6/LR-SOC-Copilot) | Alert correlation, local runbooks and source-line citations |
+| **ML Security** | [Detector Resilience Lab](https://github.com/LLR6/LR-Detector-Resilience-Lab) | Safe feature-drift experiments for defensive detection models |
+| **Security Research** | [LR-PayloadLab](https://github.com/LLR6/LR-PayloadLab) | Bounded, auditable endpoint-telemetry experiments |
+| **Developer Tool** | [Android CI Doctor](https://github.com/LLR6/lr-android-ci-doctor) | Local Android / Gradle / CI log diagnosis |
+| **CTF Tool** | [CTF Tracebook](https://github.com/LLR6/lr-ctf-tracebook) | Turn terminal traces into evidence-backed writeup drafts |
+| **Android / Learning** | [LR-Tablet](https://github.com/LLR6/LR-Tablet) | Tablet-first reading practice with local progress and Android builds |
+
+<p align="center">
+  <a href="https://github.com/LLR6/LR-agent"><img src="https://img.shields.io/github/stars/LLR6/LR-agent?style=social" alt="LR-Agent stars"></a>
+  <a href="https://github.com/LLR6/Cybersecurity-Detection-Engineering-Android-Automation-Learning-by-Building"><img src="https://img.shields.io/github/stars/LLR6/Cybersecurity-Detection-Engineering-Android-Automation-Learning-by-Building?style=social" alt="NightWatch stars"></a>
+  <a href="https://github.com/LLR6/lr-detection-lab"><img src="https://img.shields.io/github/stars/LLR6/lr-detection-lab?style=social" alt="Detection Lab stars"></a>
+</p>
+
+<!-- LR-PUBLIC-INDEX:END -->
+
+
 ## Featured Projects
 
 | Project | Focus | What it demonstrates |
