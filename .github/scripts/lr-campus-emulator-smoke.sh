@@ -7,6 +7,9 @@ FIXTURE_APK="apps/LR-Campus-Automation/project/fixture-cpdaily/build/outputs/apk
 adb install -r "$APP_APK"
 adb install -r "$FIXTURE_APK"
 
+# Avoid Android 13+ first-run notification permission UI obscuring the app.
+adb shell pm grant com.lr.campussign android.permission.POST_NOTIFICATIONS || true
+
 # Enable LR accessibility service in the emulator.
 adb shell settings put secure enabled_accessibility_services com.lr.campussign/com.lr.campussign.AutomationService
 adb shell settings put secure accessibility_enabled 1
