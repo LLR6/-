@@ -8,87 +8,73 @@ adb install -r "$APP_APK"
 adb install -r "$FIXTURE_APK"
 adb shell pm grant com.lr.campussign android.permission.POST_NOTIFICATIONS || true
 
-# Enable LR accessibility service in the emulator and verify Android really binds it.
+# Start LR first. Do NOT force-stop it after enabling accessibility: force-stop can tear down the service.
+adb shell am start -n com.lr.campussign/.MainActivity >/dev/null
+sleep 2
+
+# One UI dump only to assert the screen renders. UiAutomation may temporarily displace accessibility,
+# so enable LR's service AFTER this dump and never call uiautomator during record/replay.
+adb shell uiautomator dump /sdcard/window.xml >/dev/null 2>&1 || true
+adb pull /sdcard/window.xml /tmp/window.xml >/dev/null 2>&1
+grep -q 'LR—今日校园自动化签到' /tmp/window.xml
+
 adb shell settings put secure accessibility_enabled 0
 adb shell settings put secure enabled_accessibility_services com.lr.campussign/com.lr.campussign.AutomationService
 adb shell settings put secure accessibility_enabled 1
 sleep 3
 
-echo '=== accessibility settings ==='
+echo '=== accessibility before recording ==='
 adb shell settings get secure enabled_accessibility_services || true
-adb shell settings get secure accessibility_enabled || true
-echo '=== accessibility dumpsys ==='
 adb shell dumpsys accessibility | grep -i -E 'campussign|AutomationService|enabled services|bound services' -C 3 || true
+adb shell dumpsys accessibility | grep -q 'LR 今日校园自动化'
 
-dump_ui() {
-  adb shell uiautomator dump /sdcard/window.xml >/dev/null 2>&1 || true
-  adb pull /sdcard/window.xml /tmp/window.xml >/dev/null 2>&1
-}
-
-click_text() {
-  local wanted="$1"
-  for _ in $(seq 1 15); do
-    dump_ui
-    coords=$(WANTED="$wanted" python3 -c 'import os,re,xml.etree.ElementTree as ET; w=os.environ["WANTED"]; root=ET.parse("/tmp/window.xml").getroot(); n=next((x for x in root.iter("node") if x.attrib.get("text","")==w),None); m=re.match(r"\[(\d+),(\d+)\]\[(\d+),(\d+)\]",n.attrib.get("bounds","")) if n is not None else None; print(f"{(int(m.group(1))+int(m.group(3)))//2} {(int(m.group(2))+int(m.group(4)))//2}" if m else "")')
-    if [ -n "$coords" ]; then
-      echo "Tap '$wanted' at $coords"
-      adb shell input tap $coords
-      sleep 1
-      return 0
-    fi
-    sleep 1
-  done
-  echo "Could not find UI text: $wanted"
-  cat /tmp/window.xml || true
-  return 1
-}
-
-adb shell am force-stop com.lr.campussign
-adb shell am force-stop com.wisedu.cpdaily
-adb shell am start -n com.lr.campussign/.MainActivity >/dev/null
+# LR's first button center on the deterministic Pixel_2 test profile.
+echo 'Tap LR record button'
+adb shell input tap 540 917
 sleep 2
 
-dump_ui
-grep -q 'LR—今日校园自动化签到' /tmp/window.xml
+# Fake CPDaily uses the same button position on each page. These are raw input taps,
+# so they do not register a UiAutomation accessibility service and cannot evict LR's service.
+for label in 服务 签到入口 今晚签到任务; do
+  echo "Tap fake CPDaily: $label"
+  adb shell input tap 540 517
+  sleep 1
+ done
 
-click_text '开始演示并录制'
-sleep 1
-echo '=== after start recording ==='
-adb shell dumpsys accessibility | grep -i -E 'campussign|AutomationService|enabled services|bound services' -C 3 || true
-click_text '服务'
-click_text '签到入口'
-click_text '今晚签到任务'
-
+# Return to LR and stop recording using the same primary-button coordinate.
 adb shell am start -n com.lr.campussign/.MainActivity >/dev/null
 sleep 1
-click_text '结束演示并保存'
+adb shell input tap 540 917
+sleep 1
 
 adb shell run-as com.lr.campussign cat shared_prefs/lr_campus_prefs.xml > /tmp/prefs.xml
 cat /tmp/prefs.xml
-if ! grep -q '服务' /tmp/prefs.xml; then
-  echo 'FAIL: recording stored no expected accessibility click events.'
-  echo '=== final accessibility dumpsys ==='
-  adb shell dumpsys accessibility | grep -i -E 'campussign|AutomationService|enabled services|bound services' -C 5 || true
-  adb shell logcat -d -t 300 | grep -i -E 'campussign|AutomationService|AccessibilityService' || true
-  exit 1
-fi
+grep -q '服务' /tmp/prefs.xml
 grep -q '签到入口' /tmp/prefs.xml
 grep -q '今晚签到任务' /tmp/prefs.xml
 
-adb shell am force-stop com.wisedu.cpdaily
-click_text '测试回放（最终签到前停下）'
+echo 'PASS: recording persisted expected click events.'
 
-for _ in $(seq 1 25); do
+# Reset fake CPDaily to Home; restarting it calls showHome().
+adb shell am force-stop com.wisedu.cpdaily
+
+# Test replay button is the second button on the LR action card.
+echo 'Tap LR test replay button'
+adb shell input tap 540 1077
+
+# Verify replay by reading the fake CPDaily's own state, not by using UiAutomator.
+for _ in $(seq 1 30); do
   sleep 1
-  dump_ui
-  if grep -q '晚间签到' /tmp/window.xml && grep -q '模拟定位已完成' /tmp/window.xml; then
+  if adb shell run-as com.wisedu.cpdaily cat shared_prefs/fixture_state.xml 2>/dev/null | grep -q 'final'; then
     echo 'PASS: replay reached the final sign page.'
     adb shell run-as com.lr.campussign cat shared_prefs/lr_campus_prefs.xml || true
+    adb shell run-as com.wisedu.cpdaily cat shared_prefs/fixture_state.xml || true
     exit 0
   fi
 done
 
 echo 'FAIL: replay did not reach the final sign page.'
 adb shell run-as com.lr.campussign cat shared_prefs/lr_campus_prefs.xml || true
-cat /tmp/window.xml || true
+adb shell run-as com.wisedu.cpdaily cat shared_prefs/fixture_state.xml || true
+adb shell dumpsys accessibility | grep -i -E 'campussign|AutomationService|enabled services|bound services' -C 5 || true
 exit 1
