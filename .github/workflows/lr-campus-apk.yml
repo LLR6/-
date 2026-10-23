@@ -4,7 +4,7 @@ on:
   push:
     branches: ["lr-campus-automation"]
     paths:
-      - "apps/LR-Campus-Automation/**"
+      - "apps/LR-Campus-Automation/project/**"
       - ".github/workflows/lr-campus-apk.yml"
   workflow_dispatch:
 
@@ -39,20 +39,14 @@ jobs:
         with:
           gradle-version: "8.9"
 
-      - name: Unpack project
-        run: |
-          rm -rf /tmp/lr-campus
-          mkdir -p /tmp/lr-campus
-          unzip -q apps/LR-Campus-Automation/LR-Campus-Automation.zip -d /tmp/lr-campus
-
       - name: Build debug APK
-        working-directory: /tmp/lr-campus/LR-Campus-Automation
+        working-directory: apps/LR-Campus-Automation/project
         run: gradle --no-daemon :app:assembleDebug --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: LR-Campus-Automation-debug
-          path: /tmp/lr-campus/LR-Campus-Automation/app/build/outputs/apk/debug/app-debug.apk
+          path: apps/LR-Campus-Automation/project/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 30
