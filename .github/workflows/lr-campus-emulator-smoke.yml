@@ -79,25 +79,7 @@ jobs:
             local wanted="$1"
             for _ in $(seq 1 15); do
               dump_ui
-              coords=$(WANTED="$wanted" python3 - <<'PY'
-import os,re,xml.etree.ElementTree as ET
-wanted=os.environ['WANTED']
-try:
-    root=ET.parse('/tmp/window.xml').getroot()
-except Exception:
-    print('')
-    raise SystemExit
-for n in root.iter('node'):
-    if n.attrib.get('text','') == wanted:
-        m=re.match(r'\[(\d+),(\d+)\]\[(\d+),(\d+)\]', n.attrib.get('bounds',''))
-        if m:
-            x1,y1,x2,y2=map(int,m.groups())
-            if x2>x1 and y2>y1:
-                print(f'{(x1+x2)//2} {(y1+y2)//2}')
-                raise SystemExit
-print('')
-PY
-)
+              coords=$(WANTED="$wanted" python3 -c 'import os,re,xml.etree.ElementTree as ET; w=os.environ["WANTED"]; root=ET.parse("/tmp/window.xml").getroot(); n=next((x for x in root.iter("node") if x.attrib.get("text","")==w),None); m=re.match(r"\[(\d+),(\d+)\]\[(\d+),(\d+)\]",n.attrib.get("bounds","")) if n is not None else None; print(f"{(int(m.group(1))+int(m.group(3)))//2} {(int(m.group(2))+int(m.group(4)))//2}" if m else "")')
               if [ -n "$coords" ]; then
                 adb shell input tap $coords
                 sleep 1
@@ -122,22 +104,18 @@ PY
           click_text '签到入口'
           click_text '今晚签到任务'
 
-          # Return to LR and stop/save recording before the final submit button.
           adb shell am start -n com.lr.campussign/.MainActivity >/dev/null
           sleep 1
           click_text '结束演示并保存'
 
-          # Confirm a real recording was persisted.
           adb shell run-as com.lr.campussign cat shared_prefs/lr_campus_prefs.xml > /tmp/prefs.xml
           grep -q '服务' /tmp/prefs.xml
           grep -q '签到入口' /tmp/prefs.xml
           grep -q '今晚签到任务' /tmp/prefs.xml
 
-          # Reset fake CPDaily to its first screen, then ask LR to replay.
           adb shell am force-stop com.wisedu.cpdaily
           click_text '测试回放（最终签到前停下）'
 
-          # The accessibility service should actively notice replaying=true and walk the recorded path.
           for _ in $(seq 1 20); do
             sleep 1
             dump_ui
