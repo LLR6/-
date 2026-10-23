@@ -118,7 +118,7 @@ public class AutomationService extends AccessibilityService {
             }
             JSONObject step = steps.getJSONObject(index);
             if (looksLikeFinalSubmit(step)) {
-                prefs.edit().putBoolean("replaying", false).putInt("step_index", index).apply();
+                prefs.edit().putBoolean("replaying", false).putInt("step_index", index).putInt("retry_count", 0).apply();
                 AlarmReceiver.notifyUser(this, "已到签到确认页", "自动化已暂停，请你本人检查定位/现场验证并确认最终签到。", true);
                 replayLoopRunning = false;
                 return;
@@ -136,7 +136,7 @@ public class AutomationService extends AccessibilityService {
         try {
             AccessibilityNodeInfo root = getRootInActiveWindow();
             if (root == null) {
-                retryOrFail(index, step, 0);
+                retryOrFail(index, step);
                 return;
             }
             String type = step.optString("type", "click");
@@ -160,20 +160,20 @@ public class AutomationService extends AccessibilityService {
         } catch (Exception ignored) { }
 
         if (ok) {
-            prefs.edit().putInt("step_index", index + 1).apply();
+            prefs.edit().putInt("step_index", index + 1).putInt("retry_count", 0).apply();
             handler.postDelayed(this::runNextStep, 250);
         } else {
-            retryOrFail(index, step, 1);
+            retryOrFail(index, step);
         }
     }
 
-    private void retryOrFail(int index, JSONObject step, int attempt) {
-        if (attempt < 2) {
-            handler.postDelayed(() -> {
-                replayLoopRunning = true;
-                executeStep(index, step);
-            }, 900);
+    private void retryOrFail(int index, JSONObject step) {
+        int retries = prefs.getInt("retry_count", 0);
+        if (retries < 2) {
+            prefs.edit().putInt("retry_count", retries + 1).apply();
+            handler.postDelayed(() -> executeStep(index, step), 900);
         } else {
+            prefs.edit().putInt("retry_count", 0).apply();
             finishReplay("第 " + (index + 1) + " 步未识别", "今日校园页面可能变化了。请打开 LR 重新录制一次流程。", true);
         }
     }
@@ -260,7 +260,7 @@ public class AutomationService extends AccessibilityService {
     }
 
     private void finishReplay(String title, String body, boolean alert) {
-        prefs.edit().putBoolean("replaying", false).putInt("step_index", 0).apply();
+        prefs.edit().putBoolean("replaying", false).putInt("step_index", 0).putInt("retry_count", 0).apply();
         AlarmReceiver.notifyUser(this, title, body, alert);
         replayLoopRunning = false;
     }
