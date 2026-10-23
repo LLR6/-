@@ -37,7 +37,12 @@ jobs:
           echo no | "$AVDMANAGER" create avd -n lr-campus-test -k "system-images;android-35;google_apis;x86_64" --force
           echo "$ANDROID_HOME/platform-tools" >> "$GITHUB_PATH"
           echo "$ANDROID_HOME/emulator" >> "$GITHUB_PATH"
-          sudo chmod 666 /dev/kvm || true
+          if [ -e /dev/kvm ]; then
+            sudo chmod 666 /dev/kvm || true
+            echo "KVM available"
+          else
+            echo "KVM not available; emulator will use software acceleration"
+          fi
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
@@ -52,11 +57,15 @@ jobs:
         run: |
           adb kill-server || true
           adb start-server
+          ACCEL=off
+          if [ -e /dev/kvm ]; then ACCEL=on; fi
+          echo "Using emulator acceleration: $ACCEL"
+          "$ANDROID_HOME/emulator/emulator-check" accel || true
           nohup "$ANDROID_HOME/emulator/emulator" \
             -avd lr-campus-test \
             -no-window -no-audio -no-boot-anim \
             -gpu swiftshader_indirect \
-            -accel off \
+            -accel "$ACCEL" \
             -memory 2048 \
             -no-snapshot -no-snapshot-save \
             > /tmp/emulator.log 2>&1 &
