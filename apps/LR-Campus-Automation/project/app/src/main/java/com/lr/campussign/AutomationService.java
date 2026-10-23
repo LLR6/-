@@ -7,6 +7,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class AutomationService extends AccessibilityService {
+    private static final String TAG = "LRAutomation";
     private android.content.SharedPreferences prefs;
     private final Handler handler = new Handler(Looper.getMainLooper());
     private long lastRecordAt = 0L;
@@ -27,9 +29,7 @@ public class AutomationService extends AccessibilityService {
         @Override
         public void run() {
             if (prefs == null) prefs = getSharedPreferences(MainActivity.PREFS, MODE_PRIVATE);
-            if (prefs.getBoolean("replaying", false)) {
-                startReplayLoop(100);
-            }
+            if (prefs.getBoolean("replaying", false)) startReplayLoop(100);
             handler.postDelayed(this, 500);
         }
     };
@@ -38,6 +38,7 @@ public class AutomationService extends AccessibilityService {
     protected void onServiceConnected() {
         super.onServiceConnected();
         prefs = getSharedPreferences(MainActivity.PREFS, MODE_PRIVATE);
+        prefs.edit().putBoolean("accessibility_connected", true).apply();
         handler.removeCallbacks(replayWatcher);
         handler.post(replayWatcher);
         if (prefs.getBoolean("replaying", false)) startReplayLoop(100);
@@ -46,8 +47,20 @@ public class AutomationService extends AccessibilityService {
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
         if (prefs == null) prefs = getSharedPreferences(MainActivity.PREFS, MODE_PRIVATE);
-        if (event == null || event.getPackageName() == null) return;
-        if (!MainActivity.CAMPUS_PACKAGE.contentEquals(event.getPackageName())) return;
+        if (event == null) return;
+
+        String pkg = event.getPackageName() == null ? "" : event.getPackageName().toString();
+        int eventCount = prefs.getInt("event_count", 0) + 1;
+        prefs.edit()
+                .putInt("event_count", eventCount)
+                .putString("last_event_package", pkg)
+                .putInt("last_event_type", event.getEventType())
+                .putLong("last_event_time", System.currentTimeMillis())
+                .apply();
+        Log.i(TAG, "event #" + eventCount + " pkg=" + pkg + " type=" + event.getEventType()
+                + " recording=" + prefs.getBoolean("recording", false));
+
+        if (!MainActivity.CAMPUS_PACKAGE.equals(pkg)) return;
 
         if (prefs.getBoolean("recording", false) && !prefs.getBoolean("replaying", false)) {
             recordEvent(event);
@@ -60,6 +73,7 @@ public class AutomationService extends AccessibilityService {
 
     @Override
     public void onDestroy() {
+        if (prefs != null) prefs.edit().putBoolean("accessibility_connected", false).apply();
         handler.removeCallbacks(replayWatcher);
         super.onDestroy();
     }
@@ -98,9 +112,13 @@ public class AutomationService extends AccessibilityService {
             lastRecordKey = key;
 
             JSONArray steps = new JSONArray(prefs.getString("steps", "[]"));
-            if (steps.length() < 120) steps.put(step);
-            prefs.edit().putString("steps", steps.toString()).apply();
-        } catch (Exception ignored) {
+            if (steps.length() < 120) {
+                steps.put(step);
+                prefs.edit().putString("steps", steps.toString()).putInt("recorded_step_count", steps.length()).apply();
+                Log.i(TAG, "recorded step " + steps.length() + ": " + step);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "recordEvent failed", e);
         } finally {
             if (node != null) node.recycle();
         }
