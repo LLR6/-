@@ -65,7 +65,10 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setContentIntent(pi)
                 .setAutoCancel(true)
                 .setPriority(Notification.PRIORITY_HIGH);
-        if (!sound) b.setSilent(true);
+        if (!sound) {
+            b.setSound(null);
+            b.setVibrate(new long[]{0L});
+        }
         ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).notify(2401, b.build());
     }
 
