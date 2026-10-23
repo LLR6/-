@@ -18,6 +18,10 @@ public class MainActivity extends Activity {
         showHome();
     }
 
+    private void markStage(String stage) {
+        getSharedPreferences("fixture_state", MODE_PRIVATE).edit().putString("stage", stage).apply();
+    }
+
     private void base(String title) {
         root = new LinearLayout(this);
         root.setOrientation(LinearLayout.VERTICAL);
@@ -47,21 +51,25 @@ public class MainActivity extends Activity {
     }
 
     private void showHome() {
+        markStage("home");
         base("今日校园 · 自动化测试页面");
         button("服务", v -> showServices());
     }
 
     private void showServices() {
+        markStage("services");
         base("服务大厅");
         button("签到入口", v -> showSignList());
     }
 
     private void showSignList() {
+        markStage("list");
         base("签到任务");
         button("今晚签到任务", v -> showFinal());
     }
 
     private void showFinal() {
+        markStage("final");
         base("晚间签到");
         TextView info = new TextView(this);
         info.setText("模拟定位已完成 · 等待最终确认");
@@ -70,6 +78,7 @@ public class MainActivity extends Activity {
         info.setGravity(Gravity.CENTER);
         root.addView(info, new LinearLayout.LayoutParams(-1, dp(60)));
         button("签到", v -> {
+            markStage("submitted");
             TextView done = new TextView(this);
             done.setText("签到成功（测试）");
             done.setTextSize(20);
