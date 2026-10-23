@@ -19,27 +19,19 @@ adb shell settings put secure enabled_accessibility_services com.lr.campussign/c
 adb shell settings put secure accessibility_enabled 1
 sleep 3
 
-echo '=== accessibility before recording ==='
-adb shell settings get secure enabled_accessibility_services || true
-adb shell dumpsys accessibility | grep -i -E 'campussign|AutomationService|enabled services|bound services' -C 3 || true
 adb shell dumpsys accessibility | grep -q 'LR 今日校园自动化'
 
 echo 'Tap LR record button'
 adb shell input tap 540 917
 sleep 2
+adb shell run-as com.lr.campussign cat shared_prefs/lr_campus_prefs.xml | grep -q 'name="recording" value="true"'
 
-echo '=== prefs immediately after start recording ==='
-adb shell run-as com.lr.campussign cat shared_prefs/lr_campus_prefs.xml || true
-echo '=== accessibility after launchCampus ==='
-adb shell dumpsys accessibility | grep -i -E 'campussign|AutomationService|enabled services|bound services' -C 3 || true
-
+# Drive the fake CPDaily with View.performClick() inside its own process.
+# This emits genuine framework accessibility click events without registering UiAutomation.
 for label in 服务 签到入口 今晚签到任务; do
-  echo "Tap fake CPDaily: $label"
-  adb shell input tap 540 517
+  echo "performClick fake CPDaily: $label"
+  adb shell am broadcast -a com.wisedu.cpdaily.TEST_CLICK -p com.wisedu.cpdaily >/dev/null
   sleep 1
-  echo 'fixture stage:'
-  adb shell run-as com.wisedu.cpdaily cat shared_prefs/fixture_state.xml || true
-  echo 'LR prefs:'
   adb shell run-as com.lr.campussign cat shared_prefs/lr_campus_prefs.xml || true
  done
 
