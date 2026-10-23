@@ -1,7 +1,12 @@
 package com.wisedu.cpdaily;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -11,11 +16,31 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity {
     private LinearLayout root;
+    private Button currentButton;
+
+    private final BroadcastReceiver testClickReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (currentButton != null) currentButton.performClick();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        IntentFilter filter = new IntentFilter("com.wisedu.cpdaily.TEST_CLICK");
+        if (Build.VERSION.SDK_INT >= 33) {
+            registerReceiver(testClickReceiver, filter, Context.RECEIVER_EXPORTED);
+        } else {
+            registerReceiver(testClickReceiver, filter);
+        }
         showHome();
+    }
+
+    @Override
+    protected void onDestroy() {
+        try { unregisterReceiver(testClickReceiver); } catch (Exception ignored) { }
+        super.onDestroy();
     }
 
     private void markStage(String stage) {
@@ -47,6 +72,7 @@ public class MainActivity extends Activity {
         LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(-1, dp(58));
         p.topMargin = dp(18);
         root.addView(b, p);
+        currentButton = b;
         return b;
     }
 
