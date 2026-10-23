@@ -5,6 +5,7 @@ on:
     branches: ["lr-campus-automation"]
     paths:
       - "apps/LR-Campus-Automation/project/**"
+      - ".github/scripts/lr-campus-emulator-smoke.sh"
       - ".github/workflows/lr-campus-emulator-smoke.yml"
   workflow_dispatch:
 
@@ -15,14 +16,9 @@ jobs:
   emulator-smoke:
     runs-on: ubuntu-latest
     timeout-minutes: 35
-    env:
-      ANDROID_HOME: /usr/local/lib/android/sdk
-      ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
-      SDKMANAGER: /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager
-      AVDMANAGER: /usr/local/lib/android/sdk/cmdline-tools/latest/bin/avdmanager
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up Java 17
         uses: actions/setup-java@v5
@@ -30,22 +26,15 @@ jobs:
           distribution: temurin
           java-version: "17"
 
-      - name: Install Android SDK and emulator image
+      - name: Enable KVM
         run: |
-          yes | "$SDKMANAGER" --licenses >/dev/null || true
-          "$SDKMANAGER" "platform-tools" "emulator" "platforms;android-35" "build-tools;35.0.0" "system-images;android-35;google_apis;x86_64"
-          echo no | "$AVDMANAGER" create avd -n lr-campus-test -k "system-images;android-35;google_apis;x86_64" --force
-          echo "$ANDROID_HOME/platform-tools" >> "$GITHUB_PATH"
-          echo "$ANDROID_HOME/emulator" >> "$GITHUB_PATH"
-          if [ -e /dev/kvm ]; then
-            sudo chmod 666 /dev/kvm || true
-            echo "KVM available"
-          else
-            echo "KVM not available; emulator will use software acceleration"
-          fi
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+          ls -l /dev/kvm || true
 
       - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v5
         with:
           gradle-version: "8.9"
 
@@ -53,129 +42,23 @@ jobs:
         working-directory: apps/LR-Campus-Automation/project
         run: gradle --no-daemon :app:assembleDebug :fixture-cpdaily:assembleDebug
 
-      - name: Boot emulator
-        run: |
-          adb kill-server || true
-          adb start-server
-          ACCEL=off
-          if [ -e /dev/kvm ]; then ACCEL=on; fi
-          echo "Using emulator acceleration: $ACCEL"
-          "$ANDROID_HOME/emulator/emulator-check" accel || true
-          nohup "$ANDROID_HOME/emulator/emulator" \
-            -avd lr-campus-test \
-            -no-window -no-audio -no-boot-anim \
-            -gpu swiftshader_indirect \
-            -accel "$ACCEL" \
-            -memory 2048 \
-            -no-snapshot -no-snapshot-save \
-            > /tmp/emulator.log 2>&1 &
-          EMU_PID=$!
-          echo "Emulator PID: $EMU_PID"
-          if ! timeout 150 adb wait-for-device; then
-            echo "adb never saw an emulator device"
-            cat /tmp/emulator.log || true
-            ps -ef | grep -E 'emulator|qemu' || true
-            exit 1
-          fi
-          for i in $(seq 1 90); do
-            if [ "$(adb shell getprop sys.boot_completed | tr -d '\r')" = "1" ]; then
-              echo "Android boot completed"
-              break
-            fi
-            if ! kill -0 "$EMU_PID" 2>/dev/null; then
-              echo "Emulator exited before boot completed"
-              cat /tmp/emulator.log || true
-              exit 1
-            fi
-            sleep 2
-          done
-          if [ "$(adb shell getprop sys.boot_completed | tr -d '\r')" != "1" ]; then
-            echo "Emulator device appeared but Android did not finish booting"
-            cat /tmp/emulator.log || true
-            exit 1
-          fi
-          adb shell input keyevent 82 || true
+      - name: Run real Android record/replay smoke test
+        uses: reactivecircus/android-emulator-runner@v2.38.0
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_7_pro
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot-save -noaudio -no-boot-anim
+          script: bash .github/scripts/lr-campus-emulator-smoke.sh
 
-      - name: Install apps and enable accessibility
-        run: |
-          adb install -r apps/LR-Campus-Automation/project/app/build/outputs/apk/debug/app-debug.apk
-          adb install -r apps/LR-Campus-Automation/project/fixture-cpdaily/build/outputs/apk/debug/fixture-cpdaily-debug.apk
-          adb shell settings put secure enabled_accessibility_services com.lr.campussign/com.lr.campussign.AutomationService
-          adb shell settings put secure accessibility_enabled 1
-          sleep 2
-
-      - name: Record and replay a full fake CPDaily flow
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          dump_ui() {
-            adb shell uiautomator dump /sdcard/window.xml >/dev/null 2>&1 || true
-            adb pull /sdcard/window.xml /tmp/window.xml >/dev/null 2>&1
-          }
-
-          click_text() {
-            local wanted="$1"
-            for _ in $(seq 1 15); do
-              dump_ui
-              coords=$(WANTED="$wanted" python3 -c 'import os,re,xml.etree.ElementTree as ET; w=os.environ["WANTED"]; root=ET.parse("/tmp/window.xml").getroot(); n=next((x for x in root.iter("node") if x.attrib.get("text","")==w),None); m=re.match(r"\[(\d+),(\d+)\]\[(\d+),(\d+)\]",n.attrib.get("bounds","")) if n is not None else None; print(f"{(int(m.group(1))+int(m.group(3)))//2} {(int(m.group(2))+int(m.group(4)))//2}" if m else "")')
-              if [ -n "$coords" ]; then
-                adb shell input tap $coords
-                sleep 1
-                return 0
-              fi
-              sleep 1
-            done
-            echo "Could not find UI text: $wanted"
-            cat /tmp/window.xml || true
-            return 1
-          }
-
-          adb shell am force-stop com.lr.campussign
-          adb shell am force-stop com.wisedu.cpdaily
-          adb shell am start -n com.lr.campussign/.MainActivity >/dev/null
-          sleep 2
-
-          dump_ui
-          grep -q 'LR—今日校园自动化签到' /tmp/window.xml
-          click_text '开始演示并录制'
-          click_text '服务'
-          click_text '签到入口'
-          click_text '今晚签到任务'
-
-          adb shell am start -n com.lr.campussign/.MainActivity >/dev/null
-          sleep 1
-          click_text '结束演示并保存'
-
-          adb shell run-as com.lr.campussign cat shared_prefs/lr_campus_prefs.xml > /tmp/prefs.xml
-          grep -q '服务' /tmp/prefs.xml
-          grep -q '签到入口' /tmp/prefs.xml
-          grep -q '今晚签到任务' /tmp/prefs.xml
-
-          adb shell am force-stop com.wisedu.cpdaily
-          click_text '测试回放（最终签到前停下）'
-
-          for _ in $(seq 1 20); do
-            sleep 1
-            dump_ui
-            if grep -q '晚间签到' /tmp/window.xml && grep -q '模拟定位已完成' /tmp/window.xml; then
-              echo 'Replay reached final sign page successfully.'
-              exit 0
-            fi
-          done
-
-          echo 'Replay did not reach final sign page.'
-          adb shell run-as com.lr.campussign cat shared_prefs/lr_campus_prefs.xml || true
-          cat /tmp/window.xml || true
-          exit 1
-
-      - name: Upload emulator diagnostics on failure
+      - name: Upload diagnostics on failure
         if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: lr-campus-emulator-diagnostics
           path: |
-            /tmp/emulator.log
             /tmp/window.xml
             /tmp/prefs.xml
           if-no-files-found: ignore
