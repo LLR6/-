@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LR—今日校园自动化签到</string>
+    <string name="accessibility_desc">仅在今日校园中记录并回放你授权的操作；密码输入不记录，最终签到提交由本人确认。</string>
+</resources>
