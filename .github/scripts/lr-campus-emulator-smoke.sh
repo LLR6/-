@@ -6,14 +6,19 @@ FIXTURE_APK="apps/LR-Campus-Automation/project/fixture-cpdaily/build/outputs/apk
 
 adb install -r "$APP_APK"
 adb install -r "$FIXTURE_APK"
-
-# Avoid Android 13+ first-run notification permission UI obscuring the app.
 adb shell pm grant com.lr.campussign android.permission.POST_NOTIFICATIONS || true
 
-# Enable LR accessibility service in the emulator.
+# Enable LR accessibility service in the emulator and verify Android really binds it.
+adb shell settings put secure accessibility_enabled 0
 adb shell settings put secure enabled_accessibility_services com.lr.campussign/com.lr.campussign.AutomationService
 adb shell settings put secure accessibility_enabled 1
-sleep 2
+sleep 3
+
+echo '=== accessibility settings ==='
+adb shell settings get secure enabled_accessibility_services || true
+adb shell settings get secure accessibility_enabled || true
+echo '=== accessibility dumpsys ==='
+adb shell dumpsys accessibility | grep -i -E 'campussign|AutomationService|enabled services|bound services' -C 3 || true
 
 dump_ui() {
   adb shell uiautomator dump /sdcard/window.xml >/dev/null 2>&1 || true
@@ -38,7 +43,6 @@ click_text() {
   return 1
 }
 
-# Launch LR and verify its main screen renders.
 adb shell am force-stop com.lr.campussign
 adb shell am force-stop com.wisedu.cpdaily
 adb shell am start -n com.lr.campussign/.MainActivity >/dev/null
@@ -47,30 +51,33 @@ sleep 2
 dump_ui
 grep -q 'LR—今日校园自动化签到' /tmp/window.xml
 
-# Record the fake CPDaily flow.
 click_text '开始演示并录制'
+sleep 1
+echo '=== after start recording ==='
+adb shell dumpsys accessibility | grep -i -E 'campussign|AutomationService|enabled services|bound services' -C 3 || true
 click_text '服务'
 click_text '签到入口'
 click_text '今晚签到任务'
 
-# Return to LR and save the recording before final submit.
 adb shell am start -n com.lr.campussign/.MainActivity >/dev/null
 sleep 1
 click_text '结束演示并保存'
 
-# Verify that actual accessibility events were persisted.
 adb shell run-as com.lr.campussign cat shared_prefs/lr_campus_prefs.xml > /tmp/prefs.xml
 cat /tmp/prefs.xml
-grep -q '服务' /tmp/prefs.xml
+if ! grep -q '服务' /tmp/prefs.xml; then
+  echo 'FAIL: recording stored no expected accessibility click events.'
+  echo '=== final accessibility dumpsys ==='
+  adb shell dumpsys accessibility | grep -i -E 'campussign|AutomationService|enabled services|bound services' -C 5 || true
+  adb shell logcat -d -t 300 | grep -i -E 'campussign|AutomationService|AccessibilityService' || true
+  exit 1
+fi
 grep -q '签到入口' /tmp/prefs.xml
 grep -q '今晚签到任务' /tmp/prefs.xml
 
-# Reset fake CPDaily to Home and start replay.
 adb shell am force-stop com.wisedu.cpdaily
 click_text '测试回放（最终签到前停下）'
 
-# The fixed service polls replaying=true, so it must reach the final fake sign page
-# without waiting for another lucky accessibility event.
 for _ in $(seq 1 25); do
   sleep 1
   dump_ui
