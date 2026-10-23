@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "LR-Campus-Automation"
 include(":app")
+include(":fixture-cpdaily")
