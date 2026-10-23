@@ -23,11 +23,24 @@ public class AutomationService extends AccessibilityService {
     private String lastRecordKey = "";
     private boolean replayLoopRunning = false;
 
+    private final Runnable replayWatcher = new Runnable() {
+        @Override
+        public void run() {
+            if (prefs == null) prefs = getSharedPreferences(MainActivity.PREFS, MODE_PRIVATE);
+            if (prefs.getBoolean("replaying", false)) {
+                startReplayLoop(100);
+            }
+            handler.postDelayed(this, 500);
+        }
+    };
+
     @Override
     protected void onServiceConnected() {
         super.onServiceConnected();
         prefs = getSharedPreferences(MainActivity.PREFS, MODE_PRIVATE);
-        if (prefs.getBoolean("replaying", false)) startReplayLoop(900);
+        handler.removeCallbacks(replayWatcher);
+        handler.post(replayWatcher);
+        if (prefs.getBoolean("replaying", false)) startReplayLoop(100);
     }
 
     @Override
@@ -39,11 +52,17 @@ public class AutomationService extends AccessibilityService {
         if (prefs.getBoolean("recording", false) && !prefs.getBoolean("replaying", false)) {
             recordEvent(event);
         }
-        if (prefs.getBoolean("replaying", false)) startReplayLoop(350);
+        if (prefs.getBoolean("replaying", false)) startReplayLoop(120);
     }
 
     @Override
     public void onInterrupt() { }
+
+    @Override
+    public void onDestroy() {
+        handler.removeCallbacks(replayWatcher);
+        super.onDestroy();
+    }
 
     private void recordEvent(AccessibilityEvent event) {
         int type = event.getEventType();
