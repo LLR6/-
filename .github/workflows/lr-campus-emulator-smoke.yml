@@ -50,13 +50,41 @@ jobs:
 
       - name: Boot emulator
         run: |
-          nohup "$ANDROID_HOME/emulator/emulator" -avd lr-campus-test -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect -no-snapshot > /tmp/emulator.log 2>&1 &
-          adb wait-for-device
+          adb kill-server || true
+          adb start-server
+          nohup "$ANDROID_HOME/emulator/emulator" \
+            -avd lr-campus-test \
+            -no-window -no-audio -no-boot-anim \
+            -gpu swiftshader_indirect \
+            -accel off \
+            -memory 2048 \
+            -no-snapshot -no-snapshot-save \
+            > /tmp/emulator.log 2>&1 &
+          EMU_PID=$!
+          echo "Emulator PID: $EMU_PID"
+          if ! timeout 150 adb wait-for-device; then
+            echo "adb never saw an emulator device"
+            cat /tmp/emulator.log || true
+            ps -ef | grep -E 'emulator|qemu' || true
+            exit 1
+          fi
           for i in $(seq 1 90); do
-            if [ "$(adb shell getprop sys.boot_completed | tr -d '\r')" = "1" ]; then break; fi
+            if [ "$(adb shell getprop sys.boot_completed | tr -d '\r')" = "1" ]; then
+              echo "Android boot completed"
+              break
+            fi
+            if ! kill -0 "$EMU_PID" 2>/dev/null; then
+              echo "Emulator exited before boot completed"
+              cat /tmp/emulator.log || true
+              exit 1
+            fi
             sleep 2
           done
-          test "$(adb shell getprop sys.boot_completed | tr -d '\r')" = "1"
+          if [ "$(adb shell getprop sys.boot_completed | tr -d '\r')" != "1" ]; then
+            echo "Emulator device appeared but Android did not finish booting"
+            cat /tmp/emulator.log || true
+            exit 1
+          fi
           adb shell input keyevent 82 || true
 
       - name: Install apps and enable accessibility
